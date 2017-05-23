@@ -14,6 +14,7 @@
 		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="repositoryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="libraryGroupId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="libraryArtifactId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="latestVersion" type="com.liferay.portal.dao.orm.hibernate.StringType" />

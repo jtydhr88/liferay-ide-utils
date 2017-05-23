@@ -72,6 +72,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
+			{ "repositoryId", Types.BIGINT },
 			{ "libraryGroupId", Types.VARCHAR },
 			{ "libraryArtifactId", Types.VARCHAR },
 			{ "latestVersion", Types.VARCHAR },
@@ -88,6 +89,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("repositoryId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("libraryGroupId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("libraryArtifactId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("latestVersion", Types.VARCHAR);
@@ -95,7 +97,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		TABLE_COLUMNS_MAP.put("currentVersion", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table liblistener_Library (libraryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,libraryGroupId VARCHAR(75) null,libraryArtifactId VARCHAR(75) null,latestVersion VARCHAR(75) null,lastUpdated VARCHAR(75) null,currentVersion VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table liblistener_Library (libraryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,repositoryId LONG,libraryGroupId VARCHAR(75) null,libraryArtifactId VARCHAR(75) null,latestVersion VARCHAR(75) null,lastUpdated VARCHAR(75) null,currentVersion VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table liblistener_Library";
 	public static final String ORDER_BY_JPQL = " ORDER BY library.libraryId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY liblistener_Library.libraryId ASC";
@@ -156,6 +158,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("repositoryId", getRepositoryId());
 		attributes.put("libraryGroupId", getLibraryGroupId());
 		attributes.put("libraryArtifactId", getLibraryArtifactId());
 		attributes.put("latestVersion", getLatestVersion());
@@ -210,6 +213,12 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Long repositoryId = (Long)attributes.get("repositoryId");
+
+		if (repositoryId != null) {
+			setRepositoryId(repositoryId);
 		}
 
 		String libraryGroupId = (String)attributes.get("libraryGroupId");
@@ -341,6 +350,16 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 	}
 
 	@Override
+	public long getRepositoryId() {
+		return _repositoryId;
+	}
+
+	@Override
+	public void setRepositoryId(long repositoryId) {
+		_repositoryId = repositoryId;
+	}
+
+	@Override
 	public String getLibraryGroupId() {
 		if (_libraryGroupId == null) {
 			return StringPool.BLANK;
@@ -449,6 +468,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		libraryImpl.setUserName(getUserName());
 		libraryImpl.setCreateDate(getCreateDate());
 		libraryImpl.setModifiedDate(getModifiedDate());
+		libraryImpl.setRepositoryId(getRepositoryId());
 		libraryImpl.setLibraryGroupId(getLibraryGroupId());
 		libraryImpl.setLibraryArtifactId(getLibraryArtifactId());
 		libraryImpl.setLatestVersion(getLatestVersion());
@@ -557,6 +577,8 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 			libraryCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		libraryCacheModel.repositoryId = getRepositoryId();
+
 		libraryCacheModel.libraryGroupId = getLibraryGroupId();
 
 		String libraryGroupId = libraryCacheModel.libraryGroupId;
@@ -602,7 +624,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{libraryId=");
 		sb.append(getLibraryId());
@@ -618,6 +640,8 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", repositoryId=");
+		sb.append(getRepositoryId());
 		sb.append(", libraryGroupId=");
 		sb.append(getLibraryGroupId());
 		sb.append(", libraryArtifactId=");
@@ -635,7 +659,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(40);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.ide.utils.library.listener.model.Library");
@@ -668,6 +692,10 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		sb.append(
 			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
 		sb.append(getModifiedDate());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>repositoryId</column-name><column-value><![CDATA[");
+		sb.append(getRepositoryId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>libraryGroupId</column-name><column-value><![CDATA[");
@@ -707,6 +735,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private long _repositoryId;
 	private String _libraryGroupId;
 	private String _libraryArtifactId;
 	private String _latestVersion;

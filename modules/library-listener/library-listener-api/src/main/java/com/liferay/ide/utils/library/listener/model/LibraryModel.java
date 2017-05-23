@@ -193,6 +193,20 @@ public interface LibraryModel extends BaseModel<Library>, GroupedModel,
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
+	 * Returns the repository ID of this library.
+	 *
+	 * @return the repository ID of this library
+	 */
+	public long getRepositoryId();
+
+	/**
+	 * Sets the repository ID of this library.
+	 *
+	 * @param repositoryId the repository ID of this library
+	 */
+	public void setRepositoryId(long repositoryId);
+
+	/**
 	 * Returns the library group ID of this library.
 	 *
 	 * @return the library group ID of this library

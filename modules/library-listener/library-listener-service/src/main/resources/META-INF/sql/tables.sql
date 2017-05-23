@@ -6,6 +6,7 @@ create table liblistener_Library (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
+	repositoryId LONG,
 	libraryGroupId VARCHAR(75) null,
 	libraryArtifactId VARCHAR(75) null,
 	latestVersion VARCHAR(75) null,

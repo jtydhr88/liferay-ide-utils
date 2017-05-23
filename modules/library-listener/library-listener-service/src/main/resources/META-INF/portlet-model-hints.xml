@@ -9,6 +9,7 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="repositoryId" type="long" />
 		<field name="libraryGroupId" type="String" />
 		<field name="libraryArtifactId" type="String" />
 		<field name="latestVersion" type="String" />

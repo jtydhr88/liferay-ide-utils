@@ -347,6 +347,7 @@ public class LibraryPersistenceImpl extends BasePersistenceImpl<Library>
 		libraryImpl.setUserName(library.getUserName());
 		libraryImpl.setCreateDate(library.getCreateDate());
 		libraryImpl.setModifiedDate(library.getModifiedDate());
+		libraryImpl.setRepositoryId(library.getRepositoryId());
 		libraryImpl.setLibraryGroupId(library.getLibraryGroupId());
 		libraryImpl.setLibraryArtifactId(library.getLibraryArtifactId());
 		libraryImpl.setLatestVersion(library.getLatestVersion());

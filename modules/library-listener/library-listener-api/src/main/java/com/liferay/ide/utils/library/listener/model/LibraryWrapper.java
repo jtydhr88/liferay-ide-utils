@@ -64,6 +64,7 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("repositoryId", getRepositoryId());
 		attributes.put("libraryGroupId", getLibraryGroupId());
 		attributes.put("libraryArtifactId", getLibraryArtifactId());
 		attributes.put("latestVersion", getLatestVersion());
@@ -115,6 +116,12 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 
 		if (modifiedDate != null) {
 			setModifiedDate(modifiedDate);
+		}
+
+		Long repositoryId = (Long)attributes.get("repositoryId");
+
+		if (repositoryId != null) {
+			setRepositoryId(repositoryId);
 		}
 
 		String libraryGroupId = (String)attributes.get("libraryGroupId");
@@ -344,6 +351,16 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 	}
 
 	/**
+	* Returns the repository ID of this library.
+	*
+	* @return the repository ID of this library
+	*/
+	@Override
+	public long getRepositoryId() {
+		return _library.getRepositoryId();
+	}
+
+	/**
 	* Returns the user ID of this library.
 	*
 	* @return the user ID of this library
@@ -497,6 +514,16 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_library.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the repository ID of this library.
+	*
+	* @param repositoryId the repository ID of this library
+	*/
+	@Override
+	public void setRepositoryId(long repositoryId) {
+		_library.setRepositoryId(repositoryId);
 	}
 
 	/**

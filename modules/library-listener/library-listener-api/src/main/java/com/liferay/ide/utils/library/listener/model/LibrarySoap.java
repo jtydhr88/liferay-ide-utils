@@ -40,6 +40,7 @@ public class LibrarySoap implements Serializable {
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setRepositoryId(model.getRepositoryId());
 		soapModel.setLibraryGroupId(model.getLibraryGroupId());
 		soapModel.setLibraryArtifactId(model.getLibraryArtifactId());
 		soapModel.setLatestVersion(model.getLatestVersion());
@@ -153,6 +154,14 @@ public class LibrarySoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
+	public long getRepositoryId() {
+		return _repositoryId;
+	}
+
+	public void setRepositoryId(long repositoryId) {
+		_repositoryId = repositoryId;
+	}
+
 	public String getLibraryGroupId() {
 		return _libraryGroupId;
 	}
@@ -200,6 +209,7 @@ public class LibrarySoap implements Serializable {
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
+	private long _repositoryId;
 	private String _libraryGroupId;
 	private String _libraryArtifactId;
 	private String _latestVersion;

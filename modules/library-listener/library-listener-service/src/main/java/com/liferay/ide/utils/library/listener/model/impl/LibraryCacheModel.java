@@ -65,7 +65,7 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{libraryId=");
 		sb.append(libraryId);
@@ -81,6 +81,8 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", repositoryId=");
+		sb.append(repositoryId);
 		sb.append(", libraryGroupId=");
 		sb.append(libraryGroupId);
 		sb.append(", libraryArtifactId=");
@@ -125,6 +127,8 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 		else {
 			libraryImpl.setModifiedDate(new Date(modifiedDate));
 		}
+
+		libraryImpl.setRepositoryId(repositoryId);
 
 		if (libraryGroupId == null) {
 			libraryImpl.setLibraryGroupId(StringPool.BLANK);
@@ -178,6 +182,8 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
+		repositoryId = objectInput.readLong();
 		libraryGroupId = objectInput.readUTF();
 		libraryArtifactId = objectInput.readUTF();
 		latestVersion = objectInput.readUTF();
@@ -205,6 +211,8 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+
+		objectOutput.writeLong(repositoryId);
 
 		if (libraryGroupId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -249,6 +257,7 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public long repositoryId;
 	public String libraryGroupId;
 	public String libraryArtifactId;
 	public String latestVersion;

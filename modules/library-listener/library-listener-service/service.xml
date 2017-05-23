@@ -48,6 +48,8 @@
 
 		<!-- Other fields -->
 
+		<column name="repositoryId" type="long" />
+
 		<column name="libraryGroupId" type="String" />
 		<column name="libraryArtifactId" type="String" />
 		<column name="latestVersion" type="String" />
