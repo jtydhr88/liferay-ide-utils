@@ -1,0 +1,9 @@
+Bundle-Name: library-listener-api
+Bundle-SymbolicName: library.listener.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	library.listener.exception,\
+	library.listener.model,\
+	library.listener.service,\
+	library.listener.service.persistence
+-includeresource: META-INF/service.xml=../library-listener-service/service.xml
