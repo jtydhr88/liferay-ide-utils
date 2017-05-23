@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="com.liferay.ide.utils.library.listener.model.Library" />
+	<import class="com.liferay.ide.utils.library.listener.model.Repository" />
+	<class name="com.liferay.ide.utils.library.listener.model.impl.LibraryImpl" table="liblistener_Library">
+		<id name="libraryId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="libraryGroupId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="libraryArtifactId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="latestVersion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="lastUpdated" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="currentVersion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.liferay.ide.utils.library.listener.model.impl.RepositoryImpl" table="liblistener_Repository">
+		<id name="repositoryId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="repositoryName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="repositoryRootUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="repositoryUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="repositoryPassword" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>
