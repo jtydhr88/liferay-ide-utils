@@ -38,8 +38,9 @@ import aQute.bnd.annotation.ProviderType;
 @ProviderType
 public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 	public Library addLibrary(
-			String libraryGroupId, String libraryArtifactId, String latestVersion,
-			String lastUpdated, String currentVersion, boolean enableListener, ServiceContext serviceContext) throws PortalException {
+			long repositoryId, String libraryGroupId, String libraryArtifactId, String latestVersion,
+			String lastUpdated, String currentVersion, boolean enableListener, ServiceContext serviceContext)
+		throws PortalException {
 
 		long libraryId = counterLocalService.increment();
 
@@ -65,9 +66,9 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 	}
 
 	public Library updateLibrary(
-			long libraryId, String libraryGroupId, String libraryArtifactId, String latestVersion,
+			long repositoryId, long libraryId, String libraryGroupId, String libraryArtifactId, String latestVersion,
 			String lastUpdated, String currentVersion, boolean enableListener, ServiceContext serviceContext)
-			throws PortalException {
+		throws PortalException {
 
 		Library library = libraryPersistence.fetchByPrimaryKey(libraryId);
 

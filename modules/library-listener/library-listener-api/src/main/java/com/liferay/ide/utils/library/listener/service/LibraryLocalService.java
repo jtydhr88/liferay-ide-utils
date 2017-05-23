@@ -71,11 +71,11 @@ public interface LibraryLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Library addLibrary(Library library);
 
-	public Library addLibrary(java.lang.String libraryGroupId,
-		java.lang.String libraryArtifactId, java.lang.String latestVersion,
-		java.lang.String lastUpdated, java.lang.String currentVersion,
-		boolean enableListener, ServiceContext serviceContext)
-		throws PortalException;
+	public Library addLibrary(long repositoryId,
+		java.lang.String libraryGroupId, java.lang.String libraryArtifactId,
+		java.lang.String latestVersion, java.lang.String lastUpdated,
+		java.lang.String currentVersion, boolean enableListener,
+		ServiceContext serviceContext) throws PortalException;
 
 	/**
 	* Creates a new library with the primary key. Does not add the library to the database.
@@ -126,7 +126,7 @@ public interface LibraryLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Library updateLibrary(Library library);
 
-	public Library updateLibrary(long libraryId,
+	public Library updateLibrary(long repositoryId, long libraryId,
 		java.lang.String libraryGroupId, java.lang.String libraryArtifactId,
 		java.lang.String latestVersion, java.lang.String lastUpdated,
 		java.lang.String currentVersion, boolean enableListener,
