@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -69,6 +70,12 @@ public interface RepositoryLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Repository addRepository(Repository repository);
+
+	public Repository addRepository(java.lang.String repositoryName,
+		java.lang.String repositoryRootUrl,
+		java.lang.String repositoryUserName,
+		java.lang.String repositoryPassword, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	* Creates a new repository with the primary key. Does not add the repository to the database.
@@ -120,6 +127,12 @@ public interface RepositoryLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Repository updateRepository(Repository repository);
+
+	public Repository updateRepository(long repositoryId,
+		java.lang.String repositoryName, java.lang.String repositoryRootUrl,
+		java.lang.String repositoryUserName,
+		java.lang.String repositoryPassword, ServiceContext serviceContext)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

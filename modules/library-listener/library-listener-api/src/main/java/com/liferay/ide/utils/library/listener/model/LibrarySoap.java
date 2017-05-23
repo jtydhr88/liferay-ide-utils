@@ -46,6 +46,7 @@ public class LibrarySoap implements Serializable {
 		soapModel.setLatestVersion(model.getLatestVersion());
 		soapModel.setLastUpdated(model.getLastUpdated());
 		soapModel.setCurrentVersion(model.getCurrentVersion());
+		soapModel.setEnableListener(model.getEnableListener());
 
 		return soapModel;
 	}
@@ -202,6 +203,18 @@ public class LibrarySoap implements Serializable {
 		_currentVersion = currentVersion;
 	}
 
+	public boolean getEnableListener() {
+		return _enableListener;
+	}
+
+	public boolean isEnableListener() {
+		return _enableListener;
+	}
+
+	public void setEnableListener(boolean enableListener) {
+		_enableListener = enableListener;
+	}
+
 	private long _libraryId;
 	private long _groupId;
 	private long _companyId;
@@ -215,4 +228,5 @@ public class LibrarySoap implements Serializable {
 	private String _latestVersion;
 	private String _lastUpdated;
 	private String _currentVersion;
+	private boolean _enableListener;
 }

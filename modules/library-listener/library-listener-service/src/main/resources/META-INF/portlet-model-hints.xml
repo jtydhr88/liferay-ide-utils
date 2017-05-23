@@ -15,6 +15,7 @@
 		<field name="latestVersion" type="String" />
 		<field name="lastUpdated" type="String" />
 		<field name="currentVersion" type="String" />
+		<field name="enableListener" type="boolean" />
 	</model>
 	<model name="com.liferay.ide.utils.library.listener.model.Repository">
 		<field name="repositoryId" type="long" />

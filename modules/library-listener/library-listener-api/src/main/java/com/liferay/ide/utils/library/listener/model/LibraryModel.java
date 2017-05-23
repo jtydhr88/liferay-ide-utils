@@ -281,6 +281,27 @@ public interface LibraryModel extends BaseModel<Library>, GroupedModel,
 	 */
 	public void setCurrentVersion(String currentVersion);
 
+	/**
+	 * Returns the enable listener of this library.
+	 *
+	 * @return the enable listener of this library
+	 */
+	public boolean getEnableListener();
+
+	/**
+	 * Returns <code>true</code> if this library is enable listener.
+	 *
+	 * @return <code>true</code> if this library is enable listener; <code>false</code> otherwise
+	 */
+	public boolean isEnableListener();
+
+	/**
+	 * Sets whether this library is enable listener.
+	 *
+	 * @param enableListener the enable listener of this library
+	 */
+	public void setEnableListener(boolean enableListener);
+
 	@Override
 	public boolean isNew();
 

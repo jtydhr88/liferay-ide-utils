@@ -77,7 +77,8 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 			{ "libraryArtifactId", Types.VARCHAR },
 			{ "latestVersion", Types.VARCHAR },
 			{ "lastUpdated", Types.VARCHAR },
-			{ "currentVersion", Types.VARCHAR }
+			{ "currentVersion", Types.VARCHAR },
+			{ "enableListener", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -95,9 +96,10 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		TABLE_COLUMNS_MAP.put("latestVersion", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("lastUpdated", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("currentVersion", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("enableListener", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table liblistener_Library (libraryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,repositoryId LONG,libraryGroupId VARCHAR(75) null,libraryArtifactId VARCHAR(75) null,latestVersion VARCHAR(75) null,lastUpdated VARCHAR(75) null,currentVersion VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table liblistener_Library (libraryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,repositoryId LONG,libraryGroupId VARCHAR(75) null,libraryArtifactId VARCHAR(75) null,latestVersion VARCHAR(75) null,lastUpdated VARCHAR(75) null,currentVersion VARCHAR(75) null,enableListener BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table liblistener_Library";
 	public static final String ORDER_BY_JPQL = " ORDER BY library.libraryId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY liblistener_Library.libraryId ASC";
@@ -164,6 +166,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		attributes.put("latestVersion", getLatestVersion());
 		attributes.put("lastUpdated", getLastUpdated());
 		attributes.put("currentVersion", getCurrentVersion());
+		attributes.put("enableListener", getEnableListener());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -249,6 +252,12 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 
 		if (currentVersion != null) {
 			setCurrentVersion(currentVersion);
+		}
+
+		Boolean enableListener = (Boolean)attributes.get("enableListener");
+
+		if (enableListener != null) {
+			setEnableListener(enableListener);
 		}
 	}
 
@@ -435,6 +444,21 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 	}
 
 	@Override
+	public boolean getEnableListener() {
+		return _enableListener;
+	}
+
+	@Override
+	public boolean isEnableListener() {
+		return _enableListener;
+	}
+
+	@Override
+	public void setEnableListener(boolean enableListener) {
+		_enableListener = enableListener;
+	}
+
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Library.class.getName(), getPrimaryKey());
@@ -474,6 +498,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		libraryImpl.setLatestVersion(getLatestVersion());
 		libraryImpl.setLastUpdated(getLastUpdated());
 		libraryImpl.setCurrentVersion(getCurrentVersion());
+		libraryImpl.setEnableListener(getEnableListener());
 
 		libraryImpl.resetOriginalValues();
 
@@ -619,12 +644,14 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 			libraryCacheModel.currentVersion = null;
 		}
 
+		libraryCacheModel.enableListener = getEnableListener();
+
 		return libraryCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{libraryId=");
 		sb.append(getLibraryId());
@@ -652,6 +679,8 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		sb.append(getLastUpdated());
 		sb.append(", currentVersion=");
 		sb.append(getCurrentVersion());
+		sb.append(", enableListener=");
+		sb.append(getEnableListener());
 		sb.append("}");
 
 		return sb.toString();
@@ -659,7 +688,7 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(46);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.ide.utils.library.listener.model.Library");
@@ -717,6 +746,10 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 			"<column><column-name>currentVersion</column-name><column-value><![CDATA[");
 		sb.append(getCurrentVersion());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>enableListener</column-name><column-value><![CDATA[");
+		sb.append(getEnableListener());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -741,5 +774,6 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 	private String _latestVersion;
 	private String _lastUpdated;
 	private String _currentVersion;
+	private boolean _enableListener;
 	private Library _escapedModel;
 }

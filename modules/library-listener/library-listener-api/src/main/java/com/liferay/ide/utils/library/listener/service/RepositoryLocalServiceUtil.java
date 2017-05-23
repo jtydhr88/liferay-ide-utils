@@ -53,6 +53,17 @@ public class RepositoryLocalServiceUtil {
 		return getService().addRepository(repository);
 	}
 
+	public static com.liferay.ide.utils.library.listener.model.Repository addRepository(
+		java.lang.String repositoryName, java.lang.String repositoryRootUrl,
+		java.lang.String repositoryUserName,
+		java.lang.String repositoryPassword,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .addRepository(repositoryName, repositoryRootUrl,
+			repositoryUserName, repositoryPassword, serviceContext);
+	}
+
 	/**
 	* Creates a new repository with the primary key. Does not add the repository to the database.
 	*
@@ -115,6 +126,19 @@ public class RepositoryLocalServiceUtil {
 	public static com.liferay.ide.utils.library.listener.model.Repository updateRepository(
 		com.liferay.ide.utils.library.listener.model.Repository repository) {
 		return getService().updateRepository(repository);
+	}
+
+	public static com.liferay.ide.utils.library.listener.model.Repository updateRepository(
+		long repositoryId, java.lang.String repositoryName,
+		java.lang.String repositoryRootUrl,
+		java.lang.String repositoryUserName,
+		java.lang.String repositoryPassword,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateRepository(repositoryId, repositoryName,
+			repositoryRootUrl, repositoryUserName, repositoryPassword,
+			serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

@@ -44,6 +44,18 @@ public class LibraryLocalServiceWrapper implements LibraryLocalService,
 		return _libraryLocalService.addLibrary(library);
 	}
 
+	@Override
+	public com.liferay.ide.utils.library.listener.model.Library addLibrary(
+		java.lang.String libraryGroupId, java.lang.String libraryArtifactId,
+		java.lang.String latestVersion, java.lang.String lastUpdated,
+		java.lang.String currentVersion, boolean enableListener,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _libraryLocalService.addLibrary(libraryGroupId,
+			libraryArtifactId, latestVersion, lastUpdated, currentVersion,
+			enableListener, serviceContext);
+	}
+
 	/**
 	* Creates a new library with the primary key. Does not add the library to the database.
 	*
@@ -112,6 +124,19 @@ public class LibraryLocalServiceWrapper implements LibraryLocalService,
 	public com.liferay.ide.utils.library.listener.model.Library updateLibrary(
 		com.liferay.ide.utils.library.listener.model.Library library) {
 		return _libraryLocalService.updateLibrary(library);
+	}
+
+	@Override
+	public com.liferay.ide.utils.library.listener.model.Library updateLibrary(
+		long libraryId, java.lang.String libraryGroupId,
+		java.lang.String libraryArtifactId, java.lang.String latestVersion,
+		java.lang.String lastUpdated, java.lang.String currentVersion,
+		boolean enableListener,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _libraryLocalService.updateLibrary(libraryId, libraryGroupId,
+			libraryArtifactId, latestVersion, lastUpdated, currentVersion,
+			enableListener, serviceContext);
 	}
 
 	@Override

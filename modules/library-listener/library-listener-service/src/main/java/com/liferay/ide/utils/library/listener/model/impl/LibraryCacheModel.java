@@ -65,7 +65,7 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{libraryId=");
 		sb.append(libraryId);
@@ -93,6 +93,8 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 		sb.append(lastUpdated);
 		sb.append(", currentVersion=");
 		sb.append(currentVersion);
+		sb.append(", enableListener=");
+		sb.append(enableListener);
 		sb.append("}");
 
 		return sb.toString();
@@ -165,6 +167,8 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 			libraryImpl.setCurrentVersion(currentVersion);
 		}
 
+		libraryImpl.setEnableListener(enableListener);
+
 		libraryImpl.resetOriginalValues();
 
 		return libraryImpl;
@@ -189,6 +193,8 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 		latestVersion = objectInput.readUTF();
 		lastUpdated = objectInput.readUTF();
 		currentVersion = objectInput.readUTF();
+
+		enableListener = objectInput.readBoolean();
 	}
 
 	@Override
@@ -248,6 +254,8 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 		else {
 			objectOutput.writeUTF(currentVersion);
 		}
+
+		objectOutput.writeBoolean(enableListener);
 	}
 
 	public long libraryId;
@@ -263,4 +271,5 @@ public class LibraryCacheModel implements CacheModel<Library>, Externalizable {
 	public String latestVersion;
 	public String lastUpdated;
 	public String currentVersion;
+	public boolean enableListener;
 }

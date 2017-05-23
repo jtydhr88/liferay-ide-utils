@@ -55,5 +55,7 @@
 		<column name="latestVersion" type="String" />
 		<column name="lastUpdated" type="String" />
 		<column name="currentVersion" type="String" />
+
+		<column name="enableListener" type="boolean" />
 	</entity>
 </service-builder>

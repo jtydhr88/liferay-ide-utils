@@ -53,6 +53,18 @@ public class LibraryLocalServiceUtil {
 		return getService().addLibrary(library);
 	}
 
+	public static com.liferay.ide.utils.library.listener.model.Library addLibrary(
+		java.lang.String libraryGroupId, java.lang.String libraryArtifactId,
+		java.lang.String latestVersion, java.lang.String lastUpdated,
+		java.lang.String currentVersion, boolean enableListener,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .addLibrary(libraryGroupId, libraryArtifactId,
+			latestVersion, lastUpdated, currentVersion, enableListener,
+			serviceContext);
+	}
+
 	/**
 	* Creates a new library with the primary key. Does not add the library to the database.
 	*
@@ -115,6 +127,19 @@ public class LibraryLocalServiceUtil {
 	public static com.liferay.ide.utils.library.listener.model.Library updateLibrary(
 		com.liferay.ide.utils.library.listener.model.Library library) {
 		return getService().updateLibrary(library);
+	}
+
+	public static com.liferay.ide.utils.library.listener.model.Library updateLibrary(
+		long libraryId, java.lang.String libraryGroupId,
+		java.lang.String libraryArtifactId, java.lang.String latestVersion,
+		java.lang.String lastUpdated, java.lang.String currentVersion,
+		boolean enableListener,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateLibrary(libraryId, libraryGroupId, libraryArtifactId,
+			latestVersion, lastUpdated, currentVersion, enableListener,
+			serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

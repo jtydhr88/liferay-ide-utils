@@ -14,9 +14,12 @@
 
 package com.liferay.ide.utils.library.listener.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.ide.utils.library.listener.model.Library;
 import com.liferay.ide.utils.library.listener.service.base.LibraryLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+
+import aQute.bnd.annotation.ProviderType;
 
 /**
  * The implementation of the library local service.
@@ -34,9 +37,55 @@ import com.liferay.ide.utils.library.listener.service.base.LibraryLocalServiceBa
  */
 @ProviderType
 public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.liferay.ide.utils.library.listener.service.LibraryLocalServiceUtil} to access the library local service.
-	 */
+	public Library addLibrary(
+			String libraryGroupId, String libraryArtifactId, String latestVersion,
+			String lastUpdated, String currentVersion, boolean enableListener, ServiceContext serviceContext) throws PortalException {
+
+		long libraryId = counterLocalService.increment();
+
+		Library library = libraryPersistence.create(libraryId);
+
+		library.setGroupId(serviceContext.getScopeGroupId());
+		library.setCompanyId(serviceContext.getCompanyId());
+		library.setUserId(serviceContext.getUserId());
+		library.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
+
+		library.setLibraryGroupId(libraryGroupId);
+		library.setLibraryArtifactId(libraryArtifactId);
+		library.setLatestVersion(latestVersion);
+		library.setLastUpdated(lastUpdated);
+		library.setCurrentVersion(currentVersion);
+		library.setEnableListener(enableListener);
+
+		library.setCreateDate(serviceContext.getCreateDate(null));
+
+		libraryPersistence.update(library);
+
+		return library;
+	}
+
+	public Library updateLibrary(
+			long libraryId, String libraryGroupId, String libraryArtifactId, String latestVersion,
+			String lastUpdated, String currentVersion, boolean enableListener, ServiceContext serviceContext)
+			throws PortalException {
+
+		Library library = libraryPersistence.fetchByPrimaryKey(libraryId);
+
+		library.setUserId(serviceContext.getUserId());
+		library.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
+
+		library.setLibraryGroupId(libraryGroupId);
+		library.setLibraryArtifactId(libraryArtifactId);
+		library.setLatestVersion(latestVersion);
+		library.setLastUpdated(lastUpdated);
+		library.setCurrentVersion(currentVersion);
+		library.setEnableListener(enableListener);
+
+		library.setModifiedDate(serviceContext.getModifiedDate());
+
+		libraryPersistence.update(library);
+
+		return library;
+	}
+
 }

@@ -45,6 +45,18 @@ public class RepositoryLocalServiceWrapper implements RepositoryLocalService,
 		return _repositoryLocalService.addRepository(repository);
 	}
 
+	@Override
+	public com.liferay.ide.utils.library.listener.model.Repository addRepository(
+		java.lang.String repositoryName, java.lang.String repositoryRootUrl,
+		java.lang.String repositoryUserName,
+		java.lang.String repositoryPassword,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _repositoryLocalService.addRepository(repositoryName,
+			repositoryRootUrl, repositoryUserName, repositoryPassword,
+			serviceContext);
+	}
+
 	/**
 	* Creates a new repository with the primary key. Does not add the repository to the database.
 	*
@@ -113,6 +125,19 @@ public class RepositoryLocalServiceWrapper implements RepositoryLocalService,
 	public com.liferay.ide.utils.library.listener.model.Repository updateRepository(
 		com.liferay.ide.utils.library.listener.model.Repository repository) {
 		return _repositoryLocalService.updateRepository(repository);
+	}
+
+	@Override
+	public com.liferay.ide.utils.library.listener.model.Repository updateRepository(
+		long repositoryId, java.lang.String repositoryName,
+		java.lang.String repositoryRootUrl,
+		java.lang.String repositoryUserName,
+		java.lang.String repositoryPassword,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _repositoryLocalService.updateRepository(repositoryId,
+			repositoryName, repositoryRootUrl, repositoryUserName,
+			repositoryPassword, serviceContext);
 	}
 
 	@Override

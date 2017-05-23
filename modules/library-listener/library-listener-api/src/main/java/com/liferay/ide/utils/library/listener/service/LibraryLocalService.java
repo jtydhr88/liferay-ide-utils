@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -69,6 +70,12 @@ public interface LibraryLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Library addLibrary(Library library);
+
+	public Library addLibrary(java.lang.String libraryGroupId,
+		java.lang.String libraryArtifactId, java.lang.String latestVersion,
+		java.lang.String lastUpdated, java.lang.String currentVersion,
+		boolean enableListener, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	* Creates a new library with the primary key. Does not add the library to the database.
@@ -118,6 +125,12 @@ public interface LibraryLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Library updateLibrary(Library library);
+
+	public Library updateLibrary(long libraryId,
+		java.lang.String libraryGroupId, java.lang.String libraryArtifactId,
+		java.lang.String latestVersion, java.lang.String lastUpdated,
+		java.lang.String currentVersion, boolean enableListener,
+		ServiceContext serviceContext) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

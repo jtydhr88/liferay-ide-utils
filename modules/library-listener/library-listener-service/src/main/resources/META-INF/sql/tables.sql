@@ -11,7 +11,8 @@ create table liblistener_Library (
 	libraryArtifactId VARCHAR(75) null,
 	latestVersion VARCHAR(75) null,
 	lastUpdated VARCHAR(75) null,
-	currentVersion VARCHAR(75) null
+	currentVersion VARCHAR(75) null,
+	enableListener BOOLEAN
 );
 
 create table liblistener_Repository (

@@ -70,6 +70,7 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 		attributes.put("latestVersion", getLatestVersion());
 		attributes.put("lastUpdated", getLastUpdated());
 		attributes.put("currentVersion", getCurrentVersion());
+		attributes.put("enableListener", getEnableListener());
 
 		return attributes;
 	}
@@ -153,6 +154,12 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 		if (currentVersion != null) {
 			setCurrentVersion(currentVersion);
 		}
+
+		Boolean enableListener = (Boolean)attributes.get("enableListener");
+
+		if (enableListener != null) {
+			setEnableListener(enableListener);
+		}
 	}
 
 	@Override
@@ -165,9 +172,29 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 		return new LibraryWrapper(_library.toUnescapedModel());
 	}
 
+	/**
+	* Returns the enable listener of this library.
+	*
+	* @return the enable listener of this library
+	*/
+	@Override
+	public boolean getEnableListener() {
+		return _library.getEnableListener();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _library.isCachedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this library is enable listener.
+	*
+	* @return <code>true</code> if this library is enable listener; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isEnableListener() {
+		return _library.isEnableListener();
 	}
 
 	@Override
@@ -408,6 +435,16 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 	@Override
 	public void setCurrentVersion(java.lang.String currentVersion) {
 		_library.setCurrentVersion(currentVersion);
+	}
+
+	/**
+	* Sets whether this library is enable listener.
+	*
+	* @param enableListener the enable listener of this library
+	*/
+	@Override
+	public void setEnableListener(boolean enableListener) {
+		_library.setEnableListener(enableListener);
 	}
 
 	@Override
