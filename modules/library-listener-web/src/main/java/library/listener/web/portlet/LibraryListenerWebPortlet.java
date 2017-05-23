@@ -84,7 +84,7 @@ public class LibraryListenerWebPortlet extends MVCPortlet {
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(Library.class.getName(), req);
 
 		if (libraryId > 0) {
-			_libraryLocalService.updateLibrary(repositoryId, libraryId, libraryGroupId, libraryArtifactId,
+			_libraryLocalService.updateLibrary(libraryId, repositoryId, libraryGroupId, libraryArtifactId,
 					latestVersion, lastUpdated, currentVersion, enableListener, serviceContext);
 		} else {
 			_libraryLocalService.addLibrary(repositoryId, libraryGroupId, libraryArtifactId, latestVersion, lastUpdated,

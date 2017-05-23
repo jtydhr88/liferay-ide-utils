@@ -51,6 +51,7 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 		library.setUserId(serviceContext.getUserId());
 		library.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
 
+		library.setRepositoryId(repositoryId);
 		library.setLibraryGroupId(libraryGroupId);
 		library.setLibraryArtifactId(libraryArtifactId);
 		library.setLatestVersion(latestVersion);
@@ -66,7 +67,7 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 	}
 
 	public Library updateLibrary(
-			long repositoryId, long libraryId, String libraryGroupId, String libraryArtifactId, String latestVersion,
+			long libraryId, long repositoryId, String libraryGroupId, String libraryArtifactId, String latestVersion,
 			String lastUpdated, String currentVersion, boolean enableListener, ServiceContext serviceContext)
 		throws PortalException {
 
@@ -75,6 +76,7 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 		library.setUserId(serviceContext.getUserId());
 		library.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
 
+		library.setRepositoryId(repositoryId);
 		library.setLibraryGroupId(libraryGroupId);
 		library.setLibraryArtifactId(libraryArtifactId);
 		library.setLatestVersion(latestVersion);

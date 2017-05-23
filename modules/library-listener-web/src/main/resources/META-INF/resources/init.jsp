@@ -13,7 +13,9 @@ page import="javax.portlet.PortletURL"%><%@
 page import="com.liferay.portal.kernel.util.ParamUtil"%><%@
 page import="com.liferay.ide.utils.library.listener.model.Repository"%><%@
 page import="com.liferay.portal.kernel.util.WebKeys"%><%@
-page import="com.liferay.portal.kernel.dao.search.ResultRow"%>
+page import="com.liferay.portal.kernel.dao.search.ResultRow"%><%@
+page import="com.liferay.ide.utils.library.listener.model.Library"%><%@
+page import="java.util.List"%>
 
 <liferay-theme:defineObjects />
 

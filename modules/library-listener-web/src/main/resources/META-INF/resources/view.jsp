@@ -42,12 +42,72 @@
 			href="<%= viewRepositoryUrl %>"
 		/>
 		<liferay-ui:search-container-column-text
-			name="author"
+			name="root-url"
 			value="<%= repository.getRepositoryRootUrl() %>"
 			href="<%= viewRepositoryUrl %>"
 		/>
 		<liferay-ui:search-container-column-jsp
 			path="/action_repository.jsp"
+			valign="top"
+		/>
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator />
+</liferay-ui:search-container>
+
+<liferay-ui:search-container
+	emptyResultsMessage="there-are-no-libraries"
+>
+	<liferay-ui:search-container-results>
+	<%
+	searchContainer.setTotal(libraryLocalService.getLibrariesCount());
+	searchContainer.setResults(libraryLocalService.getLibraries(searchContainer.getStart(), searchContainer.getEnd()));
+	%>
+	</liferay-ui:search-container-results>
+	
+	<liferay-ui:search-container-row
+		className="com.liferay.ide.utils.library.listener.model.Library"
+		keyProperty="primaryKeyObj"
+		modelVar="library"
+	>
+		<portlet:renderURL var="viewLibraryUrl">
+			<portlet:param name="libraryId" value="<%= String.valueOf(library.getLibraryId())  %>"/>
+			<portlet:param name="redirect" value="<%= currentURL %>" />
+			<portlet:param name="mvcPath" value="/edit_library.jsp" />
+		</portlet:renderURL>
+
+		<liferay-ui:search-container-column-text
+			name="repo-id"
+			value="<%= String.valueOf(library.getRepositoryId()) %>"
+			href="<%= viewLibraryUrl %>"
+		/>
+		<liferay-ui:search-container-column-text
+			name="group-id"
+			value="<%= library.getLibraryGroupId() %>"
+			href="<%= viewLibraryUrl %>"
+		/>
+		<liferay-ui:search-container-column-text
+			name="artifact-id"
+			value="<%= library.getLibraryArtifactId() %>"
+			href="<%= viewLibraryUrl %>"
+		/>
+		<liferay-ui:search-container-column-text
+			name="latest-version"
+			value="<%= library.getLatestVersion() %>"
+			href="<%= viewLibraryUrl %>"
+		/>
+		<liferay-ui:search-container-column-text
+			name="current-version"
+			value="<%= library.getCurrentVersion() %>"
+			href="<%= viewLibraryUrl %>"
+		/>
+		<liferay-ui:search-container-column-text
+			name="enable-listener"
+			value="<%= String.valueOf(library.getEnableListener()) %>"
+			href="<%= viewLibraryUrl %>"
+		/>
+		<liferay-ui:search-container-column-jsp
+			path="/action_library.jsp"
 			valign="top"
 		/>
 	</liferay-ui:search-container-row>
