@@ -24,7 +24,7 @@ create table liblistener_Repository (
 	createDate DATE null,
 	modifiedDate DATE null,
 	repositoryName VARCHAR(75) null,
-	repositoryRootUrl VARCHAR(75) null,
+	repositoryRootUrl VARCHAR(500) null,
 	repositoryUserName VARCHAR(75) null,
 	repositoryPassword VARCHAR(75) null
 );

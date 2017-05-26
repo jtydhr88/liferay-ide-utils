@@ -93,7 +93,7 @@ public class RepositoryModelImpl extends BaseModelImpl<Repository>
 		TABLE_COLUMNS_MAP.put("repositoryPassword", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table liblistener_Repository (repositoryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,repositoryName VARCHAR(75) null,repositoryRootUrl VARCHAR(75) null,repositoryUserName VARCHAR(75) null,repositoryPassword VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table liblistener_Repository (repositoryId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,repositoryName VARCHAR(75) null,repositoryRootUrl VARCHAR(500) null,repositoryUserName VARCHAR(75) null,repositoryPassword VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table liblistener_Repository";
 	public static final String ORDER_BY_JPQL = " ORDER BY repository.repositoryId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY liblistener_Repository.repositoryId ASC";

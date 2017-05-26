@@ -1,0 +1,5 @@
+Bundle-Name: library-listener-test
+Bundle-SymbolicName: library.listener.test
+Bundle-Version: 1.0.0
+Export-Package: library.listener.test
+Bundle-Activator: library.listener.test.LibraryListenerTest
