@@ -126,7 +126,7 @@ public interface LibraryLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Library updateLibrary(Library library);
 
-	public Library updateLibrary(long repositoryId, long libraryId,
+	public Library updateLibrary(long libraryId, long repositoryId,
 		java.lang.String libraryGroupId, java.lang.String libraryArtifactId,
 		java.lang.String latestVersion, java.lang.String lastUpdated,
 		java.lang.String currentVersion, boolean enableListener,

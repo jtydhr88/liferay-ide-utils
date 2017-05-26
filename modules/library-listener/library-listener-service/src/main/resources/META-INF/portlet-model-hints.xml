@@ -26,7 +26,9 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="repositoryName" type="String" />
-		<field name="repositoryRootUrl" type="String" />
+		<field name="repositoryRootUrl" type="String">
+			<hint name="max-length">500</hint>
+		</field>
 		<field name="repositoryUserName" type="String" />
 		<field name="repositoryPassword" type="String" />
 	</model>
