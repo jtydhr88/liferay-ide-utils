@@ -134,6 +134,8 @@ public interface LibraryLocalService extends BaseLocalService,
 		boolean enableListener, ServiceContext serviceContext)
 		throws PortalException;
 
+	public Library updateToLatest(long libraryId) throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 

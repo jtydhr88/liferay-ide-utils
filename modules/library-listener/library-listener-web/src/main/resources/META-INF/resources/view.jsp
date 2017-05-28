@@ -106,10 +106,16 @@
 		/>
 		<liferay-ui:search-container-column-text
 			name="current-version"
-			value="<%= library.getCurrentVersion() %>"
-			href="<%= viewLibraryUrl %>"
-			cssClass="<%= CurrentVersionCssClass %>"
-		/>
+		>
+			<div class="<%= CurrentVersionCssClass %>"><%= library.getCurrentVersion() %></div>
+			<c:if test="<%= !library.getCurrentVersion().equals(library.getLatestVersion()) %>">
+				<portlet:actionURL name="updateToLatest" var="updateToLatestUrl">
+					<portlet:param name="libraryId" value="<%= String.valueOf(library.getLibraryId()) %>" />
+				</portlet:actionURL>
+
+				<aui:a href="<%= updateToLatestUrl %>">Have updated all resources to latest?</aui:a>
+			</c:if>
+		</liferay-ui:search-container-column-text>
 		<liferay-ui:search-container-column-text
 			name="enable-listener"
 			value="<%= String.valueOf(library.getEnableListener()) %>"

@@ -93,4 +93,15 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 		return library;
 	}
 
+	public Library updateToLatest(long libraryId)
+		throws PortalException {
+
+		Library library = libraryPersistence.fetchByPrimaryKey(libraryId);
+
+		library.setCurrentVersion(library.getLatestVersion());
+
+		libraryPersistence.update(library);
+
+		return library;
+	}
 }

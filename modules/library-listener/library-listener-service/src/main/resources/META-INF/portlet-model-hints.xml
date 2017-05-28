@@ -17,6 +17,7 @@
 		<field name="currentVersion" type="String" />
 		<field name="resources" type="String">
 			<hint name="max-length">5000</hint>
+			<hint-collection name="TEXTAREA" />
 		</field>
 		<field name="enableListener" type="boolean" />
 	</model>

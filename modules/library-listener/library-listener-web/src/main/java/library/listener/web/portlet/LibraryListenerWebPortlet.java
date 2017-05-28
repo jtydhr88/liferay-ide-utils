@@ -109,6 +109,13 @@ public class LibraryListenerWebPortlet extends MVCPortlet {
 		_libraryLocalService.deleteLibrary(libraryId);
 	}
 
+	public void updateToLatest(ActionRequest actionRequest, ActionResponse actionResponse)
+			throws PortalException, SystemException {
+		long libraryId = ParamUtil.getLong(actionRequest, "libraryId");
+
+		_libraryLocalService.updateToLatest(libraryId);
+	}
+
 	public RepositoryLocalService getRepositoryLocalService() {
 		return _repositoryLocalService;
 	}

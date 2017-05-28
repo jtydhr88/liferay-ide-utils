@@ -141,6 +141,13 @@ public class LibraryLocalServiceWrapper implements LibraryLocalService,
 	}
 
 	@Override
+	public com.liferay.ide.utils.library.listener.model.Library updateToLatest(
+		long libraryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _libraryLocalService.updateToLatest(libraryId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _libraryLocalService.getActionableDynamicQuery();
 	}

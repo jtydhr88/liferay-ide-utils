@@ -143,6 +143,12 @@ public class LibraryLocalServiceUtil {
 			resources, enableListener, serviceContext);
 	}
 
+	public static com.liferay.ide.utils.library.listener.model.Library updateToLatest(
+		long libraryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateToLatest(libraryId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
