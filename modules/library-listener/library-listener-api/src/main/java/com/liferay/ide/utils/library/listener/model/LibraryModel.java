@@ -282,6 +282,21 @@ public interface LibraryModel extends BaseModel<Library>, GroupedModel,
 	public void setCurrentVersion(String currentVersion);
 
 	/**
+	 * Returns the resources of this library.
+	 *
+	 * @return the resources of this library
+	 */
+	@AutoEscape
+	public String getResources();
+
+	/**
+	 * Sets the resources of this library.
+	 *
+	 * @param resources the resources of this library
+	 */
+	public void setResources(String resources);
+
+	/**
 	 * Returns the enable listener of this library.
 	 *
 	 * @return the enable listener of this library

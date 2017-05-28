@@ -46,6 +46,8 @@ List<Repository> repositories = repositoryLocalService.getRepositories(-1, -1);
 
 		<aui:input name="currentVersion" />
 
+		<aui:input name="resources" />
+
 		<aui:input name="enableListener" />
 	</aui:fieldset>
 

@@ -353,6 +353,7 @@ public class LibraryPersistenceImpl extends BasePersistenceImpl<Library>
 		libraryImpl.setLatestVersion(library.getLatestVersion());
 		libraryImpl.setLastUpdated(library.getLastUpdated());
 		libraryImpl.setCurrentVersion(library.getCurrentVersion());
+		libraryImpl.setResources(library.getResources());
 		libraryImpl.setEnableListener(library.isEnableListener());
 
 		return libraryImpl;

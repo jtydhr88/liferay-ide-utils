@@ -74,8 +74,9 @@ public interface LibraryLocalService extends BaseLocalService,
 	public Library addLibrary(long repositoryId,
 		java.lang.String libraryGroupId, java.lang.String libraryArtifactId,
 		java.lang.String latestVersion, java.lang.String lastUpdated,
-		java.lang.String currentVersion, boolean enableListener,
-		ServiceContext serviceContext) throws PortalException;
+		java.lang.String currentVersion, java.lang.String resources,
+		boolean enableListener, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	* Creates a new library with the primary key. Does not add the library to the database.
@@ -129,8 +130,9 @@ public interface LibraryLocalService extends BaseLocalService,
 	public Library updateLibrary(long libraryId, long repositoryId,
 		java.lang.String libraryGroupId, java.lang.String libraryArtifactId,
 		java.lang.String latestVersion, java.lang.String lastUpdated,
-		java.lang.String currentVersion, boolean enableListener,
-		ServiceContext serviceContext) throws PortalException;
+		java.lang.String currentVersion, java.lang.String resources,
+		boolean enableListener, ServiceContext serviceContext)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

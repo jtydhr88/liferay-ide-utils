@@ -70,6 +70,7 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 		attributes.put("latestVersion", getLatestVersion());
 		attributes.put("lastUpdated", getLastUpdated());
 		attributes.put("currentVersion", getCurrentVersion());
+		attributes.put("resources", getResources());
 		attributes.put("enableListener", getEnableListener());
 
 		return attributes;
@@ -153,6 +154,12 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 
 		if (currentVersion != null) {
 			setCurrentVersion(currentVersion);
+		}
+
+		String resources = (String)attributes.get("resources");
+
+		if (resources != null) {
+			setResources(resources);
 		}
 
 		Boolean enableListener = (Boolean)attributes.get("enableListener");
@@ -285,6 +292,16 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 	@Override
 	public java.lang.String getLibraryGroupId() {
 		return _library.getLibraryGroupId();
+	}
+
+	/**
+	* Returns the resources of this library.
+	*
+	* @return the resources of this library
+	*/
+	@Override
+	public java.lang.String getResources() {
+		return _library.getResources();
 	}
 
 	/**
@@ -561,6 +578,16 @@ public class LibraryWrapper implements Library, ModelWrapper<Library> {
 	@Override
 	public void setRepositoryId(long repositoryId) {
 		_library.setRepositoryId(repositoryId);
+	}
+
+	/**
+	* Sets the resources of this library.
+	*
+	* @param resources the resources of this library
+	*/
+	@Override
+	public void setResources(java.lang.String resources) {
+		_library.setResources(resources);
 	}
 
 	/**

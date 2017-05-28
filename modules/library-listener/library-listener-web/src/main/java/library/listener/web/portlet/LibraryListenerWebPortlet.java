@@ -35,7 +35,9 @@ import com.liferay.portal.kernel.util.ParamUtil;
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
+		"javax.portlet.security-role-ref=power-user,user",
+		"com.liferay.portlet.header-portlet-css=/css/main.css",
+		"com.liferay.portlet.css-class-wrapper=libraray-listener"
 	},
 	service = Portlet.class
 )
@@ -77,6 +79,7 @@ public class LibraryListenerWebPortlet extends MVCPortlet {
 		String latestVersion = ParamUtil.getString(req, "latestVersion");
 		String lastUpdated = ParamUtil.getString(req, "lastUpdated");
 		String currentVersion = ParamUtil.getString(req, "currentVersion");
+		String resources = ParamUtil.getString(req, "resources");
 		boolean enableListener = ParamUtil.getBoolean(req, "enableListener");
 
 		long libraryId = ParamUtil.getLong(req, "libraryId");
@@ -85,10 +88,11 @@ public class LibraryListenerWebPortlet extends MVCPortlet {
 
 		if (libraryId > 0) {
 			_libraryLocalService.updateLibrary(libraryId, repositoryId, libraryGroupId, libraryArtifactId,
-					latestVersion, lastUpdated, currentVersion, enableListener, serviceContext);
-		} else {
+					latestVersion, lastUpdated, currentVersion, resources, enableListener, serviceContext);
+		}
+		else {
 			_libraryLocalService.addLibrary(repositoryId, libraryGroupId, libraryArtifactId, latestVersion, lastUpdated,
-					currentVersion, enableListener, serviceContext);
+					currentVersion, resources, enableListener, serviceContext);
 		}
 	}
 	public void deleteRepository(ActionRequest actionRequest, ActionResponse actionResponse)

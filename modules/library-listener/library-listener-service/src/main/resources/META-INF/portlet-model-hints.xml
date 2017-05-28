@@ -15,6 +15,9 @@
 		<field name="latestVersion" type="String" />
 		<field name="lastUpdated" type="String" />
 		<field name="currentVersion" type="String" />
+		<field name="resources" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
 		<field name="enableListener" type="boolean" />
 	</model>
 	<model name="com.liferay.ide.utils.library.listener.model.Repository">

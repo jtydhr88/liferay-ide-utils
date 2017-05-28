@@ -12,6 +12,7 @@ create table liblistener_Library (
 	latestVersion VARCHAR(75) null,
 	lastUpdated VARCHAR(75) null,
 	currentVersion VARCHAR(75) null,
+	resources TEXT null,
 	enableListener BOOLEAN
 );
 

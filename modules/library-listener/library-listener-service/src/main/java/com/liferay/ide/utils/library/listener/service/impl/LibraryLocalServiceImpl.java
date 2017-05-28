@@ -39,7 +39,7 @@ import aQute.bnd.annotation.ProviderType;
 public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 	public Library addLibrary(
 			long repositoryId, String libraryGroupId, String libraryArtifactId, String latestVersion,
-			String lastUpdated, String currentVersion, boolean enableListener, ServiceContext serviceContext)
+			String lastUpdated, String currentVersion, String resources, boolean enableListener, ServiceContext serviceContext)
 		throws PortalException {
 
 		long libraryId = counterLocalService.increment();
@@ -57,6 +57,7 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 		library.setLatestVersion(latestVersion);
 		library.setLastUpdated(lastUpdated);
 		library.setCurrentVersion(currentVersion);
+		library.setResources(resources);
 		library.setEnableListener(enableListener);
 
 		library.setCreateDate(serviceContext.getCreateDate(null));
@@ -68,7 +69,7 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 
 	public Library updateLibrary(
 			long libraryId, long repositoryId, String libraryGroupId, String libraryArtifactId, String latestVersion,
-			String lastUpdated, String currentVersion, boolean enableListener, ServiceContext serviceContext)
+			String lastUpdated, String currentVersion, String resources, boolean enableListener, ServiceContext serviceContext)
 		throws PortalException {
 
 		Library library = libraryPersistence.fetchByPrimaryKey(libraryId);
@@ -82,6 +83,7 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 		library.setLatestVersion(latestVersion);
 		library.setLastUpdated(lastUpdated);
 		library.setCurrentVersion(currentVersion);
+		library.setResources(resources);
 		library.setEnableListener(enableListener);
 
 		library.setModifiedDate(serviceContext.getModifiedDate());

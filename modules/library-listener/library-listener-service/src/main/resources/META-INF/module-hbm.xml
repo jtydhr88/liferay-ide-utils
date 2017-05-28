@@ -20,6 +20,7 @@
 		<property name="latestVersion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="lastUpdated" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="currentVersion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="resources" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="enableListener" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="com.liferay.ide.utils.library.listener.model.impl.RepositoryImpl" table="liblistener_Repository">

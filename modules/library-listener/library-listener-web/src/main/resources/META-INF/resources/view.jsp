@@ -76,9 +76,17 @@
 			<portlet:param name="mvcPath" value="/edit_library.jsp" />
 		</portlet:renderURL>
 
+		<%
+		String CurrentVersionCssClass = "current-version-equals";
+
+		if (!library.getCurrentVersion().equals(library.getLatestVersion())) {
+			CurrentVersionCssClass = "current-version-not-equals";
+		}
+		%>
+
 		<liferay-ui:search-container-column-text
-			name="repo-id"
-			value="<%= String.valueOf(library.getRepositoryId()) %>"
+			name="repo-name"
+			value="<%= 	repositoryLocalService.getRepository(library.getRepositoryId()).getRepositoryName() %>"
 			href="<%= viewLibraryUrl %>"
 		/>
 		<liferay-ui:search-container-column-text
@@ -100,6 +108,7 @@
 			name="current-version"
 			value="<%= library.getCurrentVersion() %>"
 			href="<%= viewLibraryUrl %>"
+			cssClass="<%= CurrentVersionCssClass %>"
 		/>
 		<liferay-ui:search-container-column-text
 			name="enable-listener"

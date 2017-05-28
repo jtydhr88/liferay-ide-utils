@@ -49,12 +49,12 @@ public class LibraryLocalServiceWrapper implements LibraryLocalService,
 		long repositoryId, java.lang.String libraryGroupId,
 		java.lang.String libraryArtifactId, java.lang.String latestVersion,
 		java.lang.String lastUpdated, java.lang.String currentVersion,
-		boolean enableListener,
+		java.lang.String resources, boolean enableListener,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _libraryLocalService.addLibrary(repositoryId, libraryGroupId,
 			libraryArtifactId, latestVersion, lastUpdated, currentVersion,
-			enableListener, serviceContext);
+			resources, enableListener, serviceContext);
 	}
 
 	/**
@@ -132,12 +132,12 @@ public class LibraryLocalServiceWrapper implements LibraryLocalService,
 		long libraryId, long repositoryId, java.lang.String libraryGroupId,
 		java.lang.String libraryArtifactId, java.lang.String latestVersion,
 		java.lang.String lastUpdated, java.lang.String currentVersion,
-		boolean enableListener,
+		java.lang.String resources, boolean enableListener,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _libraryLocalService.updateLibrary(libraryId, repositoryId,
 			libraryGroupId, libraryArtifactId, latestVersion, lastUpdated,
-			currentVersion, enableListener, serviceContext);
+			currentVersion, resources, enableListener, serviceContext);
 	}
 
 	@Override

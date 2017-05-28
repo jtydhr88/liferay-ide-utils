@@ -27,9 +27,11 @@ if (repositoryId > 0 ){
 
 		<aui:input name="repositoryRootUrl" />
 
+		<!--
 		<aui:input name="repositoryUserName" />
 
 		<aui:input name="repositoryPassword" />
+		 -->
 	</aui:fieldset>
 
 	<aui:button-row>
