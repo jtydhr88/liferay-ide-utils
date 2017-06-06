@@ -5,6 +5,5 @@ Export-Package: \
 	com.liferay.ide.utils.library.listener.exception,\
 	com.liferay.ide.utils.library.listener.model,\
 	com.liferay.ide.utils.library.listener.service,\
-	com.liferay.ide.utils.library.listener.utils,\
 	com.liferay.ide.utils.library.listener.service.persistence
 -includeresource: META-INF/service.xml=../library-listener-service/service.xml

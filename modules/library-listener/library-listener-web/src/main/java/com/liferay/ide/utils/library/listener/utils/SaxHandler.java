@@ -10,7 +10,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class SaxHandler extends DefaultHandler {
 	private List<HashMap<String, String>> list = null;
-	private HashMap<String, String> map = null; 
+	private HashMap<String, String> map = null;
 	private String currentTag = null;
 	private String currentValue = null;
 	private String nodeName = null;
@@ -60,4 +60,5 @@ public class SaxHandler extends DefaultHandler {
 	public List<HashMap<String, String>> getList() {
 		return list;
 	}
+
 }
