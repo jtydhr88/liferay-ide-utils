@@ -1,4 +1,4 @@
-package library.listener.web.scheduler;
+package com.liferay.ide.utils.library.listener.scheduler;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -20,9 +20,9 @@ import com.liferay.portal.kernel.model.User;
 /**
  * @author Carson Li
  */
+@SuppressWarnings("unchecked")
 public class ListenerJob implements Job {
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 		List<String> paths = (List<String>) jobExecutionContext.getJobDetail().getJobDataMap().get("paths");
@@ -46,7 +46,6 @@ public class ListenerJob implements Job {
 				}
 			}
 			catch (Exception e) {
-				
 			}
 		}
 

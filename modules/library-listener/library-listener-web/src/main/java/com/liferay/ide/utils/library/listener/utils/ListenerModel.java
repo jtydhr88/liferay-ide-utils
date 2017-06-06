@@ -1,4 +1,4 @@
-package com.liferay.ide.utils.library.listener.model;
+package com.liferay.ide.utils.library.listener.utils;
 
 /**
  * @author Carson Li

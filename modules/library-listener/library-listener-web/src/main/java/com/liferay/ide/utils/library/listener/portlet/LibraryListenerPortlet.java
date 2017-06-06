@@ -1,4 +1,4 @@
-package library.listener.web.portlet;
+package com.liferay.ide.utils.library.listener.portlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,10 +15,11 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.ide.utils.library.listener.model.Library;
-import com.liferay.ide.utils.library.listener.model.ListenerModel;
 import com.liferay.ide.utils.library.listener.model.Repository;
+import com.liferay.ide.utils.library.listener.scheduler.ListenerScheduler;
 import com.liferay.ide.utils.library.listener.service.LibraryLocalService;
 import com.liferay.ide.utils.library.listener.service.RepositoryLocalService;
+import com.liferay.ide.utils.library.listener.utils.ListenerModel;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
@@ -28,38 +29,37 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.util.ParamUtil;
 
-import library.listener.web.scheduler.ListenerScheduler;
-
 /**
  * @author terry
  */
 @Component(
-		immediate = true,
-		property = {
-			"com.liferay.portlet.display-category=category.sample",
-			"com.liferay.portlet.instanceable=true",
-			"javax.portlet.display-name=library-listener-web Portlet",
-			"javax.portlet.init-param.template-path=/",
-			"javax.portlet.init-param.view-template=/view.jsp",
-			"javax.portlet.resource-bundle=content.Language",
-			"javax.portlet.security-role-ref=power-user,user",
-			"com.liferay.portlet.header-portlet-css=/css/main.css",
-			"com.liferay.portlet.css-class-wrapper=libraray-listener"
-		},
-		service = Portlet.class
-	)
-public class LibraryListenerWebPortlet extends MVCPortlet {
+	immediate = true,
+	property = {
+		"com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.instanceable=true",
+		"javax.portlet.display-name=library-listener-web Portlet",
+		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.resource-bundle=content.Language",
+		"javax.portlet.security-role-ref=power-user,user",
+		"com.liferay.portlet.header-portlet-css=/css/main.css",
+		"com.liferay.portlet.css-class-wrapper=libraray-listener"
+	},
+	service = Portlet.class
+)
+public class LibraryListenerPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
 
 		request.setAttribute("repositoryLocalService", getRepositoryLocalService());
 		request.setAttribute("libraryLocalService", getLibraryLocalService());
-		
+
 		try {
 			User user = _userService.getUserById(ServiceContextFactory.getInstance(request).getUserId());
 			listenerEntry(user);
-		} catch (PortalException e) {
+		}
+		catch (PortalException e) {
 			e.printStackTrace();
 		}
 
@@ -67,24 +67,22 @@ public class LibraryListenerWebPortlet extends MVCPortlet {
 	}
 
 	public void listenerEntry(User user) {
-		
-		int count=_libraryLocalService.getLibrariesCount();
-		List<Library> librarys=_libraryLocalService.getLibraries(0, count);
-		
-		List<ListenerModel> list=new ArrayList<>();
-		
-		for(int i=0;i<count;i++){
-			ListenerModel model=new ListenerModel();
-			model.setRepositoryName("Repository"+i);
+		List<Library> librarys = _libraryLocalService.getLibraries(-1, -1);
+
+		List<ListenerModel> list = new ArrayList<>();
+
+		for (int i = 0; i < librarys.size(); i++) {
+			ListenerModel model = new ListenerModel();
+
+			model.setRepositoryName("Repository" + i);
 			model.setListening(librarys.get(i).getEnableListener());
 			model.setArtifactId(librarys.get(i).getLibraryArtifactId());
 			model.setGroupId(librarys.get(i).getLibraryGroupId());
+
 			list.add(model);
 		}
 
-		
-		ListenerScheduler.start(list,user);
-
+		ListenerScheduler.start(list, user);
 	}
 
 	public void editRepository(ActionRequest req, ActionResponse resp) throws SystemException, PortalException {
@@ -163,7 +161,8 @@ public class LibraryListenerWebPortlet extends MVCPortlet {
 
 	@Reference
 	private volatile LibraryLocalService _libraryLocalService;
-	
+
 	@Reference
-	UserService _userService;
+	private volatile UserService _userService;
+
 }
