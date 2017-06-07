@@ -58,5 +58,9 @@
 		<column name="resources" type="String" />
 
 		<column name="enableListener" type="boolean" />
+
+		<finder return-type="Collection" name="RepositoryId">
+			<finder-column name="repositoryId" />
+		</finder>
 	</entity>
 </service-builder>

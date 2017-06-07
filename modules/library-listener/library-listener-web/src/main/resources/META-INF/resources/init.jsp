@@ -15,6 +15,10 @@ page import="com.liferay.ide.utils.library.listener.model.Repository"%><%@
 page import="com.liferay.portal.kernel.util.WebKeys"%><%@
 page import="com.liferay.portal.kernel.dao.search.ResultRow"%><%@
 page import="com.liferay.ide.utils.library.listener.model.Library"%><%@
+page import="com.liferay.ide.utils.library.listener.configuration.LibraryListenerConfiguration"%><%@
+page import="com.liferay.portal.kernel.util.StringPool"%><%@
+page import="com.liferay.portal.kernel.util.Validator"%><%@
+page import="com.liferay.portal.kernel.util.Constants"%><%@
 page import="java.util.List"%>
 
 <liferay-theme:defineObjects />
@@ -24,6 +28,7 @@ page import="java.util.List"%>
 <%
 RepositoryLocalService repositoryLocalService = (RepositoryLocalService)request.getAttribute("repositoryLocalService");
 LibraryLocalService libraryLocalService = (LibraryLocalService)request.getAttribute("libraryLocalService");
+LibraryListenerConfiguration libraryListenerConfiguration = (LibraryListenerConfiguration)request.getAttribute("libraryListenerConfiguration");
 
 PortletURL portletURL = renderResponse.createRenderURL();
 String currentURL = portletURL.toString();

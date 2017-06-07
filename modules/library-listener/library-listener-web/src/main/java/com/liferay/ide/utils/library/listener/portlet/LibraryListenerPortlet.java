@@ -1,8 +1,7 @@
 package com.liferay.ide.utils.library.listener.portlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -11,22 +10,25 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.ide.utils.library.listener.configuration.LibraryListenerConfiguration;
 import com.liferay.ide.utils.library.listener.model.Library;
 import com.liferay.ide.utils.library.listener.model.Repository;
 import com.liferay.ide.utils.library.listener.scheduler.ListenerScheduler;
 import com.liferay.ide.utils.library.listener.service.LibraryLocalService;
 import com.liferay.ide.utils.library.listener.service.RepositoryLocalService;
-import com.liferay.ide.utils.library.listener.utils.ListenerModel;
+import com.liferay.mail.kernel.service.MailService;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.service.UserService;
 import com.liferay.portal.kernel.util.ParamUtil;
 
 /**
@@ -42,47 +44,22 @@ import com.liferay.portal.kernel.util.ParamUtil;
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user",
+		"javax.portlet.portlet-name=library-listener-portlet",
 		"com.liferay.portlet.header-portlet-css=/css/main.css",
 		"com.liferay.portlet.css-class-wrapper=libraray-listener"
 	},
+	configurationPid = "com.liferay.ide.utils.library.listener.configuration.LibraryListenerConfiguration",
 	service = Portlet.class
 )
 public class LibraryListenerPortlet extends MVCPortlet {
 
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
-
 		request.setAttribute("repositoryLocalService", getRepositoryLocalService());
 		request.setAttribute("libraryLocalService", getLibraryLocalService());
-
-		try {
-			User user = _userService.getUserById(ServiceContextFactory.getInstance(request).getUserId());
-			listenerEntry(user);
-		}
-		catch (PortalException e) {
-			e.printStackTrace();
-		}
+		request.setAttribute("libraryListenerConfiguration", getLibraryListenerConfiguration());
 
 		super.render(request, response);
-	}
-
-	public void listenerEntry(User user) {
-		List<Library> librarys = _libraryLocalService.getLibraries(-1, -1);
-
-		List<ListenerModel> list = new ArrayList<>();
-
-		for (int i = 0; i < librarys.size(); i++) {
-			ListenerModel model = new ListenerModel();
-
-			model.setRepositoryName("Repository" + i);
-			model.setListening(librarys.get(i).getEnableListener());
-			model.setArtifactId(librarys.get(i).getLibraryArtifactId());
-			model.setGroupId(librarys.get(i).getLibraryGroupId());
-
-			list.add(model);
-		}
-
-		ListenerScheduler.start(list, user);
 	}
 
 	public void editRepository(ActionRequest req, ActionResponse resp) throws SystemException, PortalException {
@@ -121,7 +98,8 @@ public class LibraryListenerPortlet extends MVCPortlet {
 		if (libraryId > 0) {
 			_libraryLocalService.updateLibrary(libraryId, repositoryId, libraryGroupId, libraryArtifactId,
 					latestVersion, lastUpdated, currentVersion, resources, enableListener, serviceContext);
-		} else {
+		}
+		else {
 			_libraryLocalService.addLibrary(repositoryId, libraryGroupId, libraryArtifactId, latestVersion, lastUpdated,
 					currentVersion, resources, enableListener, serviceContext);
 		}
@@ -156,6 +134,10 @@ public class LibraryListenerPortlet extends MVCPortlet {
 		return _libraryLocalService;
 	}
 
+	public LibraryListenerConfiguration getLibraryListenerConfiguration() {
+		return _libraryListenerConfiguration;
+	}
+
 	@Reference
 	private volatile RepositoryLocalService _repositoryLocalService;
 
@@ -163,6 +145,23 @@ public class LibraryListenerPortlet extends MVCPortlet {
 	private volatile LibraryLocalService _libraryLocalService;
 
 	@Reference
-	private volatile UserService _userService;
+	private volatile MailService _mailService;
+
+	@Activate
+	@Modified
+	protected void activate(Map<Object, Object> properties) {
+		_libraryListenerConfiguration = ConfigurableUtil.createConfigurable(
+			LibraryListenerConfiguration.class, properties);
+
+		ListenerScheduler.start(_repositoryLocalService, _libraryLocalService, _mailService,
+				_libraryListenerConfiguration);
+	}
+
+	@Deactivate
+	protected void deactivate(Map<Object, Object> properties) {
+		ListenerScheduler.stop();
+	}
+
+	private volatile LibraryListenerConfiguration _libraryListenerConfiguration;
 
 }

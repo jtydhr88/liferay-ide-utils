@@ -143,6 +143,12 @@ public class LibraryLocalServiceUtil {
 			resources, enableListener, serviceContext);
 	}
 
+	public static com.liferay.ide.utils.library.listener.model.Library updateLibraryLatestVersion(
+		long libraryId, java.lang.String latest)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().updateLibraryLatestVersion(libraryId, latest);
+	}
+
 	public static com.liferay.ide.utils.library.listener.model.Library updateToLatest(
 		long libraryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -258,6 +264,11 @@ public class LibraryLocalServiceUtil {
 	public static java.util.List<com.liferay.ide.utils.library.listener.model.Library> getLibraries(
 		int start, int end) {
 		return getService().getLibraries(start, end);
+	}
+
+	public static java.util.List<com.liferay.ide.utils.library.listener.model.Library> getLibrariesByRepositoryId(
+		long repositoryId) {
+		return getService().getLibrariesByRepositoryId(repositoryId);
 	}
 
 	/**

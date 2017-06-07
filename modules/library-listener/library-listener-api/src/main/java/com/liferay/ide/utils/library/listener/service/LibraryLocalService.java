@@ -134,6 +134,9 @@ public interface LibraryLocalService extends BaseLocalService,
 		boolean enableListener, ServiceContext serviceContext)
 		throws PortalException;
 
+	public Library updateLibraryLatestVersion(long libraryId,
+		java.lang.String latest) throws PortalException;
+
 	public Library updateToLatest(long libraryId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -223,6 +226,9 @@ public interface LibraryLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Library> getLibraries(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Library> getLibrariesByRepositoryId(long repositoryId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

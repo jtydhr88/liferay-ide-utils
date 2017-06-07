@@ -1,8 +1,6 @@
 package com.liferay.ide.utils.library.listener.scheduler;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -14,22 +12,40 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
-import com.liferay.ide.utils.library.listener.utils.ListenerModel;
-import com.liferay.portal.kernel.model.User;
+import com.liferay.ide.utils.library.listener.configuration.LibraryListenerConfiguration;
+import com.liferay.ide.utils.library.listener.service.LibraryLocalService;
+import com.liferay.ide.utils.library.listener.service.RepositoryLocalService;
+import com.liferay.mail.kernel.service.MailService;
 
 /**
  * @author Carson Li
  */
 public class ListenerScheduler {
 
-	public static void start(List<ListenerModel> list, User user) {
-		try {
-			SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+	private static Scheduler scheduler;
 
-			Scheduler scheduler = schedulerFactory.getScheduler();
+	public static void start(RepositoryLocalService repositoryLocalService, LibraryLocalService libraryLocalService,
+			MailService mailService, LibraryListenerConfiguration libraryListenerConfiguration) {
+
+		if (!libraryListenerConfiguration.enableListener()) {
+			return;
+		}
+
+		try {
+			if (scheduler == null) {
+				SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+
+				scheduler = schedulerFactory.getScheduler();
+			}
+
+			int hours = 24;
+
+			if (libraryListenerConfiguration.hours() > 0){
+				hours = libraryListenerConfiguration.hours();
+			}
 
 			SimpleScheduleBuilder schedBuilder =
-				SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(24).repeatForever();
+				SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(hours).repeatForever();
 
 			Date triggerDate = new Date();
 
@@ -39,37 +55,31 @@ public class ListenerScheduler {
 
 			JobDetail jobDetail = JobBuilder.newJob(ListenerJob.class).withIdentity("myJob", "jobGroup").build();
 
-			List<String> paths = new ArrayList<>();
-			List<String> curs = new ArrayList<>();
-			List<String> repoNames = new ArrayList<>();
-
-			for (int i = 0; i < list.size(); i++) {
-				String[] arr = list.get(i).getGroupId().split("\\.");
-
-				StringBuilder sb = new StringBuilder("https://repository.liferay.com/nexus/content/groups/public");
-
-				for (int j = 0; j < arr.length; j++) {
-					sb.append("/" + arr[j]);
-				}
-
-				sb.append("/" + list.get(i).getArtifactId() + "/" + "maven-metadata.xml");
-
-				paths.add(sb.toString());
-
-				curs.add(list.get(i).getCurVersion());
-
-				repoNames.add(list.get(i).getRepositoryName());
-			}
-
-			jobDetail.getJobDataMap().put("paths", paths);
-			jobDetail.getJobDataMap().put("curs", curs);
-			jobDetail.getJobDataMap().put("repoNames", repoNames);
-			jobDetail.getJobDataMap().put("user", user);
+			jobDetail.getJobDataMap().put("repositoryLocalService", repositoryLocalService);
+			jobDetail.getJobDataMap().put("libraryLocalService", libraryLocalService);
+			jobDetail.getJobDataMap().put("libraryListenerConfiguration", libraryListenerConfiguration);
+			jobDetail.getJobDataMap().put("mailService", mailService);
 
 			scheduler.scheduleJob(jobDetail, trigger);
 			scheduler.start();
+
+			System.out.println("scheduler started");
 		}
 		catch (SchedulerException e) {
+			System.out.println("with some exception, scheduler stoped");
+		}
+	}
+
+	public static void stop() {
+		if (scheduler != null) {
+			try {
+				scheduler.shutdown();
+
+				System.out.println("scheduler stoped");
+			}
+			catch (SchedulerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

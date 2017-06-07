@@ -42,6 +42,138 @@ public interface LibraryPersistence extends BasePersistence<Library> {
 	 */
 
 	/**
+	* Returns all the libraries where repositoryId = &#63;.
+	*
+	* @param repositoryId the repository ID
+	* @return the matching libraries
+	*/
+	public java.util.List<Library> findByRepositoryId(long repositoryId);
+
+	/**
+	* Returns a range of all the libraries where repositoryId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LibraryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param repositoryId the repository ID
+	* @param start the lower bound of the range of libraries
+	* @param end the upper bound of the range of libraries (not inclusive)
+	* @return the range of matching libraries
+	*/
+	public java.util.List<Library> findByRepositoryId(long repositoryId,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the libraries where repositoryId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LibraryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param repositoryId the repository ID
+	* @param start the lower bound of the range of libraries
+	* @param end the upper bound of the range of libraries (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching libraries
+	*/
+	public java.util.List<Library> findByRepositoryId(long repositoryId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Library> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the libraries where repositoryId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link LibraryModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param repositoryId the repository ID
+	* @param start the lower bound of the range of libraries
+	* @param end the upper bound of the range of libraries (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching libraries
+	*/
+	public java.util.List<Library> findByRepositoryId(long repositoryId,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Library> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first library in the ordered set where repositoryId = &#63;.
+	*
+	* @param repositoryId the repository ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching library
+	* @throws NoSuchLibraryException if a matching library could not be found
+	*/
+	public Library findByRepositoryId_First(long repositoryId,
+		com.liferay.portal.kernel.util.OrderByComparator<Library> orderByComparator)
+		throws NoSuchLibraryException;
+
+	/**
+	* Returns the first library in the ordered set where repositoryId = &#63;.
+	*
+	* @param repositoryId the repository ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching library, or <code>null</code> if a matching library could not be found
+	*/
+	public Library fetchByRepositoryId_First(long repositoryId,
+		com.liferay.portal.kernel.util.OrderByComparator<Library> orderByComparator);
+
+	/**
+	* Returns the last library in the ordered set where repositoryId = &#63;.
+	*
+	* @param repositoryId the repository ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching library
+	* @throws NoSuchLibraryException if a matching library could not be found
+	*/
+	public Library findByRepositoryId_Last(long repositoryId,
+		com.liferay.portal.kernel.util.OrderByComparator<Library> orderByComparator)
+		throws NoSuchLibraryException;
+
+	/**
+	* Returns the last library in the ordered set where repositoryId = &#63;.
+	*
+	* @param repositoryId the repository ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching library, or <code>null</code> if a matching library could not be found
+	*/
+	public Library fetchByRepositoryId_Last(long repositoryId,
+		com.liferay.portal.kernel.util.OrderByComparator<Library> orderByComparator);
+
+	/**
+	* Returns the libraries before and after the current library in the ordered set where repositoryId = &#63;.
+	*
+	* @param libraryId the primary key of the current library
+	* @param repositoryId the repository ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next library
+	* @throws NoSuchLibraryException if a library with the primary key could not be found
+	*/
+	public Library[] findByRepositoryId_PrevAndNext(long libraryId,
+		long repositoryId,
+		com.liferay.portal.kernel.util.OrderByComparator<Library> orderByComparator)
+		throws NoSuchLibraryException;
+
+	/**
+	* Removes all the libraries where repositoryId = &#63; from the database.
+	*
+	* @param repositoryId the repository ID
+	*/
+	public void removeByRepositoryId(long repositoryId);
+
+	/**
+	* Returns the number of libraries where repositoryId = &#63;.
+	*
+	* @param repositoryId the repository ID
+	* @return the number of matching libraries
+	*/
+	public int countByRepositoryId(long repositoryId);
+
+	/**
 	* Caches the library in the entity cache if it is enabled.
 	*
 	* @param library the library

@@ -141,6 +141,13 @@ public class LibraryLocalServiceWrapper implements LibraryLocalService,
 	}
 
 	@Override
+	public com.liferay.ide.utils.library.listener.model.Library updateLibraryLatestVersion(
+		long libraryId, java.lang.String latest)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _libraryLocalService.updateLibraryLatestVersion(libraryId, latest);
+	}
+
+	@Override
 	public com.liferay.ide.utils.library.listener.model.Library updateToLatest(
 		long libraryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -267,6 +274,12 @@ public class LibraryLocalServiceWrapper implements LibraryLocalService,
 	public java.util.List<com.liferay.ide.utils.library.listener.model.Library> getLibraries(
 		int start, int end) {
 		return _libraryLocalService.getLibraries(start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.ide.utils.library.listener.model.Library> getLibrariesByRepositoryId(
+		long repositoryId) {
+		return _libraryLocalService.getLibrariesByRepositoryId(repositoryId);
 	}
 
 	/**
