@@ -114,7 +114,11 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(library.listener.service.util.ServiceProps.get(
 				"value.object.finder.cache.enabled.com.liferay.ide.utils.library.listener.model.Library"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(library.listener.service.util.ServiceProps.get(
+				"value.object.column.bitmask.enabled.com.liferay.ide.utils.library.listener.model.Library"),
+			true);
+	public static final long REPOSITORYID_COLUMN_BITMASK = 1L;
+	public static final long LIBRARYID_COLUMN_BITMASK = 2L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(library.listener.service.util.ServiceProps.get(
 				"lock.expiration.time.com.liferay.ide.utils.library.listener.model.Library"));
 
@@ -374,7 +378,19 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 
 	@Override
 	public void setRepositoryId(long repositoryId) {
+		_columnBitmask |= REPOSITORYID_COLUMN_BITMASK;
+
+		if (!_setOriginalRepositoryId) {
+			_setOriginalRepositoryId = true;
+
+			_originalRepositoryId = _repositoryId;
+		}
+
 		_repositoryId = repositoryId;
+	}
+
+	public long getOriginalRepositoryId() {
+		return _originalRepositoryId;
 	}
 
 	@Override
@@ -482,6 +498,10 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		_enableListener = enableListener;
 	}
 
+	public long getColumnBitmask() {
+		return _columnBitmask;
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
@@ -587,6 +607,12 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 		LibraryModelImpl libraryModelImpl = this;
 
 		libraryModelImpl._setModifiedDate = false;
+
+		libraryModelImpl._originalRepositoryId = libraryModelImpl._repositoryId;
+
+		libraryModelImpl._setOriginalRepositoryId = false;
+
+		libraryModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -808,6 +834,8 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _repositoryId;
+	private long _originalRepositoryId;
+	private boolean _setOriginalRepositoryId;
 	private String _libraryGroupId;
 	private String _libraryArtifactId;
 	private String _latestVersion;
@@ -815,5 +843,6 @@ public class LibraryModelImpl extends BaseModelImpl<Library>
 	private String _currentVersion;
 	private String _resources;
 	private boolean _enableListener;
+	private long _columnBitmask;
 	private Library _escapedModel;
 }

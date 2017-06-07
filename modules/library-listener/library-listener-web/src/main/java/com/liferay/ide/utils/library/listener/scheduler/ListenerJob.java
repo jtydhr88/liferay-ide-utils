@@ -6,51 +6,117 @@ import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 
-import org.osgi.service.component.annotations.Reference;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.liferay.ide.utils.library.listener.configuration.LibraryListenerConfiguration;
+import com.liferay.ide.utils.library.listener.model.Library;
+import com.liferay.ide.utils.library.listener.model.Repository;
+import com.liferay.ide.utils.library.listener.service.LibraryLocalService;
+import com.liferay.ide.utils.library.listener.service.RepositoryLocalService;
 import com.liferay.ide.utils.library.listener.utils.HttpUtils;
 import com.liferay.ide.utils.library.listener.utils.SaxService;
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailService;
-import com.liferay.portal.kernel.model.User;
 
 /**
  * @author Carson Li
+ * @author Terry Jia
  */
-@SuppressWarnings("unchecked")
 public class ListenerJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-		List<String> paths = (List<String>) jobExecutionContext.getJobDetail().getJobDataMap().get("paths");
-		List<String> curs = (List<String>) jobExecutionContext.getJobDetail().getJobDataMap().get("curs");
-		List<String> repoNames = (List<String>) jobExecutionContext.getJobDetail().getJobDataMap().get("repoNames");
+		RepositoryLocalService repositoryLocalService =
+			(RepositoryLocalService) jobExecutionContext.getJobDetail().getJobDataMap().get("repositoryLocalService");
+		LibraryLocalService libraryLocalService =
+			(LibraryLocalService) jobExecutionContext.getJobDetail().getJobDataMap().get("libraryLocalService");
+		MailService mailService =
+				(MailService) jobExecutionContext.getJobDetail().getJobDataMap().get("mailService");
+		LibraryListenerConfiguration libraryListenerConfiguration =
+			(LibraryListenerConfiguration) jobExecutionContext.getJobDetail().getJobDataMap().get(
+				"libraryListenerConfiguration");
 
-		User user = (User) jobExecutionContext.getJobDetail().getJobDataMap().get("user");
+		List<Repository> repositories = repositoryLocalService.getRepositories(-1, -1);
 
-		for (int i = 0; i < paths.size(); i++) {
-			InputStream inputStream = HttpUtils.getXML(paths.get(i));
-			try {
-				List<HashMap<String, String>> list = SaxService.readXML(inputStream, "latest");
-				String latest = list.get(0).get("latest");
-				if (!curs.get(i).equals(latest)) {
-					MailMessage msg = new MailMessage(new InternetAddress("just_domyself@126.com"),
-							new InternetAddress(user.getEmailAddress()), "Liferay Repository Has Update",
-							"Your concerned " + repoNames.get(i)
-									+ " repository has a update version . The latest version is  " + latest,
-							true);
-					mailService.sendEmail(msg);
+		for (Repository repository : repositories) {
+			long repositoryId = repository.getRepositoryId();
+
+			String rootUrl = repository.getRepositoryRootUrl();
+
+			List<Library> libraries = libraryLocalService.getLibrariesByRepositoryId(repositoryId);
+
+			for (Library library : libraries) {
+				if (library.getEnableListener()) {
+					try {
+						String groupId = library.getLibraryGroupId();
+						String artifactId = library.getLibraryArtifactId();
+
+						StringBuilder sb = new StringBuilder();
+
+						sb.append(rootUrl);
+
+						String[] groupPaths = groupId.split("\\.");
+
+						for (String groupPath : groupPaths) {
+							sb.append(groupPath);
+							sb.append("/");
+						}
+
+						sb.append(artifactId);
+						sb.append("/");
+
+						sb.append("maven-metadata.xml");
+
+						InputStream inputStream = HttpUtils.getXML(sb.toString());
+
+						List<HashMap<String, String>> latestMap = SaxService.readXML(inputStream, "latest");
+						String latest = latestMap.get(0).get("latest");
+
+						StringBuilder messageSb = new StringBuilder();
+
+						messageSb.append("The library ");
+						messageSb.append(library.getLibraryGroupId());
+						messageSb.append(":");
+						messageSb.append(library.getLibraryArtifactId());
+						messageSb.append(" in repository ");
+						messageSb.append(repository.getRepositoryRootUrl());
+						messageSb.append(" has been updated: \nthe latest version is ");
+						messageSb.append(latest);
+						messageSb.append("\n");
+
+						if (!library.getLatestVersion().equals(latest)) {
+							libraryLocalService.updateLibraryLatestVersion(library.getLibraryId(), latest);
+						}
+
+						if (!library.getCurrentVersion().equals(library.getLatestVersion())) {
+							messageSb.append("You current using ");
+							messageSb.append(library.getCurrentVersion());
+							messageSb.append("\nthe following resource are using this library:\n");
+							messageSb.append(library.getResources());
+						}
+
+						String sender = libraryListenerConfiguration.emailSender();
+
+						String[] emailList = libraryListenerConfiguration.notifyEmailList();
+
+						for (String email : emailList) {
+							MailMessage msg = new MailMessage(new InternetAddress(sender), new InternetAddress(email),
+									library.getLibraryArtifactId() + "  Has Update", messageSb.toString(), true);
+
+							mailService.sendEmail(msg);
+						}
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+
+						System.out.println("Unable to fetch library " + library.getLibraryGroupId() + ":"
+								+ library.getLibraryArtifactId());
+					}
 				}
 			}
-			catch (Exception e) {
-			}
 		}
-
 	}
 
-	@Reference
-	MailService mailService;
 }

@@ -14,6 +14,8 @@
 
 package com.liferay.ide.utils.library.listener.service.impl;
 
+import java.util.List;
+
 import com.liferay.ide.utils.library.listener.model.Library;
 import com.liferay.ide.utils.library.listener.service.base.LibraryLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -104,4 +106,21 @@ public class LibraryLocalServiceImpl extends LibraryLocalServiceBaseImpl {
 
 		return library;
 	}
+
+	public Library updateLibraryLatestVersion(long libraryId, String latest)
+		throws PortalException {
+
+		Library library = libraryPersistence.fetchByPrimaryKey(libraryId);
+
+		library.setLatestVersion(latest);
+
+		libraryPersistence.update(library);
+
+		return library;
+	}
+
+	public List<Library> getLibrariesByRepositoryId(long repositoryId) {
+		return libraryPersistence.findByRepositoryId(repositoryId);
+	}
+
 }
