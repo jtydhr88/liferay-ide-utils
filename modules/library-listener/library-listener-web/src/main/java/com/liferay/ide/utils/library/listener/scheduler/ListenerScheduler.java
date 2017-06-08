@@ -19,10 +19,21 @@ import com.liferay.mail.kernel.service.MailService;
 
 /**
  * @author Carson Li
+ * @author Terry Jia
  */
 public class ListenerScheduler {
 
 	private static Scheduler scheduler;
+	private static JobDetail jobDetail;
+	
+	public static void restart(RepositoryLocalService repositoryLocalService, LibraryLocalService libraryLocalService,
+			MailService mailService, LibraryListenerConfiguration libraryListenerConfiguration) {
+		stop();
+		scheduler = null;
+		start(repositoryLocalService, libraryLocalService, mailService, libraryListenerConfiguration);
+
+		System.out.println("scheduler restarted");
+	}
 
 	public static void start(RepositoryLocalService repositoryLocalService, LibraryLocalService libraryLocalService,
 			MailService mailService, LibraryListenerConfiguration libraryListenerConfiguration) {
@@ -53,12 +64,16 @@ public class ListenerScheduler {
 				TriggerBuilder.newTrigger().withIdentity("myTrigger", "triggerGroup");
 			Trigger trigger = triggerBuilder.startAt(triggerDate).withSchedule(schedBuilder).build();
 
-			JobDetail jobDetail = JobBuilder.newJob(ListenerJob.class).withIdentity("myJob", "jobGroup").build();
+			if (jobDetail == null) {
+				jobDetail = JobBuilder.newJob(ListenerJob.class).withIdentity("myJob", "jobGroup").build();
+			}
 
 			jobDetail.getJobDataMap().put("repositoryLocalService", repositoryLocalService);
 			jobDetail.getJobDataMap().put("libraryLocalService", libraryLocalService);
 			jobDetail.getJobDataMap().put("libraryListenerConfiguration", libraryListenerConfiguration);
 			jobDetail.getJobDataMap().put("mailService", mailService);
+
+			scheduler.deleteJob(jobDetail.getKey());
 
 			scheduler.scheduleJob(jobDetail, trigger);
 			scheduler.start();
@@ -66,7 +81,7 @@ public class ListenerScheduler {
 			System.out.println("scheduler started");
 		}
 		catch (SchedulerException e) {
-			System.out.println("with some exception, scheduler stoped");
+			e.printStackTrace();
 		}
 	}
 

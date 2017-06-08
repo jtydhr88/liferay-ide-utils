@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 import org.quartz.Job;
@@ -39,6 +40,8 @@ public class ListenerJob implements Job {
 				"libraryListenerConfiguration");
 
 		List<Repository> repositories = repositoryLocalService.getRepositories(-1, -1);
+
+		StringBuilder wholeMessage = new StringBuilder();
 
 		for (Repository repository : repositories) {
 			long repositoryId = repository.getRepositoryId();
@@ -95,17 +98,9 @@ public class ListenerJob implements Job {
 							messageSb.append(library.getCurrentVersion());
 							messageSb.append("\nthe following resource are using this library:\n");
 							messageSb.append(library.getResources());
-						}
 
-						String sender = libraryListenerConfiguration.emailSender();
-
-						String[] emailList = libraryListenerConfiguration.notifyEmailList();
-
-						for (String email : emailList) {
-							MailMessage msg = new MailMessage(new InternetAddress(sender), new InternetAddress(email),
-									library.getLibraryArtifactId() + "  Has Update", messageSb.toString(), true);
-
-							mailService.sendEmail(msg);
+							wholeMessage.append(messageSb.toString());
+							wholeMessage.append("<br />");
 						}
 					}
 					catch (Exception e) {
@@ -115,6 +110,24 @@ public class ListenerJob implements Job {
 								+ library.getLibraryArtifactId());
 					}
 				}
+			}
+		}
+
+		if (!wholeMessage.toString().equals("")) {
+			String sender = libraryListenerConfiguration.emailSender();
+
+			String[] emailList = libraryListenerConfiguration.notifyEmailList();
+
+			for (String email : emailList) {
+				try {
+					MailMessage msg = new MailMessage(new InternetAddress(sender), new InternetAddress(email),
+							"The libraries Has Update", wholeMessage.toString(), true);
+					mailService.sendEmail(msg);
+				}
+				catch (AddressException e) {
+					e.printStackTrace();
+				}
+
 			}
 		}
 	}
