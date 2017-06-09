@@ -85,9 +85,9 @@ public class ListenerJob implements Job {
 						messageSb.append(library.getLibraryArtifactId());
 						messageSb.append(" in repository ");
 						messageSb.append(repository.getRepositoryRootUrl());
-						messageSb.append(" has been updated: \nthe latest version is ");
+						messageSb.append(" has been updated: the latest version is ");
 						messageSb.append(latest);
-						messageSb.append("\n");
+						messageSb.append("<br />");
 
 						if (!library.getLatestVersion().equals(latest)) {
 							libraryLocalService.updateLibraryLatestVersion(library.getLibraryId(), latest);
@@ -95,9 +95,19 @@ public class ListenerJob implements Job {
 
 						if (!library.getCurrentVersion().equals(library.getLatestVersion())) {
 							messageSb.append("You current using ");
+							messageSb.append("<b>");
 							messageSb.append(library.getCurrentVersion());
-							messageSb.append("\nthe following resource are using this library:\n");
-							messageSb.append(library.getResources());
+							messageSb.append("<b />");
+							messageSb.append("<br />");
+							messageSb.append("the following resource are using this library:");
+							messageSb.append("<br />");
+
+							String[] resources = library.getResources().split("\\n");
+
+							for (String resource : resources) {
+								messageSb.append(resource);
+								messageSb.append("<br />");
+							}
 
 							wholeMessage.append(messageSb.toString());
 							wholeMessage.append("<br />");

@@ -64,9 +64,7 @@ public class ListenerScheduler {
 				TriggerBuilder.newTrigger().withIdentity("myTrigger", "triggerGroup");
 			Trigger trigger = triggerBuilder.startAt(triggerDate).withSchedule(schedBuilder).build();
 
-			if (jobDetail == null) {
-				jobDetail = JobBuilder.newJob(ListenerJob.class).withIdentity("myJob", "jobGroup").build();
-			}
+			jobDetail = JobBuilder.newJob(ListenerJob.class).withIdentity("myJob", "jobGroup").build();
 
 			jobDetail.getJobDataMap().put("repositoryLocalService", repositoryLocalService);
 			jobDetail.getJobDataMap().put("libraryLocalService", libraryLocalService);
