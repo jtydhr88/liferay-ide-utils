@@ -3,6 +3,7 @@ package com.liferay.ide.utils.library.listener.scheduler;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -26,6 +27,8 @@ import com.liferay.mail.kernel.service.MailService;
  * @author Terry Jia
  */
 public class ListenerJob implements Job {
+
+	private static Map<String,String> noticedMap = new HashMap<>();
 
 	@Override
 	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -79,38 +82,43 @@ public class ListenerJob implements Job {
 
 						StringBuilder messageSb = new StringBuilder();
 
-						messageSb.append("The library ");
-						messageSb.append(library.getLibraryGroupId());
-						messageSb.append(":");
-						messageSb.append(library.getLibraryArtifactId());
-						messageSb.append(" in repository ");
-						messageSb.append(repository.getRepositoryRootUrl());
-						messageSb.append(" has been updated: the latest version is ");
-						messageSb.append(latest);
-						messageSb.append("<br />");
+						if (!library.getLatestVersion().equals(latest)
+								&& (noticedMap.get(String.valueOf(library.getLibraryId())) == null
+										|| !noticedMap.get(String.valueOf(library.getLibraryId())).equals(latest))) {
 
-						if (!library.getLatestVersion().equals(latest)) {
 							libraryLocalService.updateLibraryLatestVersion(library.getLibraryId(), latest);
-						}
 
-						if (!library.getCurrentVersion().equals(library.getLatestVersion())) {
-							messageSb.append("You current using ");
-							messageSb.append("<b>");
-							messageSb.append(library.getCurrentVersion());
-							messageSb.append("<b />");
+							messageSb.append("The library ");
+							messageSb.append(library.getLibraryGroupId());
+							messageSb.append(":");
+							messageSb.append(library.getLibraryArtifactId());
+							messageSb.append(" in repository ");
+							messageSb.append(repository.getRepositoryRootUrl());
+							messageSb.append(" has been updated: the latest version is ");
+							messageSb.append(latest);
 							messageSb.append("<br />");
-							messageSb.append("the following resource are using this library:");
-							messageSb.append("<br />");
 
-							String[] resources = library.getResources().split("\\n");
-
-							for (String resource : resources) {
-								messageSb.append(resource);
+							if (!library.getCurrentVersion().equals(library.getLatestVersion())) {
+								messageSb.append("You current using ");
+								messageSb.append("<b>");
+								messageSb.append(library.getCurrentVersion());
+								messageSb.append("<b />");
 								messageSb.append("<br />");
+								messageSb.append("the following resource are using this library:");
+								messageSb.append("<br />");
+
+								String[] resources = library.getResources().split("\\n");
+
+								for (String resource : resources) {
+									messageSb.append(resource);
+									messageSb.append("<br />");
+								}
 							}
 
 							wholeMessage.append(messageSb.toString());
 							wholeMessage.append("<br />");
+
+							noticedMap.put(String.valueOf(library.getLibraryId()), library.getLatestVersion());
 						}
 					}
 					catch (Exception e) {
