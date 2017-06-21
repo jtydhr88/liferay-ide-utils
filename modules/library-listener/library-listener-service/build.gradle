@@ -4,6 +4,7 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "2.6.0"
 	compileOnly project(":modules:library-listener:library-listener-api")
+	dbSupport group: "mysql", name: "mysql-connector-java", version: "5.1.23"
 }
 
 buildService {
@@ -11,3 +12,9 @@ buildService {
 }
 
 group = "library.listener"
+
+/*replace the properties file location with your own*/
+
+cleanServiceBuilder { 
+	propertiesFile = "F:/liferay-bundle/liferay-ce-portal-tomcat-7.0-ga3/liferay-ce-portal-7.0-ga3/portal-ext.properties"
+}
