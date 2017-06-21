@@ -1,6 +1,5 @@
 package com.liferay.ide.utils.library.listener.scheduler;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +16,7 @@ import com.liferay.ide.utils.library.listener.model.Library;
 import com.liferay.ide.utils.library.listener.model.Repository;
 import com.liferay.ide.utils.library.listener.service.LibraryLocalService;
 import com.liferay.ide.utils.library.listener.service.RepositoryLocalService;
-import com.liferay.ide.utils.library.listener.utils.HttpUtils;
-import com.liferay.ide.utils.library.listener.utils.SaxService;
+import com.liferay.ide.utils.library.listener.utils.LibraryUtil;
 import com.liferay.mail.kernel.model.MailMessage;
 import com.liferay.mail.kernel.service.MailService;
 
@@ -59,34 +57,15 @@ public class ListenerJob implements Job {
 						String groupId = library.getLibraryGroupId();
 						String artifactId = library.getLibraryArtifactId();
 
-						StringBuilder sb = new StringBuilder();
-
-						sb.append(rootUrl);
-
-						String[] groupPaths = groupId.split("\\.");
-
-						for (String groupPath : groupPaths) {
-							sb.append(groupPath);
-							sb.append("/");
-						}
-
-						sb.append(artifactId);
-						sb.append("/");
-
-						sb.append("maven-metadata.xml");
-
-						InputStream inputStream = HttpUtils.getXML(sb.toString());
-
-						List<HashMap<String, String>> latestMap = SaxService.readXML(inputStream, "latest");
-						String latest = latestMap.get(0).get("latest");
+						String latestVersion = LibraryUtil.getLatestVersion( rootUrl, groupId, artifactId );
 
 						StringBuilder messageSb = new StringBuilder();
 
-						if (!library.getLatestVersion().equals(latest)
+						if (!library.getLatestVersion().equals(latestVersion) && latestVersion!= null
 								&& (noticedMap.get(String.valueOf(library.getLibraryId())) == null
-										|| !noticedMap.get(String.valueOf(library.getLibraryId())).equals(latest))) {
+										|| !noticedMap.get(String.valueOf(library.getLibraryId())).equals(latestVersion))) {
 
-							libraryLocalService.updateLibraryLatestVersion(library.getLibraryId(), latest);
+							libraryLocalService.updateLibraryLatestVersion(library.getLibraryId(), latestVersion);
 
 							messageSb.append("The library ");
 							messageSb.append(library.getLibraryGroupId());
@@ -95,7 +74,7 @@ public class ListenerJob implements Job {
 							messageSb.append(" in repository ");
 							messageSb.append(repository.getRepositoryRootUrl());
 							messageSb.append(" has been updated: the latest version is ");
-							messageSb.append(latest);
+							messageSb.append(latestVersion);
 							messageSb.append("<br />");
 
 							if (!library.getCurrentVersion().equals(library.getLatestVersion())) {

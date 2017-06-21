@@ -1,6 +1,7 @@
 package com.liferay.ide.utils.library.listener.portlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -9,6 +10,8 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -22,6 +25,7 @@ import com.liferay.ide.utils.library.listener.model.Repository;
 import com.liferay.ide.utils.library.listener.scheduler.ListenerScheduler;
 import com.liferay.ide.utils.library.listener.service.LibraryLocalService;
 import com.liferay.ide.utils.library.listener.service.RepositoryLocalService;
+import com.liferay.ide.utils.library.listener.utils.LibraryUtil;
 import com.liferay.mail.kernel.service.MailService;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -52,6 +56,58 @@ import com.liferay.portal.kernel.util.ParamUtil;
 	service = Portlet.class
 )
 public class LibraryListenerPortlet extends MVCPortlet {
+
+    @Override
+    public void serveResource( ResourceRequest resourceRequest, ResourceResponse resourceResponse )
+        throws IOException, PortletException
+    {
+
+        String repositoryId = resourceRequest.getParameter( "repositoryId" );
+        String libraryGroupId = resourceRequest.getParameter( "libraryGroupId" );
+        String artifactId = resourceRequest.getParameter( "artifactId" );
+        String repoRootUrl = null;
+        String latestVersion = null;
+
+        try
+        {
+            Repository repository = _repositoryLocalService.getRepository( Long.parseLong( repositoryId ) );
+            repoRootUrl = repository.getRepositoryRootUrl();
+
+            try
+            {
+                latestVersion = LibraryUtil.getLatestVersion( repoRootUrl, libraryGroupId, artifactId );
+            }
+            catch( Exception e )
+            {
+                e.printStackTrace();
+            }
+        }
+        catch( NumberFormatException e1 )
+        {
+            e1.printStackTrace();
+        }
+        catch( PortalException e1 )
+        {
+            e1.printStackTrace();
+        }
+
+        resourceResponse.setContentType( "text/html;charset=UTF-8" );
+        PrintWriter out = null;
+
+        try
+        {
+            out = resourceResponse.getWriter();
+        }
+        catch( IOException e )
+        {
+            e.printStackTrace();
+        }
+        out.println( latestVersion != null ? latestVersion : "can't get latest version" );
+        out.flush();
+        out.close();
+
+        super.serveResource( resourceRequest, resourceResponse );
+    }
 
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
