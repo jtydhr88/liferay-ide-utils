@@ -24,11 +24,16 @@
 
 		<!-- Other fields -->
 
+		<column name="environment" type="String" />
 		<column name="testCaseName" type="String" />
+		<column name="beforeTestCaseId" type="long" />
 		<column name="automatic" type="boolean" />
+		<column name="afterTestCaseId" type="long" />
 		<column name="steps" type="String" />
 		<column name="categroyId" type="long" />
 		<column name="expectedResults" type="String" />
+		<column name="developer" type="String" />
+		<column name="developerId" type="long" />
 
 		<column name="releases" type="Collection" entity="Release" mapping-table="TestCases_Releases" />
 
@@ -60,5 +65,39 @@
 		<column name="releaseName" type="String" />
 		<column name="testCases" type="Collection" entity="TestCase" mapping-table="TestCases_Releases" />
 		<column name="releaseDate" type="Date" />
+		<column name="isDefault" type="boolean" />
+	</entity>
+
+	<entity name="Test" local-service="true" remote-service="false">
+
+		<!-- PK fields -->
+
+		<column name="testId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="releaseId" type="long" />
+		<column name="testCaseId" type="long" />
+
+		<column name="actualResults" type="String" />
+		<column name="jiraLink" type="String" />
+		<column name="time" type="long" />
 	</entity>
 </service-builder>

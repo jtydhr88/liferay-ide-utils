@@ -221,6 +221,27 @@ public interface ReleaseModel extends BaseModel<Release>, GroupedModel,
 	 */
 	public void setReleaseDate(Date releaseDate);
 
+	/**
+	 * Returns the is default of this release.
+	 *
+	 * @return the is default of this release
+	 */
+	public boolean getIsDefault();
+
+	/**
+	 * Returns <code>true</code> if this release is is default.
+	 *
+	 * @return <code>true</code> if this release is is default; <code>false</code> otherwise
+	 */
+	public boolean isIsDefault();
+
+	/**
+	 * Sets whether this release is is default.
+	 *
+	 * @param isDefault the is default of this release
+	 */
+	public void setIsDefault(boolean isDefault);
+
 	@Override
 	public boolean isNew();
 

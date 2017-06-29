@@ -41,8 +41,7 @@ import aQute.bnd.annotation.ProviderType;
 public class ReleaseLocalServiceImpl extends ReleaseLocalServiceBaseImpl {
 
 	public Release addRelease(
-			String releaseName, String releaseRootUrl, String releaseUserName,
-			Date releaseDate, long[] testCaseIds, ServiceContext serviceContext)
+			String releaseName, Date releaseDate, long[] testCaseIds, boolean isDefault, ServiceContext serviceContext)
 		throws PortalException {
 
 		long releaseId = counterLocalService.increment();
@@ -67,8 +66,8 @@ public class ReleaseLocalServiceImpl extends ReleaseLocalServiceBaseImpl {
 	}
 
 	public Release updateRelease(
-			long releaseId, String releaseName, String releaseRootUrl, String releaseUserName,
-			Date releaseDate, long[] testCaseIds, ServiceContext serviceContext)
+			long releaseId, String releaseName, Date releaseDate, long[] testCaseIds, boolean isDefault,
+			ServiceContext serviceContext)
 		throws PortalException {
 
 		Release release = releasePersistence.fetchByPrimaryKey(releaseId);

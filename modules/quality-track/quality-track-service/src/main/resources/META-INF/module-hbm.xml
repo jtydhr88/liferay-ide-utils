@@ -3,6 +3,7 @@
 
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="com.liferay.ide.utils.quality.track.model.Release" />
+	<import class="com.liferay.ide.utils.quality.track.model.Test" />
 	<import class="com.liferay.ide.utils.quality.track.model.TestCase" />
 	<class name="com.liferay.ide.utils.quality.track.model.impl.ReleaseImpl" table="qualitytrack_Release">
 		<id name="releaseId" type="long">
@@ -16,6 +17,27 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="releaseName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="releaseDate" type="org.hibernate.type.TimestampType" />
+		<property name="isDefault" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.liferay.ide.utils.quality.track.model.impl.TestImpl" table="qualitytrack_Test">
+		<id name="testId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusByUserId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="statusByUserName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="statusDate" type="org.hibernate.type.TimestampType" />
+		<property name="releaseId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="testCaseId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="actualResults" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="jiraLink" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="time_" name="time" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.liferay.ide.utils.quality.track.model.impl.TestCaseImpl" table="qualitytrack_TestCase">
 		<id name="testCaseId" type="long">
@@ -27,10 +49,15 @@
 		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="environment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="testCaseName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="beforeTestCaseId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="automatic" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="afterTestCaseId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="steps" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="categroyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="expectedResults" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="developer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="developerId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

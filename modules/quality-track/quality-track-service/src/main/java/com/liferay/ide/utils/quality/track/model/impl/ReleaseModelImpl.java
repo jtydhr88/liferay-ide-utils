@@ -73,7 +73,8 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "releaseName", Types.VARCHAR },
-			{ "releaseDate", Types.TIMESTAMP }
+			{ "releaseDate", Types.TIMESTAMP },
+			{ "isDefault", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -87,9 +88,10 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("releaseName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("releaseDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("isDefault", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table qualitytrack_Release (releaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,releaseName VARCHAR(75) null,releaseDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table qualitytrack_Release (releaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,releaseName VARCHAR(75) null,releaseDate DATE null,isDefault BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table qualitytrack_Release";
 	public static final String ORDER_BY_JPQL = " ORDER BY release.releaseId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY qualitytrack_Release.releaseId ASC";
@@ -166,6 +168,7 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("releaseName", getReleaseName());
 		attributes.put("releaseDate", getReleaseDate());
+		attributes.put("isDefault", getIsDefault());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -227,6 +230,12 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 
 		if (releaseDate != null) {
 			setReleaseDate(releaseDate);
+		}
+
+		Boolean isDefault = (Boolean)attributes.get("isDefault");
+
+		if (isDefault != null) {
+			setIsDefault(isDefault);
 		}
 	}
 
@@ -353,6 +362,21 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 	}
 
 	@Override
+	public boolean getIsDefault() {
+		return _isDefault;
+	}
+
+	@Override
+	public boolean isIsDefault() {
+		return _isDefault;
+	}
+
+	@Override
+	public void setIsDefault(boolean isDefault) {
+		_isDefault = isDefault;
+	}
+
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Release.class.getName(), getPrimaryKey());
@@ -388,6 +412,7 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 		releaseImpl.setModifiedDate(getModifiedDate());
 		releaseImpl.setReleaseName(getReleaseName());
 		releaseImpl.setReleaseDate(getReleaseDate());
+		releaseImpl.setIsDefault(getIsDefault());
 
 		releaseImpl.resetOriginalValues();
 
@@ -508,12 +533,14 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 			releaseCacheModel.releaseDate = Long.MIN_VALUE;
 		}
 
+		releaseCacheModel.isDefault = getIsDefault();
+
 		return releaseCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{releaseId=");
 		sb.append(getReleaseId());
@@ -533,6 +560,8 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 		sb.append(getReleaseName());
 		sb.append(", releaseDate=");
 		sb.append(getReleaseDate());
+		sb.append(", isDefault=");
+		sb.append(getIsDefault());
 		sb.append("}");
 
 		return sb.toString();
@@ -540,7 +569,7 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.ide.utils.quality.track.model.Release");
@@ -582,6 +611,10 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 			"<column><column-name>releaseDate</column-name><column-value><![CDATA[");
 		sb.append(getReleaseDate());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isDefault</column-name><column-value><![CDATA[");
+		sb.append(getIsDefault());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -602,5 +635,6 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 	private boolean _setModifiedDate;
 	private String _releaseName;
 	private Date _releaseDate;
+	private boolean _isDefault;
 	private Release _escapedModel;
 }

@@ -40,11 +40,16 @@ public class TestCaseSoap implements Serializable {
 		soapModel.setUserName(model.getUserName());
 		soapModel.setCreateDate(model.getCreateDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
+		soapModel.setEnvironment(model.getEnvironment());
 		soapModel.setTestCaseName(model.getTestCaseName());
+		soapModel.setBeforeTestCaseId(model.getBeforeTestCaseId());
 		soapModel.setAutomatic(model.getAutomatic());
+		soapModel.setAfterTestCaseId(model.getAfterTestCaseId());
 		soapModel.setSteps(model.getSteps());
 		soapModel.setCategroyId(model.getCategroyId());
 		soapModel.setExpectedResults(model.getExpectedResults());
+		soapModel.setDeveloper(model.getDeveloper());
+		soapModel.setDeveloperId(model.getDeveloperId());
 
 		return soapModel;
 	}
@@ -153,12 +158,28 @@ public class TestCaseSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
+	public String getEnvironment() {
+		return _environment;
+	}
+
+	public void setEnvironment(String environment) {
+		_environment = environment;
+	}
+
 	public String getTestCaseName() {
 		return _testCaseName;
 	}
 
 	public void setTestCaseName(String testCaseName) {
 		_testCaseName = testCaseName;
+	}
+
+	public long getBeforeTestCaseId() {
+		return _beforeTestCaseId;
+	}
+
+	public void setBeforeTestCaseId(long beforeTestCaseId) {
+		_beforeTestCaseId = beforeTestCaseId;
 	}
 
 	public boolean getAutomatic() {
@@ -171,6 +192,14 @@ public class TestCaseSoap implements Serializable {
 
 	public void setAutomatic(boolean automatic) {
 		_automatic = automatic;
+	}
+
+	public long getAfterTestCaseId() {
+		return _afterTestCaseId;
+	}
+
+	public void setAfterTestCaseId(long afterTestCaseId) {
+		_afterTestCaseId = afterTestCaseId;
 	}
 
 	public String getSteps() {
@@ -197,6 +226,22 @@ public class TestCaseSoap implements Serializable {
 		_expectedResults = expectedResults;
 	}
 
+	public String getDeveloper() {
+		return _developer;
+	}
+
+	public void setDeveloper(String developer) {
+		_developer = developer;
+	}
+
+	public long getDeveloperId() {
+		return _developerId;
+	}
+
+	public void setDeveloperId(long developerId) {
+		_developerId = developerId;
+	}
+
 	private long _testCaseId;
 	private long _groupId;
 	private long _companyId;
@@ -204,9 +249,14 @@ public class TestCaseSoap implements Serializable {
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
+	private String _environment;
 	private String _testCaseName;
+	private long _beforeTestCaseId;
 	private boolean _automatic;
+	private long _afterTestCaseId;
 	private String _steps;
 	private long _categroyId;
 	private String _expectedResults;
+	private String _developer;
+	private long _developerId;
 }

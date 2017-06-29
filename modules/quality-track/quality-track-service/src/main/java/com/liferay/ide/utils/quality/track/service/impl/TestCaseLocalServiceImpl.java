@@ -39,8 +39,9 @@ import aQute.bnd.annotation.ProviderType;
 public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
 
 	public TestCase addTestCase(
-			String testCaseName, boolean automatic, String steps, long categroyId,
-			String expectedResults, ServiceContext serviceContext)
+			String testCaseName, String environment, long beforeTestCaseId, long afterTestCaseId,
+			boolean automatic, String steps, long categroyId, String expectedResults, String developer,
+			long developerId, ServiceContext serviceContext)
 		throws PortalException {
 
 		long testCaseId = counterLocalService.increment();
@@ -53,10 +54,15 @@ public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
 		testCase.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
 
 		testCase.setTestCaseName(testCaseName);
+		testCase.setEnvironment(environment);
+		testCase.setBeforeTestCaseId(beforeTestCaseId);
+		testCase.setAfterTestCaseId(afterTestCaseId);
 		testCase.setAutomatic(automatic);
 		testCase.setSteps(steps);
 		testCase.setCategroyId(categroyId);
 		testCase.setExpectedResults(expectedResults);
+		testCase.setDeveloper(developer);
+		testCase.setDeveloperId(developerId);
 
 		testCase.setCreateDate(serviceContext.getCreateDate(null));
 
@@ -66,8 +72,9 @@ public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
 	}
 
 	public TestCase updateTestCase(
-			long testCaseId, String testCaseName, boolean automatic, String steps,
-			long categroyId, String expectedResults, ServiceContext serviceContext)
+			long testCaseId, String testCaseName, String environment, long beforeTestCaseId, long afterTestCaseId,
+			boolean automatic, String steps, long categroyId, String expectedResults, String developer,
+			long developerId, ServiceContext serviceContext)
 		throws PortalException {
 
 		TestCase testCase = testCasePersistence.fetchByPrimaryKey(testCaseId);
@@ -76,11 +83,15 @@ public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
 		testCase.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
 
 		testCase.setTestCaseName(testCaseName);
-		testCase.setTestCaseName(testCaseName);
+		testCase.setEnvironment(environment);
+		testCase.setBeforeTestCaseId(beforeTestCaseId);
+		testCase.setAfterTestCaseId(afterTestCaseId);
 		testCase.setAutomatic(automatic);
 		testCase.setSteps(steps);
 		testCase.setCategroyId(categroyId);
 		testCase.setExpectedResults(expectedResults);
+		testCase.setDeveloper(developer);
+		testCase.setDeveloperId(developerId);
 
 		testCase.setModifiedDate(serviceContext.getModifiedDate());
 

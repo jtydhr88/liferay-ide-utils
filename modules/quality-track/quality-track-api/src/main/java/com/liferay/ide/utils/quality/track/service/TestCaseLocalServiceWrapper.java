@@ -57,13 +57,16 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 
 	@Override
 	public com.liferay.ide.utils.quality.track.model.TestCase addTestCase(
-		java.lang.String testCaseName, boolean automatic,
+		java.lang.String testCaseName, java.lang.String environment,
+		long beforeTestCaseId, long afterTestCaseId, boolean automatic,
 		java.lang.String steps, long categroyId,
-		java.lang.String expectedResults,
+		java.lang.String expectedResults, java.lang.String developer,
+		long developerId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _testCaseLocalService.addTestCase(testCaseName, automatic,
-			steps, categroyId, expectedResults, serviceContext);
+		return _testCaseLocalService.addTestCase(testCaseName, environment,
+			beforeTestCaseId, afterTestCaseId, automatic, steps, categroyId,
+			expectedResults, developer, developerId, serviceContext);
 	}
 
 	/**
@@ -138,13 +141,16 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 
 	@Override
 	public com.liferay.ide.utils.quality.track.model.TestCase updateTestCase(
-		long testCaseId, java.lang.String testCaseName, boolean automatic,
-		java.lang.String steps, long categroyId,
-		java.lang.String expectedResults,
+		long testCaseId, java.lang.String testCaseName,
+		java.lang.String environment, long beforeTestCaseId,
+		long afterTestCaseId, boolean automatic, java.lang.String steps,
+		long categroyId, java.lang.String expectedResults,
+		java.lang.String developer, long developerId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _testCaseLocalService.updateTestCase(testCaseId, testCaseName,
-			automatic, steps, categroyId, expectedResults, serviceContext);
+			environment, beforeTestCaseId, afterTestCaseId, automatic, steps,
+			categroyId, expectedResults, developer, developerId, serviceContext);
 	}
 
 	@Override

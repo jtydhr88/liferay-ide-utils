@@ -23,6 +23,7 @@ import com.liferay.ide.utils.quality.track.model.TestCase;
 import com.liferay.ide.utils.quality.track.service.TestCaseLocalService;
 import com.liferay.ide.utils.quality.track.service.persistence.ReleasePersistence;
 import com.liferay.ide.utils.quality.track.service.persistence.TestCasePersistence;
+import com.liferay.ide.utils.quality.track.service.persistence.TestPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -476,6 +477,43 @@ public abstract class TestCaseLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the test local service.
+	 *
+	 * @return the test local service
+	 */
+	public com.liferay.ide.utils.quality.track.service.TestLocalService getTestLocalService() {
+		return testLocalService;
+	}
+
+	/**
+	 * Sets the test local service.
+	 *
+	 * @param testLocalService the test local service
+	 */
+	public void setTestLocalService(
+		com.liferay.ide.utils.quality.track.service.TestLocalService testLocalService) {
+		this.testLocalService = testLocalService;
+	}
+
+	/**
+	 * Returns the test persistence.
+	 *
+	 * @return the test persistence
+	 */
+	public TestPersistence getTestPersistence() {
+		return testPersistence;
+	}
+
+	/**
+	 * Sets the test persistence.
+	 *
+	 * @param testPersistence the test persistence
+	 */
+	public void setTestPersistence(TestPersistence testPersistence) {
+		this.testPersistence = testPersistence;
+	}
+
+	/**
 	 * Returns the test case local service.
 	 *
 	 * @return the test case local service
@@ -756,6 +794,10 @@ public abstract class TestCaseLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected com.liferay.ide.utils.quality.track.service.ReleaseLocalService releaseLocalService;
 	@BeanReference(type = ReleasePersistence.class)
 	protected ReleasePersistence releasePersistence;
+	@BeanReference(type = com.liferay.ide.utils.quality.track.service.TestLocalService.class)
+	protected com.liferay.ide.utils.quality.track.service.TestLocalService testLocalService;
+	@BeanReference(type = TestPersistence.class)
+	protected TestPersistence testPersistence;
 	@BeanReference(type = TestCaseLocalService.class)
 	protected TestCaseLocalService testCaseLocalService;
 	@BeanReference(type = TestCasePersistence.class)

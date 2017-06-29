@@ -42,6 +42,7 @@ public class ReleaseSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setReleaseName(model.getReleaseName());
 		soapModel.setReleaseDate(model.getReleaseDate());
+		soapModel.setIsDefault(model.getIsDefault());
 
 		return soapModel;
 	}
@@ -166,6 +167,18 @@ public class ReleaseSoap implements Serializable {
 		_releaseDate = releaseDate;
 	}
 
+	public boolean getIsDefault() {
+		return _isDefault;
+	}
+
+	public boolean isIsDefault() {
+		return _isDefault;
+	}
+
+	public void setIsDefault(boolean isDefault) {
+		_isDefault = isDefault;
+	}
+
 	private long _releaseId;
 	private long _groupId;
 	private long _companyId;
@@ -175,4 +188,5 @@ public class ReleaseSoap implements Serializable {
 	private Date _modifiedDate;
 	private String _releaseName;
 	private Date _releaseDate;
+	private boolean _isDefault;
 }

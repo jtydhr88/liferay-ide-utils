@@ -64,11 +64,16 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("environment", getEnvironment());
 		attributes.put("testCaseName", getTestCaseName());
+		attributes.put("beforeTestCaseId", getBeforeTestCaseId());
 		attributes.put("automatic", getAutomatic());
+		attributes.put("afterTestCaseId", getAfterTestCaseId());
 		attributes.put("steps", getSteps());
 		attributes.put("categroyId", getCategroyId());
 		attributes.put("expectedResults", getExpectedResults());
+		attributes.put("developer", getDeveloper());
+		attributes.put("developerId", getDeveloperId());
 
 		return attributes;
 	}
@@ -117,16 +122,34 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 			setModifiedDate(modifiedDate);
 		}
 
+		String environment = (String)attributes.get("environment");
+
+		if (environment != null) {
+			setEnvironment(environment);
+		}
+
 		String testCaseName = (String)attributes.get("testCaseName");
 
 		if (testCaseName != null) {
 			setTestCaseName(testCaseName);
 		}
 
+		Long beforeTestCaseId = (Long)attributes.get("beforeTestCaseId");
+
+		if (beforeTestCaseId != null) {
+			setBeforeTestCaseId(beforeTestCaseId);
+		}
+
 		Boolean automatic = (Boolean)attributes.get("automatic");
 
 		if (automatic != null) {
 			setAutomatic(automatic);
+		}
+
+		Long afterTestCaseId = (Long)attributes.get("afterTestCaseId");
+
+		if (afterTestCaseId != null) {
+			setAfterTestCaseId(afterTestCaseId);
 		}
 
 		String steps = (String)attributes.get("steps");
@@ -145,6 +168,18 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 
 		if (expectedResults != null) {
 			setExpectedResults(expectedResults);
+		}
+
+		String developer = (String)attributes.get("developer");
+
+		if (developer != null) {
+			setDeveloper(developer);
+		}
+
+		Long developerId = (Long)attributes.get("developerId");
+
+		if (developerId != null) {
+			setDeveloperId(developerId);
 		}
 	}
 
@@ -221,6 +256,26 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 	@Override
 	public java.lang.Object clone() {
 		return new TestCaseWrapper((TestCase)_testCase.clone());
+	}
+
+	/**
+	* Returns the developer of this test case.
+	*
+	* @return the developer of this test case
+	*/
+	@Override
+	public java.lang.String getDeveloper() {
+		return _testCase.getDeveloper();
+	}
+
+	/**
+	* Returns the environment of this test case.
+	*
+	* @return the environment of this test case
+	*/
+	@Override
+	public java.lang.String getEnvironment() {
+		return _testCase.getEnvironment();
 	}
 
 	/**
@@ -304,6 +359,26 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 	}
 
 	/**
+	* Returns the after test case ID of this test case.
+	*
+	* @return the after test case ID of this test case
+	*/
+	@Override
+	public long getAfterTestCaseId() {
+		return _testCase.getAfterTestCaseId();
+	}
+
+	/**
+	* Returns the before test case ID of this test case.
+	*
+	* @return the before test case ID of this test case
+	*/
+	@Override
+	public long getBeforeTestCaseId() {
+		return _testCase.getBeforeTestCaseId();
+	}
+
+	/**
 	* Returns the categroy ID of this test case.
 	*
 	* @return the categroy ID of this test case
@@ -321,6 +396,16 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 	@Override
 	public long getCompanyId() {
 		return _testCase.getCompanyId();
+	}
+
+	/**
+	* Returns the developer ID of this test case.
+	*
+	* @return the developer ID of this test case
+	*/
+	@Override
+	public long getDeveloperId() {
+		return _testCase.getDeveloperId();
 	}
 
 	/**
@@ -369,6 +454,16 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 	}
 
 	/**
+	* Sets the after test case ID of this test case.
+	*
+	* @param afterTestCaseId the after test case ID of this test case
+	*/
+	@Override
+	public void setAfterTestCaseId(long afterTestCaseId) {
+		_testCase.setAfterTestCaseId(afterTestCaseId);
+	}
+
+	/**
 	* Sets whether this test case is automatic.
 	*
 	* @param automatic the automatic of this test case
@@ -376,6 +471,16 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 	@Override
 	public void setAutomatic(boolean automatic) {
 		_testCase.setAutomatic(automatic);
+	}
+
+	/**
+	* Sets the before test case ID of this test case.
+	*
+	* @param beforeTestCaseId the before test case ID of this test case
+	*/
+	@Override
+	public void setBeforeTestCaseId(long beforeTestCaseId) {
+		_testCase.setBeforeTestCaseId(beforeTestCaseId);
 	}
 
 	@Override
@@ -411,6 +516,36 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 	@Override
 	public void setCreateDate(Date createDate) {
 		_testCase.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets the developer of this test case.
+	*
+	* @param developer the developer of this test case
+	*/
+	@Override
+	public void setDeveloper(java.lang.String developer) {
+		_testCase.setDeveloper(developer);
+	}
+
+	/**
+	* Sets the developer ID of this test case.
+	*
+	* @param developerId the developer ID of this test case
+	*/
+	@Override
+	public void setDeveloperId(long developerId) {
+		_testCase.setDeveloperId(developerId);
+	}
+
+	/**
+	* Sets the environment of this test case.
+	*
+	* @param environment the environment of this test case
+	*/
+	@Override
+	public void setEnvironment(java.lang.String environment) {
+		_testCase.setEnvironment(environment);
 	}
 
 	@Override

@@ -3,6 +3,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean class="com.liferay.ide.utils.quality.track.service.impl.ReleaseLocalServiceImpl" id="com.liferay.ide.utils.quality.track.service.ReleaseLocalService" />
 	<bean class="com.liferay.ide.utils.quality.track.service.persistence.impl.ReleasePersistenceImpl" id="com.liferay.ide.utils.quality.track.service.persistence.ReleasePersistence" parent="basePersistence" />
+	<bean class="com.liferay.ide.utils.quality.track.service.impl.TestLocalServiceImpl" id="com.liferay.ide.utils.quality.track.service.TestLocalService" />
+	<bean class="com.liferay.ide.utils.quality.track.service.persistence.impl.TestPersistenceImpl" id="com.liferay.ide.utils.quality.track.service.persistence.TestPersistence" parent="basePersistence" />
 	<bean class="com.liferay.ide.utils.quality.track.service.impl.TestCaseLocalServiceImpl" id="com.liferay.ide.utils.quality.track.service.TestCaseLocalService" />
 	<bean class="com.liferay.ide.utils.quality.track.service.persistence.impl.TestCasePersistenceImpl" id="com.liferay.ide.utils.quality.track.service.persistence.TestCasePersistence" parent="basePersistence" />
 </beans>

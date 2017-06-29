@@ -65,7 +65,7 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{testCaseId=");
 		sb.append(testCaseId);
@@ -81,16 +81,26 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", environment=");
+		sb.append(environment);
 		sb.append(", testCaseName=");
 		sb.append(testCaseName);
+		sb.append(", beforeTestCaseId=");
+		sb.append(beforeTestCaseId);
 		sb.append(", automatic=");
 		sb.append(automatic);
+		sb.append(", afterTestCaseId=");
+		sb.append(afterTestCaseId);
 		sb.append(", steps=");
 		sb.append(steps);
 		sb.append(", categroyId=");
 		sb.append(categroyId);
 		sb.append(", expectedResults=");
 		sb.append(expectedResults);
+		sb.append(", developer=");
+		sb.append(developer);
+		sb.append(", developerId=");
+		sb.append(developerId);
 		sb.append("}");
 
 		return sb.toString();
@@ -126,6 +136,13 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 			testCaseImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
+		if (environment == null) {
+			testCaseImpl.setEnvironment(StringPool.BLANK);
+		}
+		else {
+			testCaseImpl.setEnvironment(environment);
+		}
+
 		if (testCaseName == null) {
 			testCaseImpl.setTestCaseName(StringPool.BLANK);
 		}
@@ -133,7 +150,9 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 			testCaseImpl.setTestCaseName(testCaseName);
 		}
 
+		testCaseImpl.setBeforeTestCaseId(beforeTestCaseId);
 		testCaseImpl.setAutomatic(automatic);
+		testCaseImpl.setAfterTestCaseId(afterTestCaseId);
 
 		if (steps == null) {
 			testCaseImpl.setSteps(StringPool.BLANK);
@@ -150,6 +169,15 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 		else {
 			testCaseImpl.setExpectedResults(expectedResults);
 		}
+
+		if (developer == null) {
+			testCaseImpl.setDeveloper(StringPool.BLANK);
+		}
+		else {
+			testCaseImpl.setDeveloper(developer);
+		}
+
+		testCaseImpl.setDeveloperId(developerId);
 
 		testCaseImpl.resetOriginalValues();
 
@@ -168,13 +196,21 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+		environment = objectInput.readUTF();
 		testCaseName = objectInput.readUTF();
 
+		beforeTestCaseId = objectInput.readLong();
+
 		automatic = objectInput.readBoolean();
+
+		afterTestCaseId = objectInput.readLong();
 		steps = objectInput.readUTF();
 
 		categroyId = objectInput.readLong();
 		expectedResults = objectInput.readUTF();
+		developer = objectInput.readUTF();
+
+		developerId = objectInput.readLong();
 	}
 
 	@Override
@@ -198,6 +234,13 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
+		if (environment == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(environment);
+		}
+
 		if (testCaseName == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -205,7 +248,11 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 			objectOutput.writeUTF(testCaseName);
 		}
 
+		objectOutput.writeLong(beforeTestCaseId);
+
 		objectOutput.writeBoolean(automatic);
+
+		objectOutput.writeLong(afterTestCaseId);
 
 		if (steps == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -222,6 +269,15 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 		else {
 			objectOutput.writeUTF(expectedResults);
 		}
+
+		if (developer == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(developer);
+		}
+
+		objectOutput.writeLong(developerId);
 	}
 
 	public long testCaseId;
@@ -231,9 +287,14 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public String environment;
 	public String testCaseName;
+	public long beforeTestCaseId;
 	public boolean automatic;
+	public long afterTestCaseId;
 	public String steps;
 	public long categroyId;
 	public String expectedResults;
+	public String developer;
+	public long developerId;
 }

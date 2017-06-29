@@ -61,14 +61,13 @@ public class ReleaseLocalServiceUtil {
 	}
 
 	public static com.liferay.ide.utils.quality.track.model.Release addRelease(
-		java.lang.String releaseName, java.lang.String releaseRootUrl,
-		java.lang.String releaseUserName, java.util.Date releaseDate,
-		long[] testCaseIds,
+		java.lang.String releaseName, java.util.Date releaseDate,
+		long[] testCaseIds, boolean isDefault,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
-				   .addRelease(releaseName, releaseRootUrl, releaseUserName,
-			releaseDate, testCaseIds, serviceContext);
+				   .addRelease(releaseName, releaseDate, testCaseIds,
+			isDefault, serviceContext);
 	}
 
 	/**
@@ -137,13 +136,12 @@ public class ReleaseLocalServiceUtil {
 
 	public static com.liferay.ide.utils.quality.track.model.Release updateRelease(
 		long releaseId, java.lang.String releaseName,
-		java.lang.String releaseRootUrl, java.lang.String releaseUserName,
-		java.util.Date releaseDate, long[] testCaseIds,
+		java.util.Date releaseDate, long[] testCaseIds, boolean isDefault,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
-				   .updateRelease(releaseId, releaseName, releaseRootUrl,
-			releaseUserName, releaseDate, testCaseIds, serviceContext);
+				   .updateRelease(releaseId, releaseName, releaseDate,
+			testCaseIds, isDefault, serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

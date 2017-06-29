@@ -61,14 +61,17 @@ public class TestCaseLocalServiceUtil {
 	}
 
 	public static com.liferay.ide.utils.quality.track.model.TestCase addTestCase(
-		java.lang.String testCaseName, boolean automatic,
+		java.lang.String testCaseName, java.lang.String environment,
+		long beforeTestCaseId, long afterTestCaseId, boolean automatic,
 		java.lang.String steps, long categroyId,
-		java.lang.String expectedResults,
+		java.lang.String expectedResults, java.lang.String developer,
+		long developerId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
-				   .addTestCase(testCaseName, automatic, steps, categroyId,
-			expectedResults, serviceContext);
+				   .addTestCase(testCaseName, environment, beforeTestCaseId,
+			afterTestCaseId, automatic, steps, categroyId, expectedResults,
+			developer, developerId, serviceContext);
 	}
 
 	/**
@@ -136,14 +139,17 @@ public class TestCaseLocalServiceUtil {
 	}
 
 	public static com.liferay.ide.utils.quality.track.model.TestCase updateTestCase(
-		long testCaseId, java.lang.String testCaseName, boolean automatic,
-		java.lang.String steps, long categroyId,
-		java.lang.String expectedResults,
+		long testCaseId, java.lang.String testCaseName,
+		java.lang.String environment, long beforeTestCaseId,
+		long afterTestCaseId, boolean automatic, java.lang.String steps,
+		long categroyId, java.lang.String expectedResults,
+		java.lang.String developer, long developerId,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
-				   .updateTestCase(testCaseId, testCaseName, automatic, steps,
-			categroyId, expectedResults, serviceContext);
+				   .updateTestCase(testCaseId, testCaseName, environment,
+			beforeTestCaseId, afterTestCaseId, automatic, steps, categroyId,
+			expectedResults, developer, developerId, serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

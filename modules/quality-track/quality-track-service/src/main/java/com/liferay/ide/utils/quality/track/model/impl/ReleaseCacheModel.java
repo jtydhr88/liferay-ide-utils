@@ -65,7 +65,7 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{releaseId=");
 		sb.append(releaseId);
@@ -85,6 +85,8 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 		sb.append(releaseName);
 		sb.append(", releaseDate=");
 		sb.append(releaseDate);
+		sb.append(", isDefault=");
+		sb.append(isDefault);
 		sb.append("}");
 
 		return sb.toString();
@@ -134,6 +136,8 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 			releaseImpl.setReleaseDate(new Date(releaseDate));
 		}
 
+		releaseImpl.setIsDefault(isDefault);
+
 		releaseImpl.resetOriginalValues();
 
 		return releaseImpl;
@@ -153,6 +157,8 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 		modifiedDate = objectInput.readLong();
 		releaseName = objectInput.readUTF();
 		releaseDate = objectInput.readLong();
+
+		isDefault = objectInput.readBoolean();
 	}
 
 	@Override
@@ -184,6 +190,8 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 		}
 
 		objectOutput.writeLong(releaseDate);
+
+		objectOutput.writeBoolean(isDefault);
 	}
 
 	public long releaseId;
@@ -195,4 +203,5 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 	public long modifiedDate;
 	public String releaseName;
 	public long releaseDate;
+	public boolean isDefault;
 }

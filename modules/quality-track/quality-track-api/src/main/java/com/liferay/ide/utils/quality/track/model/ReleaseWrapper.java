@@ -66,6 +66,7 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("releaseName", getReleaseName());
 		attributes.put("releaseDate", getReleaseDate());
+		attributes.put("isDefault", getIsDefault());
 
 		return attributes;
 	}
@@ -125,6 +126,12 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 		if (releaseDate != null) {
 			setReleaseDate(releaseDate);
 		}
+
+		Boolean isDefault = (Boolean)attributes.get("isDefault");
+
+		if (isDefault != null) {
+			setIsDefault(isDefault);
+		}
 	}
 
 	@Override
@@ -137,6 +144,16 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 		return new ReleaseWrapper(_release.toUnescapedModel());
 	}
 
+	/**
+	* Returns the is default of this release.
+	*
+	* @return the is default of this release
+	*/
+	@Override
+	public boolean getIsDefault() {
+		return _release.getIsDefault();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _release.isCachedModel();
@@ -145,6 +162,16 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 	@Override
 	public boolean isEscapedModel() {
 		return _release.isEscapedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this release is is default.
+	*
+	* @return <code>true</code> if this release is is default; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsDefault() {
+		return _release.isIsDefault();
 	}
 
 	@Override
@@ -356,6 +383,16 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 	@Override
 	public void setGroupId(long groupId) {
 		_release.setGroupId(groupId);
+	}
+
+	/**
+	* Sets whether this release is is default.
+	*
+	* @param isDefault the is default of this release
+	*/
+	@Override
+	public void setIsDefault(boolean isDefault) {
+		_release.setIsDefault(isDefault);
 	}
 
 	/**

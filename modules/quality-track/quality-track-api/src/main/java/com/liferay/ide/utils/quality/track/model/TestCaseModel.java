@@ -193,6 +193,21 @@ public interface TestCaseModel extends BaseModel<TestCase>, GroupedModel,
 	public void setModifiedDate(Date modifiedDate);
 
 	/**
+	 * Returns the environment of this test case.
+	 *
+	 * @return the environment of this test case
+	 */
+	@AutoEscape
+	public String getEnvironment();
+
+	/**
+	 * Sets the environment of this test case.
+	 *
+	 * @param environment the environment of this test case
+	 */
+	public void setEnvironment(String environment);
+
+	/**
 	 * Returns the test case name of this test case.
 	 *
 	 * @return the test case name of this test case
@@ -206,6 +221,20 @@ public interface TestCaseModel extends BaseModel<TestCase>, GroupedModel,
 	 * @param testCaseName the test case name of this test case
 	 */
 	public void setTestCaseName(String testCaseName);
+
+	/**
+	 * Returns the before test case ID of this test case.
+	 *
+	 * @return the before test case ID of this test case
+	 */
+	public long getBeforeTestCaseId();
+
+	/**
+	 * Sets the before test case ID of this test case.
+	 *
+	 * @param beforeTestCaseId the before test case ID of this test case
+	 */
+	public void setBeforeTestCaseId(long beforeTestCaseId);
 
 	/**
 	 * Returns the automatic of this test case.
@@ -227,6 +256,20 @@ public interface TestCaseModel extends BaseModel<TestCase>, GroupedModel,
 	 * @param automatic the automatic of this test case
 	 */
 	public void setAutomatic(boolean automatic);
+
+	/**
+	 * Returns the after test case ID of this test case.
+	 *
+	 * @return the after test case ID of this test case
+	 */
+	public long getAfterTestCaseId();
+
+	/**
+	 * Sets the after test case ID of this test case.
+	 *
+	 * @param afterTestCaseId the after test case ID of this test case
+	 */
+	public void setAfterTestCaseId(long afterTestCaseId);
 
 	/**
 	 * Returns the steps of this test case.
@@ -271,6 +314,35 @@ public interface TestCaseModel extends BaseModel<TestCase>, GroupedModel,
 	 * @param expectedResults the expected results of this test case
 	 */
 	public void setExpectedResults(String expectedResults);
+
+	/**
+	 * Returns the developer of this test case.
+	 *
+	 * @return the developer of this test case
+	 */
+	@AutoEscape
+	public String getDeveloper();
+
+	/**
+	 * Sets the developer of this test case.
+	 *
+	 * @param developer the developer of this test case
+	 */
+	public void setDeveloper(String developer);
+
+	/**
+	 * Returns the developer ID of this test case.
+	 *
+	 * @return the developer ID of this test case
+	 */
+	public long getDeveloperId();
+
+	/**
+	 * Sets the developer ID of this test case.
+	 *
+	 * @param developerId the developer ID of this test case
+	 */
+	public void setDeveloperId(long developerId);
 
 	@Override
 	public boolean isNew();

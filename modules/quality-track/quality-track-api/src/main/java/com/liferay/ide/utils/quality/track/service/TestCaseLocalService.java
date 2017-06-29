@@ -77,9 +77,11 @@ public interface TestCaseLocalService extends BaseLocalService,
 	public TestCase addTestCase(TestCase testCase);
 
 	public TestCase addTestCase(java.lang.String testCaseName,
-		boolean automatic, java.lang.String steps, long categroyId,
-		java.lang.String expectedResults, ServiceContext serviceContext)
-		throws PortalException;
+		java.lang.String environment, long beforeTestCaseId,
+		long afterTestCaseId, boolean automatic, java.lang.String steps,
+		long categroyId, java.lang.String expectedResults,
+		java.lang.String developer, long developerId,
+		ServiceContext serviceContext) throws PortalException;
 
 	/**
 	* Creates a new test case with the primary key. Does not add the test case to the database.
@@ -131,9 +133,11 @@ public interface TestCaseLocalService extends BaseLocalService,
 	public TestCase updateTestCase(TestCase testCase);
 
 	public TestCase updateTestCase(long testCaseId,
-		java.lang.String testCaseName, boolean automatic,
+		java.lang.String testCaseName, java.lang.String environment,
+		long beforeTestCaseId, long afterTestCaseId, boolean automatic,
 		java.lang.String steps, long categroyId,
-		java.lang.String expectedResults, ServiceContext serviceContext)
+		java.lang.String expectedResults, java.lang.String developer,
+		long developerId, ServiceContext serviceContext)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

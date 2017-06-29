@@ -7,7 +7,27 @@ create table qualitytrack_Release (
 	createDate DATE null,
 	modifiedDate DATE null,
 	releaseName VARCHAR(75) null,
-	releaseDate DATE null
+	releaseDate DATE null,
+	isDefault BOOLEAN
+);
+
+create table qualitytrack_Test (
+	testId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	releaseId LONG,
+	testCaseId LONG,
+	actualResults VARCHAR(75) null,
+	jiraLink VARCHAR(75) null,
+	time_ LONG
 );
 
 create table qualitytrack_TestCase (
@@ -18,11 +38,16 @@ create table qualitytrack_TestCase (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
+	environment VARCHAR(75) null,
 	testCaseName VARCHAR(75) null,
+	beforeTestCaseId LONG,
 	automatic BOOLEAN,
+	afterTestCaseId LONG,
 	steps VARCHAR(75) null,
 	categroyId LONG,
-	expectedResults VARCHAR(75) null
+	expectedResults VARCHAR(75) null,
+	developer VARCHAR(75) null,
+	developerId LONG
 );
 
 create table qualitytrack_TestCases_Releases (

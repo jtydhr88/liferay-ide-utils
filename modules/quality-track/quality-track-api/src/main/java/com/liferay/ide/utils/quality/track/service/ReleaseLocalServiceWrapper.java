@@ -56,13 +56,12 @@ public class ReleaseLocalServiceWrapper implements ReleaseLocalService,
 
 	@Override
 	public com.liferay.ide.utils.quality.track.model.Release addRelease(
-		java.lang.String releaseName, java.lang.String releaseRootUrl,
-		java.lang.String releaseUserName, java.util.Date releaseDate,
-		long[] testCaseIds,
+		java.lang.String releaseName, java.util.Date releaseDate,
+		long[] testCaseIds, boolean isDefault,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _releaseLocalService.addRelease(releaseName, releaseRootUrl,
-			releaseUserName, releaseDate, testCaseIds, serviceContext);
+		return _releaseLocalService.addRelease(releaseName, releaseDate,
+			testCaseIds, isDefault, serviceContext);
 	}
 
 	/**
@@ -138,13 +137,11 @@ public class ReleaseLocalServiceWrapper implements ReleaseLocalService,
 	@Override
 	public com.liferay.ide.utils.quality.track.model.Release updateRelease(
 		long releaseId, java.lang.String releaseName,
-		java.lang.String releaseRootUrl, java.lang.String releaseUserName,
-		java.util.Date releaseDate, long[] testCaseIds,
+		java.util.Date releaseDate, long[] testCaseIds, boolean isDefault,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _releaseLocalService.updateRelease(releaseId, releaseName,
-			releaseRootUrl, releaseUserName, releaseDate, testCaseIds,
-			serviceContext);
+			releaseDate, testCaseIds, isDefault, serviceContext);
 	}
 
 	@Override

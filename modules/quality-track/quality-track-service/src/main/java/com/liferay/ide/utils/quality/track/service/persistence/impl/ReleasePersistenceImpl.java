@@ -358,6 +358,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		releaseImpl.setModifiedDate(release.getModifiedDate());
 		releaseImpl.setReleaseName(release.getReleaseName());
 		releaseImpl.setReleaseDate(release.getReleaseDate());
+		releaseImpl.setIsDefault(release.isIsDefault());
 
 		return releaseImpl;
 	}

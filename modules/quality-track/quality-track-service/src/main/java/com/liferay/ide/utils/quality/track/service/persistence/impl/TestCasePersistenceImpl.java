@@ -357,11 +357,16 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 		testCaseImpl.setUserName(testCase.getUserName());
 		testCaseImpl.setCreateDate(testCase.getCreateDate());
 		testCaseImpl.setModifiedDate(testCase.getModifiedDate());
+		testCaseImpl.setEnvironment(testCase.getEnvironment());
 		testCaseImpl.setTestCaseName(testCase.getTestCaseName());
+		testCaseImpl.setBeforeTestCaseId(testCase.getBeforeTestCaseId());
 		testCaseImpl.setAutomatic(testCase.isAutomatic());
+		testCaseImpl.setAfterTestCaseId(testCase.getAfterTestCaseId());
 		testCaseImpl.setSteps(testCase.getSteps());
 		testCaseImpl.setCategroyId(testCase.getCategroyId());
 		testCaseImpl.setExpectedResults(testCase.getExpectedResults());
+		testCaseImpl.setDeveloper(testCase.getDeveloper());
+		testCaseImpl.setDeveloperId(testCase.getDeveloperId());
 
 		return testCaseImpl;
 	}

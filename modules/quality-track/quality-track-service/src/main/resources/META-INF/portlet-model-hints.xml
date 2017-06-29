@@ -11,6 +11,25 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="releaseName" type="String" />
 		<field name="releaseDate" type="Date" />
+		<field name="isDefault" type="boolean" />
+	</model>
+	<model name="com.liferay.ide.utils.quality.track.model.Test">
+		<field name="testId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="releaseId" type="long" />
+		<field name="testCaseId" type="long" />
+		<field name="actualResults" type="String" />
+		<field name="jiraLink" type="String" />
+		<field name="time" type="long" />
 	</model>
 	<model name="com.liferay.ide.utils.quality.track.model.TestCase">
 		<field name="testCaseId" type="long" />
@@ -20,10 +39,15 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="environment" type="String" />
 		<field name="testCaseName" type="String" />
+		<field name="beforeTestCaseId" type="long" />
 		<field name="automatic" type="boolean" />
+		<field name="afterTestCaseId" type="long" />
 		<field name="steps" type="String" />
 		<field name="categroyId" type="long" />
 		<field name="expectedResults" type="String" />
+		<field name="developer" type="String" />
+		<field name="developerId" type="long" />
 	</model>
 </model-hints>

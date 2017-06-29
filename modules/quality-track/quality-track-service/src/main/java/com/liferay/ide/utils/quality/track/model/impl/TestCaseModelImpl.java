@@ -72,11 +72,16 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 			{ "userName", Types.VARCHAR },
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
+			{ "environment", Types.VARCHAR },
 			{ "testCaseName", Types.VARCHAR },
+			{ "beforeTestCaseId", Types.BIGINT },
 			{ "automatic", Types.BOOLEAN },
+			{ "afterTestCaseId", Types.BIGINT },
 			{ "steps", Types.VARCHAR },
 			{ "categroyId", Types.BIGINT },
-			{ "expectedResults", Types.VARCHAR }
+			{ "expectedResults", Types.VARCHAR },
+			{ "developer", Types.VARCHAR },
+			{ "developerId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -88,14 +93,19 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("environment", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("testCaseName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("beforeTestCaseId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("automatic", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("afterTestCaseId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("steps", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("categroyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("expectedResults", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("developer", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("developerId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table qualitytrack_TestCase (testCaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,testCaseName VARCHAR(75) null,automatic BOOLEAN,steps VARCHAR(75) null,categroyId LONG,expectedResults VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table qualitytrack_TestCase (testCaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,environment VARCHAR(75) null,testCaseName VARCHAR(75) null,beforeTestCaseId LONG,automatic BOOLEAN,afterTestCaseId LONG,steps VARCHAR(75) null,categroyId LONG,expectedResults VARCHAR(75) null,developer VARCHAR(75) null,developerId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table qualitytrack_TestCase";
 	public static final String ORDER_BY_JPQL = " ORDER BY testCase.testCaseId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY qualitytrack_TestCase.testCaseId ASC";
@@ -170,11 +180,16 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		attributes.put("userName", getUserName());
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
+		attributes.put("environment", getEnvironment());
 		attributes.put("testCaseName", getTestCaseName());
+		attributes.put("beforeTestCaseId", getBeforeTestCaseId());
 		attributes.put("automatic", getAutomatic());
+		attributes.put("afterTestCaseId", getAfterTestCaseId());
 		attributes.put("steps", getSteps());
 		attributes.put("categroyId", getCategroyId());
 		attributes.put("expectedResults", getExpectedResults());
+		attributes.put("developer", getDeveloper());
+		attributes.put("developerId", getDeveloperId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -226,16 +241,34 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 			setModifiedDate(modifiedDate);
 		}
 
+		String environment = (String)attributes.get("environment");
+
+		if (environment != null) {
+			setEnvironment(environment);
+		}
+
 		String testCaseName = (String)attributes.get("testCaseName");
 
 		if (testCaseName != null) {
 			setTestCaseName(testCaseName);
 		}
 
+		Long beforeTestCaseId = (Long)attributes.get("beforeTestCaseId");
+
+		if (beforeTestCaseId != null) {
+			setBeforeTestCaseId(beforeTestCaseId);
+		}
+
 		Boolean automatic = (Boolean)attributes.get("automatic");
 
 		if (automatic != null) {
 			setAutomatic(automatic);
+		}
+
+		Long afterTestCaseId = (Long)attributes.get("afterTestCaseId");
+
+		if (afterTestCaseId != null) {
+			setAfterTestCaseId(afterTestCaseId);
 		}
 
 		String steps = (String)attributes.get("steps");
@@ -254,6 +287,18 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 
 		if (expectedResults != null) {
 			setExpectedResults(expectedResults);
+		}
+
+		String developer = (String)attributes.get("developer");
+
+		if (developer != null) {
+			setDeveloper(developer);
+		}
+
+		Long developerId = (Long)attributes.get("developerId");
+
+		if (developerId != null) {
+			setDeveloperId(developerId);
 		}
 	}
 
@@ -355,6 +400,21 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 	}
 
 	@Override
+	public String getEnvironment() {
+		if (_environment == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _environment;
+		}
+	}
+
+	@Override
+	public void setEnvironment(String environment) {
+		_environment = environment;
+	}
+
+	@Override
 	public String getTestCaseName() {
 		if (_testCaseName == null) {
 			return StringPool.BLANK;
@@ -370,6 +430,16 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 	}
 
 	@Override
+	public long getBeforeTestCaseId() {
+		return _beforeTestCaseId;
+	}
+
+	@Override
+	public void setBeforeTestCaseId(long beforeTestCaseId) {
+		_beforeTestCaseId = beforeTestCaseId;
+	}
+
+	@Override
 	public boolean getAutomatic() {
 		return _automatic;
 	}
@@ -382,6 +452,16 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 	@Override
 	public void setAutomatic(boolean automatic) {
 		_automatic = automatic;
+	}
+
+	@Override
+	public long getAfterTestCaseId() {
+		return _afterTestCaseId;
+	}
+
+	@Override
+	public void setAfterTestCaseId(long afterTestCaseId) {
+		_afterTestCaseId = afterTestCaseId;
 	}
 
 	@Override
@@ -425,6 +505,31 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 	}
 
 	@Override
+	public String getDeveloper() {
+		if (_developer == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _developer;
+		}
+	}
+
+	@Override
+	public void setDeveloper(String developer) {
+		_developer = developer;
+	}
+
+	@Override
+	public long getDeveloperId() {
+		return _developerId;
+	}
+
+	@Override
+	public void setDeveloperId(long developerId) {
+		_developerId = developerId;
+	}
+
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			TestCase.class.getName(), getPrimaryKey());
@@ -458,11 +563,16 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		testCaseImpl.setUserName(getUserName());
 		testCaseImpl.setCreateDate(getCreateDate());
 		testCaseImpl.setModifiedDate(getModifiedDate());
+		testCaseImpl.setEnvironment(getEnvironment());
 		testCaseImpl.setTestCaseName(getTestCaseName());
+		testCaseImpl.setBeforeTestCaseId(getBeforeTestCaseId());
 		testCaseImpl.setAutomatic(getAutomatic());
+		testCaseImpl.setAfterTestCaseId(getAfterTestCaseId());
 		testCaseImpl.setSteps(getSteps());
 		testCaseImpl.setCategroyId(getCategroyId());
 		testCaseImpl.setExpectedResults(getExpectedResults());
+		testCaseImpl.setDeveloper(getDeveloper());
+		testCaseImpl.setDeveloperId(getDeveloperId());
 
 		testCaseImpl.resetOriginalValues();
 
@@ -566,6 +676,14 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 			testCaseCacheModel.modifiedDate = Long.MIN_VALUE;
 		}
 
+		testCaseCacheModel.environment = getEnvironment();
+
+		String environment = testCaseCacheModel.environment;
+
+		if ((environment != null) && (environment.length() == 0)) {
+			testCaseCacheModel.environment = null;
+		}
+
 		testCaseCacheModel.testCaseName = getTestCaseName();
 
 		String testCaseName = testCaseCacheModel.testCaseName;
@@ -574,7 +692,11 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 			testCaseCacheModel.testCaseName = null;
 		}
 
+		testCaseCacheModel.beforeTestCaseId = getBeforeTestCaseId();
+
 		testCaseCacheModel.automatic = getAutomatic();
+
+		testCaseCacheModel.afterTestCaseId = getAfterTestCaseId();
 
 		testCaseCacheModel.steps = getSteps();
 
@@ -594,12 +716,22 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 			testCaseCacheModel.expectedResults = null;
 		}
 
+		testCaseCacheModel.developer = getDeveloper();
+
+		String developer = testCaseCacheModel.developer;
+
+		if ((developer != null) && (developer.length() == 0)) {
+			testCaseCacheModel.developer = null;
+		}
+
+		testCaseCacheModel.developerId = getDeveloperId();
+
 		return testCaseCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{testCaseId=");
 		sb.append(getTestCaseId());
@@ -615,16 +747,26 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		sb.append(getCreateDate());
 		sb.append(", modifiedDate=");
 		sb.append(getModifiedDate());
+		sb.append(", environment=");
+		sb.append(getEnvironment());
 		sb.append(", testCaseName=");
 		sb.append(getTestCaseName());
+		sb.append(", beforeTestCaseId=");
+		sb.append(getBeforeTestCaseId());
 		sb.append(", automatic=");
 		sb.append(getAutomatic());
+		sb.append(", afterTestCaseId=");
+		sb.append(getAfterTestCaseId());
 		sb.append(", steps=");
 		sb.append(getSteps());
 		sb.append(", categroyId=");
 		sb.append(getCategroyId());
 		sb.append(", expectedResults=");
 		sb.append(getExpectedResults());
+		sb.append(", developer=");
+		sb.append(getDeveloper());
+		sb.append(", developerId=");
+		sb.append(getDeveloperId());
 		sb.append("}");
 
 		return sb.toString();
@@ -632,7 +774,7 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(40);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.ide.utils.quality.track.model.TestCase");
@@ -667,12 +809,24 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>environment</column-name><column-value><![CDATA[");
+		sb.append(getEnvironment());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>testCaseName</column-name><column-value><![CDATA[");
 		sb.append(getTestCaseName());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>beforeTestCaseId</column-name><column-value><![CDATA[");
+		sb.append(getBeforeTestCaseId());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>automatic</column-name><column-value><![CDATA[");
 		sb.append(getAutomatic());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>afterTestCaseId</column-name><column-value><![CDATA[");
+		sb.append(getAfterTestCaseId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>steps</column-name><column-value><![CDATA[");
@@ -685,6 +839,14 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		sb.append(
 			"<column><column-name>expectedResults</column-name><column-value><![CDATA[");
 		sb.append(getExpectedResults());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>developer</column-name><column-value><![CDATA[");
+		sb.append(getDeveloper());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>developerId</column-name><column-value><![CDATA[");
+		sb.append(getDeveloperId());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -704,10 +866,15 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+	private String _environment;
 	private String _testCaseName;
+	private long _beforeTestCaseId;
 	private boolean _automatic;
+	private long _afterTestCaseId;
 	private String _steps;
 	private long _categroyId;
 	private String _expectedResults;
+	private String _developer;
+	private long _developerId;
 	private TestCase _escapedModel;
 }
