@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.ide.utils.quality.track.model.Release">
+		<field name="releaseId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="releaseName" type="String" />
+		<field name="releaseDate" type="Date" />
+	</model>
+	<model name="com.liferay.ide.utils.quality.track.model.TestCase">
+		<field name="testCaseId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="testCaseName" type="String" />
+		<field name="automatic" type="boolean" />
+		<field name="steps" type="String" />
+		<field name="categroyId" type="long" />
+		<field name="expectedResults" type="String" />
+	</model>
+</model-hints>

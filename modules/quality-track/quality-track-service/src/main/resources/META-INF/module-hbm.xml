@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="com.liferay.ide.utils.quality.track.model.Release" />
+	<import class="com.liferay.ide.utils.quality.track.model.TestCase" />
+	<class name="com.liferay.ide.utils.quality.track.model.impl.ReleaseImpl" table="qualitytrack_Release">
+		<id name="releaseId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="releaseName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="releaseDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="com.liferay.ide.utils.quality.track.model.impl.TestCaseImpl" table="qualitytrack_TestCase">
+		<id name="testCaseId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="testCaseName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="automatic" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="steps" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="categroyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="expectedResults" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>
