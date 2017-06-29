@@ -103,6 +103,20 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 				"value.object.finder.cache.enabled.com.liferay.ide.utils.quality.track.model.Release"),
 			true);
 	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final String MAPPING_TABLE_QUALITYTRACK_TESTCASES_RELEASES_NAME =
+		"qualitytrack_TestCases_Releases";
+	public static final Object[][] MAPPING_TABLE_QUALITYTRACK_TESTCASES_RELEASES_COLUMNS =
+		{
+			{ "companyId", Types.BIGINT },
+			{ "releaseId", Types.BIGINT },
+			{ "testCaseId", Types.BIGINT }
+		};
+	public static final String MAPPING_TABLE_QUALITYTRACK_TESTCASES_RELEASES_SQL_CREATE =
+		"create table qualitytrack_TestCases_Releases (companyId LONG not null,releaseId LONG not null,testCaseId LONG not null,primary key (releaseId, testCaseId))";
+	public static final boolean FINDER_CACHE_ENABLED_QUALITYTRACK_TESTCASES_RELEASES =
+		GetterUtil.getBoolean(quality.track.service.util.ServiceProps.get(
+				"value.object.finder.cache.enabled.qualitytrack_TestCases_Releases"),
+			true);
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(quality.track.service.util.ServiceProps.get(
 				"lock.expiration.time.com.liferay.ide.utils.quality.track.model.Release"));
 

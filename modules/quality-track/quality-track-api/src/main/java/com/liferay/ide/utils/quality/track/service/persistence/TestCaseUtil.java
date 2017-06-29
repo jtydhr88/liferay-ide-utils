@@ -257,6 +257,208 @@ public class TestCaseUtil {
 		return getPersistence().countAll();
 	}
 
+	/**
+	* Returns the primaryKeys of releases associated with the test case.
+	*
+	* @param pk the primary key of the test case
+	* @return long[] of the primaryKeys of releases associated with the test case
+	*/
+	public static long[] getReleasePrimaryKeys(long pk) {
+		return getPersistence().getReleasePrimaryKeys(pk);
+	}
+
+	/**
+	* Returns all the releases associated with the test case.
+	*
+	* @param pk the primary key of the test case
+	* @return the releases associated with the test case
+	*/
+	public static List<com.liferay.ide.utils.quality.track.model.Release> getReleases(
+		long pk) {
+		return getPersistence().getReleases(pk);
+	}
+
+	/**
+	* Returns a range of all the releases associated with the test case.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TestCaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param pk the primary key of the test case
+	* @param start the lower bound of the range of test cases
+	* @param end the upper bound of the range of test cases (not inclusive)
+	* @return the range of releases associated with the test case
+	*/
+	public static List<com.liferay.ide.utils.quality.track.model.Release> getReleases(
+		long pk, int start, int end) {
+		return getPersistence().getReleases(pk, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the releases associated with the test case.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TestCaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param pk the primary key of the test case
+	* @param start the lower bound of the range of test cases
+	* @param end the upper bound of the range of test cases (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of releases associated with the test case
+	*/
+	public static List<com.liferay.ide.utils.quality.track.model.Release> getReleases(
+		long pk, int start, int end,
+		OrderByComparator<com.liferay.ide.utils.quality.track.model.Release> orderByComparator) {
+		return getPersistence().getReleases(pk, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns the number of releases associated with the test case.
+	*
+	* @param pk the primary key of the test case
+	* @return the number of releases associated with the test case
+	*/
+	public static int getReleasesSize(long pk) {
+		return getPersistence().getReleasesSize(pk);
+	}
+
+	/**
+	* Returns <code>true</code> if the release is associated with the test case.
+	*
+	* @param pk the primary key of the test case
+	* @param releasePK the primary key of the release
+	* @return <code>true</code> if the release is associated with the test case; <code>false</code> otherwise
+	*/
+	public static boolean containsRelease(long pk, long releasePK) {
+		return getPersistence().containsRelease(pk, releasePK);
+	}
+
+	/**
+	* Returns <code>true</code> if the test case has any releases associated with it.
+	*
+	* @param pk the primary key of the test case to check for associations with releases
+	* @return <code>true</code> if the test case has any releases associated with it; <code>false</code> otherwise
+	*/
+	public static boolean containsReleases(long pk) {
+		return getPersistence().containsReleases(pk);
+	}
+
+	/**
+	* Adds an association between the test case and the release. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param releasePK the primary key of the release
+	*/
+	public static void addRelease(long pk, long releasePK) {
+		getPersistence().addRelease(pk, releasePK);
+	}
+
+	/**
+	* Adds an association between the test case and the release. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param release the release
+	*/
+	public static void addRelease(long pk,
+		com.liferay.ide.utils.quality.track.model.Release release) {
+		getPersistence().addRelease(pk, release);
+	}
+
+	/**
+	* Adds an association between the test case and the releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param releasePKs the primary keys of the releases
+	*/
+	public static void addReleases(long pk, long[] releasePKs) {
+		getPersistence().addReleases(pk, releasePKs);
+	}
+
+	/**
+	* Adds an association between the test case and the releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param releases the releases
+	*/
+	public static void addReleases(long pk,
+		List<com.liferay.ide.utils.quality.track.model.Release> releases) {
+		getPersistence().addReleases(pk, releases);
+	}
+
+	/**
+	* Clears all associations between the test case and its releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case to clear the associated releases from
+	*/
+	public static void clearReleases(long pk) {
+		getPersistence().clearReleases(pk);
+	}
+
+	/**
+	* Removes the association between the test case and the release. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param releasePK the primary key of the release
+	*/
+	public static void removeRelease(long pk, long releasePK) {
+		getPersistence().removeRelease(pk, releasePK);
+	}
+
+	/**
+	* Removes the association between the test case and the release. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param release the release
+	*/
+	public static void removeRelease(long pk,
+		com.liferay.ide.utils.quality.track.model.Release release) {
+		getPersistence().removeRelease(pk, release);
+	}
+
+	/**
+	* Removes the association between the test case and the releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param releasePKs the primary keys of the releases
+	*/
+	public static void removeReleases(long pk, long[] releasePKs) {
+		getPersistence().removeReleases(pk, releasePKs);
+	}
+
+	/**
+	* Removes the association between the test case and the releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param releases the releases
+	*/
+	public static void removeReleases(long pk,
+		List<com.liferay.ide.utils.quality.track.model.Release> releases) {
+		getPersistence().removeReleases(pk, releases);
+	}
+
+	/**
+	* Sets the releases associated with the test case, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param releasePKs the primary keys of the releases to be associated with the test case
+	*/
+	public static void setReleases(long pk, long[] releasePKs) {
+		getPersistence().setReleases(pk, releasePKs);
+	}
+
+	/**
+	* Sets the releases associated with the test case, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	*
+	* @param pk the primary key of the test case
+	* @param releases the releases to be associated with the test case
+	*/
+	public static void setReleases(long pk,
+		List<com.liferay.ide.utils.quality.track.model.Release> releases) {
+		getPersistence().setReleases(pk, releases);
+	}
+
 	public static TestCasePersistence getPersistence() {
 		return _serviceTracker.getService();
 	}

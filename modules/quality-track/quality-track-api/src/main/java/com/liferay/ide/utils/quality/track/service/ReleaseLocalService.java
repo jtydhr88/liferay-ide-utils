@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -36,6 +37,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,6 +62,11 @@ public interface ReleaseLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ReleaseLocalServiceUtil} to access the release local service. Add custom service methods to {@link com.liferay.ide.utils.quality.track.service.impl.ReleaseLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasTestCaseRelease(long testCaseId, long releaseId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasTestCaseReleases(long testCaseId);
 
 	/**
 	* Adds the release to the database. Also notifies the appropriate model listeners.
@@ -69,6 +76,11 @@ public interface ReleaseLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Release addRelease(Release release);
+
+	public Release addRelease(java.lang.String releaseName,
+		java.lang.String releaseRootUrl, java.lang.String releaseUserName,
+		Date releaseDate, long[] testCaseIds, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	* Creates a new release with the primary key. Does not add the release to the database.
@@ -119,6 +131,11 @@ public interface ReleaseLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Release updateRelease(Release release);
 
+	public Release updateRelease(long releaseId, java.lang.String releaseName,
+		java.lang.String releaseRootUrl, java.lang.String releaseUserName,
+		Date releaseDate, long[] testCaseIds, ServiceContext serviceContext)
+		throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -146,6 +163,9 @@ public interface ReleaseLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getReleasesCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getTestCaseReleasesCount(long testCaseId);
 
 	/**
 	* Returns the OSGi service identifier.
@@ -207,6 +227,16 @@ public interface ReleaseLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Release> getReleases(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Release> getTestCaseReleases(long testCaseId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Release> getTestCaseReleases(long testCaseId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Release> getTestCaseReleases(long testCaseId, int start,
+		int end, OrderByComparator<Release> orderByComparator);
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -224,4 +254,33 @@ public interface ReleaseLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Returns the testCaseIds of the test cases associated with the release.
+	*
+	* @param releaseId the releaseId of the release
+	* @return long[] the testCaseIds of test cases associated with the release
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long[] getTestCasePrimaryKeys(long releaseId);
+
+	public void addTestCaseRelease(long testCaseId, Release release);
+
+	public void addTestCaseRelease(long testCaseId, long releaseId);
+
+	public void addTestCaseReleases(long testCaseId, List<Release> releases);
+
+	public void addTestCaseReleases(long testCaseId, long[] releaseIds);
+
+	public void clearTestCaseReleases(long testCaseId);
+
+	public void deleteTestCaseRelease(long testCaseId, Release release);
+
+	public void deleteTestCaseRelease(long testCaseId, long releaseId);
+
+	public void deleteTestCaseReleases(long testCaseId, List<Release> releases);
+
+	public void deleteTestCaseReleases(long testCaseId, long[] releaseIds);
+
+	public void setTestCaseReleases(long testCaseId, long[] releaseIds);
 }

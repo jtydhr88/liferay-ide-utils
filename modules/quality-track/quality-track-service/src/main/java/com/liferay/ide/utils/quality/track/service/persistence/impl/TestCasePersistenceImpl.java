@@ -20,8 +20,10 @@ import com.liferay.ide.utils.quality.track.exception.NoSuchTestCaseException;
 import com.liferay.ide.utils.quality.track.model.TestCase;
 import com.liferay.ide.utils.quality.track.model.impl.TestCaseImpl;
 import com.liferay.ide.utils.quality.track.model.impl.TestCaseModelImpl;
+import com.liferay.ide.utils.quality.track.service.persistence.ReleasePersistence;
 import com.liferay.ide.utils.quality.track.service.persistence.TestCasePersistence;
 
+import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -35,7 +37,12 @@ import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.CompanyProvider;
 import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
+import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -237,6 +244,8 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 	@Override
 	protected TestCase removeImpl(TestCase testCase) {
 		testCase = toUnwrappedModel(testCase);
+
+		testCaseToReleaseTableMapper.deleteLeftPrimaryKeyTableMappings(testCase.getPrimaryKey());
 
 		Session session = null;
 
@@ -736,6 +745,308 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 		return count.intValue();
 	}
 
+	/**
+	 * Returns the primaryKeys of releases associated with the test case.
+	 *
+	 * @param pk the primary key of the test case
+	 * @return long[] of the primaryKeys of releases associated with the test case
+	 */
+	@Override
+	public long[] getReleasePrimaryKeys(long pk) {
+		long[] pks = testCaseToReleaseTableMapper.getRightPrimaryKeys(pk);
+
+		return pks.clone();
+	}
+
+	/**
+	 * Returns all the releases associated with the test case.
+	 *
+	 * @param pk the primary key of the test case
+	 * @return the releases associated with the test case
+	 */
+	@Override
+	public List<com.liferay.ide.utils.quality.track.model.Release> getReleases(
+		long pk) {
+		return getReleases(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+	}
+
+	/**
+	 * Returns a range of all the releases associated with the test case.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TestCaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the test case
+	 * @param start the lower bound of the range of test cases
+	 * @param end the upper bound of the range of test cases (not inclusive)
+	 * @return the range of releases associated with the test case
+	 */
+	@Override
+	public List<com.liferay.ide.utils.quality.track.model.Release> getReleases(
+		long pk, int start, int end) {
+		return getReleases(pk, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the releases associated with the test case.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TestCaseModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param pk the primary key of the test case
+	 * @param start the lower bound of the range of test cases
+	 * @param end the upper bound of the range of test cases (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of releases associated with the test case
+	 */
+	@Override
+	public List<com.liferay.ide.utils.quality.track.model.Release> getReleases(
+		long pk, int start, int end,
+		OrderByComparator<com.liferay.ide.utils.quality.track.model.Release> orderByComparator) {
+		return testCaseToReleaseTableMapper.getRightBaseModels(pk, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * Returns the number of releases associated with the test case.
+	 *
+	 * @param pk the primary key of the test case
+	 * @return the number of releases associated with the test case
+	 */
+	@Override
+	public int getReleasesSize(long pk) {
+		long[] pks = testCaseToReleaseTableMapper.getRightPrimaryKeys(pk);
+
+		return pks.length;
+	}
+
+	/**
+	 * Returns <code>true</code> if the release is associated with the test case.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releasePK the primary key of the release
+	 * @return <code>true</code> if the release is associated with the test case; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean containsRelease(long pk, long releasePK) {
+		return testCaseToReleaseTableMapper.containsTableMapping(pk, releasePK);
+	}
+
+	/**
+	 * Returns <code>true</code> if the test case has any releases associated with it.
+	 *
+	 * @param pk the primary key of the test case to check for associations with releases
+	 * @return <code>true</code> if the test case has any releases associated with it; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean containsReleases(long pk) {
+		if (getReleasesSize(pk) > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds an association between the test case and the release. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releasePK the primary key of the release
+	 */
+	@Override
+	public void addRelease(long pk, long releasePK) {
+		TestCase testCase = fetchByPrimaryKey(pk);
+
+		if (testCase == null) {
+			testCaseToReleaseTableMapper.addTableMapping(companyProvider.getCompanyId(),
+				pk, releasePK);
+		}
+		else {
+			testCaseToReleaseTableMapper.addTableMapping(testCase.getCompanyId(),
+				pk, releasePK);
+		}
+	}
+
+	/**
+	 * Adds an association between the test case and the release. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param release the release
+	 */
+	@Override
+	public void addRelease(long pk,
+		com.liferay.ide.utils.quality.track.model.Release release) {
+		TestCase testCase = fetchByPrimaryKey(pk);
+
+		if (testCase == null) {
+			testCaseToReleaseTableMapper.addTableMapping(companyProvider.getCompanyId(),
+				pk, release.getPrimaryKey());
+		}
+		else {
+			testCaseToReleaseTableMapper.addTableMapping(testCase.getCompanyId(),
+				pk, release.getPrimaryKey());
+		}
+	}
+
+	/**
+	 * Adds an association between the test case and the releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releasePKs the primary keys of the releases
+	 */
+	@Override
+	public void addReleases(long pk, long[] releasePKs) {
+		long companyId = 0;
+
+		TestCase testCase = fetchByPrimaryKey(pk);
+
+		if (testCase == null) {
+			companyId = companyProvider.getCompanyId();
+		}
+		else {
+			companyId = testCase.getCompanyId();
+		}
+
+		testCaseToReleaseTableMapper.addTableMappings(companyId, pk, releasePKs);
+	}
+
+	/**
+	 * Adds an association between the test case and the releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releases the releases
+	 */
+	@Override
+	public void addReleases(long pk,
+		List<com.liferay.ide.utils.quality.track.model.Release> releases) {
+		addReleases(pk,
+			ListUtil.toLongArray(releases,
+				com.liferay.ide.utils.quality.track.model.Release.RELEASE_ID_ACCESSOR));
+	}
+
+	/**
+	 * Clears all associations between the test case and its releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case to clear the associated releases from
+	 */
+	@Override
+	public void clearReleases(long pk) {
+		testCaseToReleaseTableMapper.deleteLeftPrimaryKeyTableMappings(pk);
+	}
+
+	/**
+	 * Removes the association between the test case and the release. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releasePK the primary key of the release
+	 */
+	@Override
+	public void removeRelease(long pk, long releasePK) {
+		testCaseToReleaseTableMapper.deleteTableMapping(pk, releasePK);
+	}
+
+	/**
+	 * Removes the association between the test case and the release. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param release the release
+	 */
+	@Override
+	public void removeRelease(long pk,
+		com.liferay.ide.utils.quality.track.model.Release release) {
+		testCaseToReleaseTableMapper.deleteTableMapping(pk,
+			release.getPrimaryKey());
+	}
+
+	/**
+	 * Removes the association between the test case and the releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releasePKs the primary keys of the releases
+	 */
+	@Override
+	public void removeReleases(long pk, long[] releasePKs) {
+		testCaseToReleaseTableMapper.deleteTableMappings(pk, releasePKs);
+	}
+
+	/**
+	 * Removes the association between the test case and the releases. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releases the releases
+	 */
+	@Override
+	public void removeReleases(long pk,
+		List<com.liferay.ide.utils.quality.track.model.Release> releases) {
+		removeReleases(pk,
+			ListUtil.toLongArray(releases,
+				com.liferay.ide.utils.quality.track.model.Release.RELEASE_ID_ACCESSOR));
+	}
+
+	/**
+	 * Sets the releases associated with the test case, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releasePKs the primary keys of the releases to be associated with the test case
+	 */
+	@Override
+	public void setReleases(long pk, long[] releasePKs) {
+		Set<Long> newReleasePKsSet = SetUtil.fromArray(releasePKs);
+		Set<Long> oldReleasePKsSet = SetUtil.fromArray(testCaseToReleaseTableMapper.getRightPrimaryKeys(
+					pk));
+
+		Set<Long> removeReleasePKsSet = new HashSet<Long>(oldReleasePKsSet);
+
+		removeReleasePKsSet.removeAll(newReleasePKsSet);
+
+		testCaseToReleaseTableMapper.deleteTableMappings(pk,
+			ArrayUtil.toLongArray(removeReleasePKsSet));
+
+		newReleasePKsSet.removeAll(oldReleasePKsSet);
+
+		long companyId = 0;
+
+		TestCase testCase = fetchByPrimaryKey(pk);
+
+		if (testCase == null) {
+			companyId = companyProvider.getCompanyId();
+		}
+		else {
+			companyId = testCase.getCompanyId();
+		}
+
+		testCaseToReleaseTableMapper.addTableMappings(companyId, pk,
+			ArrayUtil.toLongArray(newReleasePKsSet));
+	}
+
+	/**
+	 * Sets the releases associated with the test case, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the test case
+	 * @param releases the releases to be associated with the test case
+	 */
+	@Override
+	public void setReleases(long pk,
+		List<com.liferay.ide.utils.quality.track.model.Release> releases) {
+		try {
+			long[] releasePKs = new long[releases.size()];
+
+			for (int i = 0; i < releases.size(); i++) {
+				com.liferay.ide.utils.quality.track.model.Release release = releases.get(i);
+
+				releasePKs[i] = release.getPrimaryKey();
+			}
+
+			setReleases(pk, releasePKs);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+	}
+
 	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return TestCaseModelImpl.TABLE_COLUMNS_MAP;
@@ -745,6 +1056,8 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 	 * Initializes the test case persistence.
 	 */
 	public void afterPropertiesSet() {
+		testCaseToReleaseTableMapper = TableMapperFactory.getTableMapper("qualitytrack_TestCases_Releases",
+				"companyId", "testCaseId", "releaseId", this, releasePersistence);
 	}
 
 	public void destroy() {
@@ -752,6 +1065,8 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		TableMapperFactory.removeTableMapper("qualitytrack_TestCases_Releases");
 	}
 
 	@ServiceReference(type = CompanyProviderWrapper.class)
@@ -760,6 +1075,9 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
+	@BeanReference(type = ReleasePersistence.class)
+	protected ReleasePersistence releasePersistence;
+	protected TableMapper<TestCase, com.liferay.ide.utils.quality.track.model.Release> testCaseToReleaseTableMapper;
 	private static final String _SQL_SELECT_TESTCASE = "SELECT testCase FROM TestCase testCase";
 	private static final String _SQL_SELECT_TESTCASE_WHERE_PKS_IN = "SELECT testCase FROM TestCase testCase WHERE testCaseId IN (";
 	private static final String _SQL_COUNT_TESTCASE = "SELECT COUNT(testCase) FROM TestCase testCase";

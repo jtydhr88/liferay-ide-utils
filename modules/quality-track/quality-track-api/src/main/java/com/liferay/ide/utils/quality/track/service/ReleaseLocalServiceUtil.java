@@ -41,6 +41,13 @@ public class ReleaseLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.ide.utils.quality.track.service.impl.ReleaseLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean hasTestCaseRelease(long testCaseId, long releaseId) {
+		return getService().hasTestCaseRelease(testCaseId, releaseId);
+	}
+
+	public static boolean hasTestCaseReleases(long testCaseId) {
+		return getService().hasTestCaseReleases(testCaseId);
+	}
 
 	/**
 	* Adds the release to the database. Also notifies the appropriate model listeners.
@@ -51,6 +58,17 @@ public class ReleaseLocalServiceUtil {
 	public static com.liferay.ide.utils.quality.track.model.Release addRelease(
 		com.liferay.ide.utils.quality.track.model.Release release) {
 		return getService().addRelease(release);
+	}
+
+	public static com.liferay.ide.utils.quality.track.model.Release addRelease(
+		java.lang.String releaseName, java.lang.String releaseRootUrl,
+		java.lang.String releaseUserName, java.util.Date releaseDate,
+		long[] testCaseIds,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .addRelease(releaseName, releaseRootUrl, releaseUserName,
+			releaseDate, testCaseIds, serviceContext);
 	}
 
 	/**
@@ -117,6 +135,17 @@ public class ReleaseLocalServiceUtil {
 		return getService().updateRelease(release);
 	}
 
+	public static com.liferay.ide.utils.quality.track.model.Release updateRelease(
+		long releaseId, java.lang.String releaseName,
+		java.lang.String releaseRootUrl, java.lang.String releaseUserName,
+		java.util.Date releaseDate, long[] testCaseIds,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .updateRelease(releaseId, releaseName, releaseRootUrl,
+			releaseUserName, releaseDate, testCaseIds, serviceContext);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -151,6 +180,10 @@ public class ReleaseLocalServiceUtil {
 	*/
 	public static int getReleasesCount() {
 		return getService().getReleasesCount();
+	}
+
+	public static int getTestCaseReleasesCount(long testCaseId) {
+		return getService().getTestCaseReleasesCount(testCaseId);
 	}
 
 	/**
@@ -228,6 +261,24 @@ public class ReleaseLocalServiceUtil {
 		return getService().getReleases(start, end);
 	}
 
+	public static java.util.List<com.liferay.ide.utils.quality.track.model.Release> getTestCaseReleases(
+		long testCaseId) {
+		return getService().getTestCaseReleases(testCaseId);
+	}
+
+	public static java.util.List<com.liferay.ide.utils.quality.track.model.Release> getTestCaseReleases(
+		long testCaseId, int start, int end) {
+		return getService().getTestCaseReleases(testCaseId, start, end);
+	}
+
+	public static java.util.List<com.liferay.ide.utils.quality.track.model.Release> getTestCaseReleases(
+		long testCaseId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.ide.utils.quality.track.model.Release> orderByComparator) {
+		return getService()
+				   .getTestCaseReleases(testCaseId, start, end,
+			orderByComparator);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*
@@ -250,6 +301,60 @@ public class ReleaseLocalServiceUtil {
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return getService().dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Returns the testCaseIds of the test cases associated with the release.
+	*
+	* @param releaseId the releaseId of the release
+	* @return long[] the testCaseIds of test cases associated with the release
+	*/
+	public static long[] getTestCasePrimaryKeys(long releaseId) {
+		return getService().getTestCasePrimaryKeys(releaseId);
+	}
+
+	public static void addTestCaseRelease(long testCaseId,
+		com.liferay.ide.utils.quality.track.model.Release release) {
+		getService().addTestCaseRelease(testCaseId, release);
+	}
+
+	public static void addTestCaseRelease(long testCaseId, long releaseId) {
+		getService().addTestCaseRelease(testCaseId, releaseId);
+	}
+
+	public static void addTestCaseReleases(long testCaseId,
+		java.util.List<com.liferay.ide.utils.quality.track.model.Release> releases) {
+		getService().addTestCaseReleases(testCaseId, releases);
+	}
+
+	public static void addTestCaseReleases(long testCaseId, long[] releaseIds) {
+		getService().addTestCaseReleases(testCaseId, releaseIds);
+	}
+
+	public static void clearTestCaseReleases(long testCaseId) {
+		getService().clearTestCaseReleases(testCaseId);
+	}
+
+	public static void deleteTestCaseRelease(long testCaseId,
+		com.liferay.ide.utils.quality.track.model.Release release) {
+		getService().deleteTestCaseRelease(testCaseId, release);
+	}
+
+	public static void deleteTestCaseRelease(long testCaseId, long releaseId) {
+		getService().deleteTestCaseRelease(testCaseId, releaseId);
+	}
+
+	public static void deleteTestCaseReleases(long testCaseId,
+		java.util.List<com.liferay.ide.utils.quality.track.model.Release> releases) {
+		getService().deleteTestCaseReleases(testCaseId, releases);
+	}
+
+	public static void deleteTestCaseReleases(long testCaseId, long[] releaseIds) {
+		getService().deleteTestCaseReleases(testCaseId, releaseIds);
+	}
+
+	public static void setTestCaseReleases(long testCaseId, long[] releaseIds) {
+		getService().setTestCaseReleases(testCaseId, releaseIds);
 	}
 
 	public static ReleaseLocalService getService() {

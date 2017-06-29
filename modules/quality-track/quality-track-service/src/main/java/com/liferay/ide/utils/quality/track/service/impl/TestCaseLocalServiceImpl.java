@@ -14,9 +14,12 @@
 
 package com.liferay.ide.utils.quality.track.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
+import com.liferay.ide.utils.quality.track.model.TestCase;
 import com.liferay.ide.utils.quality.track.service.base.TestCaseLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+
+import aQute.bnd.annotation.ProviderType;
 
 /**
  * The implementation of the test case local service.
@@ -34,9 +37,56 @@ import com.liferay.ide.utils.quality.track.service.base.TestCaseLocalServiceBase
  */
 @ProviderType
 public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.liferay.ide.utils.quality.track.service.TestCaseLocalServiceUtil} to access the test case local service.
-	 */
+
+	public TestCase addTestCase(
+			String testCaseName, boolean automatic, String steps, long categroyId,
+			String expectedResults, ServiceContext serviceContext)
+		throws PortalException {
+
+		long testCaseId = counterLocalService.increment();
+
+		TestCase testCase = testCasePersistence.create(testCaseId);
+
+		testCase.setGroupId(serviceContext.getScopeGroupId());
+		testCase.setCompanyId(serviceContext.getCompanyId());
+		testCase.setUserId(serviceContext.getUserId());
+		testCase.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
+
+		testCase.setTestCaseName(testCaseName);
+		testCase.setAutomatic(automatic);
+		testCase.setSteps(steps);
+		testCase.setCategroyId(categroyId);
+		testCase.setExpectedResults(expectedResults);
+
+		testCase.setCreateDate(serviceContext.getCreateDate(null));
+
+		testCasePersistence.update(testCase);
+
+		return testCase;
+	}
+
+	public TestCase updateTestCase(
+			long testCaseId, String testCaseName, boolean automatic, String steps,
+			long categroyId, String expectedResults, ServiceContext serviceContext)
+		throws PortalException {
+
+		TestCase testCase = testCasePersistence.fetchByPrimaryKey(testCaseId);
+
+		testCase.setUserId(serviceContext.getUserId());
+		testCase.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
+
+		testCase.setTestCaseName(testCaseName);
+		testCase.setTestCaseName(testCaseName);
+		testCase.setAutomatic(automatic);
+		testCase.setSteps(steps);
+		testCase.setCategroyId(categroyId);
+		testCase.setExpectedResults(expectedResults);
+
+		testCase.setModifiedDate(serviceContext.getModifiedDate());
+
+		testCasePersistence.update(testCase);
+
+		return testCase;
+	}
+
 }

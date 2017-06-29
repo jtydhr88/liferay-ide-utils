@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -60,6 +61,11 @@ public interface TestCaseLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TestCaseLocalServiceUtil} to access the test case local service. Add custom service methods to {@link com.liferay.ide.utils.quality.track.service.impl.TestCaseLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasReleaseTestCase(long releaseId, long testCaseId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean hasReleaseTestCases(long releaseId);
 
 	/**
 	* Adds the test case to the database. Also notifies the appropriate model listeners.
@@ -69,6 +75,11 @@ public interface TestCaseLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public TestCase addTestCase(TestCase testCase);
+
+	public TestCase addTestCase(java.lang.String testCaseName,
+		boolean automatic, java.lang.String steps, long categroyId,
+		java.lang.String expectedResults, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	* Creates a new test case with the primary key. Does not add the test case to the database.
@@ -119,6 +130,12 @@ public interface TestCaseLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public TestCase updateTestCase(TestCase testCase);
 
+	public TestCase updateTestCase(long testCaseId,
+		java.lang.String testCaseName, boolean automatic,
+		java.lang.String steps, long categroyId,
+		java.lang.String expectedResults, ServiceContext serviceContext)
+		throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -138,6 +155,9 @@ public interface TestCaseLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getReleaseTestCasesCount(long releaseId);
 
 	/**
 	* Returns the number of test cases.
@@ -193,6 +213,16 @@ public interface TestCaseLocalService extends BaseLocalService,
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<TestCase> getReleaseTestCases(long releaseId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<TestCase> getReleaseTestCases(long releaseId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<TestCase> getReleaseTestCases(long releaseId, int start,
+		int end, OrderByComparator<TestCase> orderByComparator);
+
 	/**
 	* Returns a range of all the test cases.
 	*
@@ -224,4 +254,33 @@ public interface TestCaseLocalService extends BaseLocalService,
 	*/
 	public long dynamicQueryCount(DynamicQuery dynamicQuery,
 		Projection projection);
+
+	/**
+	* Returns the releaseIds of the releases associated with the test case.
+	*
+	* @param testCaseId the testCaseId of the test case
+	* @return long[] the releaseIds of releases associated with the test case
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long[] getReleasePrimaryKeys(long testCaseId);
+
+	public void addReleaseTestCase(long releaseId, TestCase testCase);
+
+	public void addReleaseTestCase(long releaseId, long testCaseId);
+
+	public void addReleaseTestCases(long releaseId, List<TestCase> testCases);
+
+	public void addReleaseTestCases(long releaseId, long[] testCaseIds);
+
+	public void clearReleaseTestCases(long releaseId);
+
+	public void deleteReleaseTestCase(long releaseId, TestCase testCase);
+
+	public void deleteReleaseTestCase(long releaseId, long testCaseId);
+
+	public void deleteReleaseTestCases(long releaseId, List<TestCase> testCases);
+
+	public void deleteReleaseTestCases(long releaseId, long[] testCaseIds);
+
+	public void setReleaseTestCases(long releaseId, long[] testCaseIds);
 }

@@ -14,9 +14,14 @@
 
 package com.liferay.ide.utils.quality.track.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.Date;
 
+import com.liferay.ide.utils.quality.track.model.Release;
 import com.liferay.ide.utils.quality.track.service.base.ReleaseLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
+
+import aQute.bnd.annotation.ProviderType;
 
 /**
  * The implementation of the release local service.
@@ -34,9 +39,53 @@ import com.liferay.ide.utils.quality.track.service.base.ReleaseLocalServiceBaseI
  */
 @ProviderType
 public class ReleaseLocalServiceImpl extends ReleaseLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.liferay.ide.utils.quality.track.service.ReleaseLocalServiceUtil} to access the release local service.
-	 */
+
+	public Release addRelease(
+			String releaseName, String releaseRootUrl, String releaseUserName,
+			Date releaseDate, long[] testCaseIds, ServiceContext serviceContext)
+		throws PortalException {
+
+		long releaseId = counterLocalService.increment();
+
+		Release release = releasePersistence.create(releaseId);
+
+		release.setGroupId(serviceContext.getScopeGroupId());
+		release.setCompanyId(serviceContext.getCompanyId());
+		release.setUserId(serviceContext.getUserId());
+		release.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
+
+		release.setReleaseName(releaseName);
+		release.setReleaseDate(releaseDate);
+
+		releasePersistence.setTestCases(releaseId, testCaseIds);
+
+		release.setCreateDate(serviceContext.getCreateDate(null));
+
+		releasePersistence.update(release);
+
+		return release;
+	}
+
+	public Release updateRelease(
+			long releaseId, String releaseName, String releaseRootUrl, String releaseUserName,
+			Date releaseDate, long[] testCaseIds, ServiceContext serviceContext)
+		throws PortalException {
+
+		Release release = releasePersistence.fetchByPrimaryKey(releaseId);
+
+		release.setUserId(serviceContext.getUserId());
+		release.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
+
+		release.setReleaseName(releaseName);
+		release.setReleaseDate(releaseDate);
+
+		releasePersistence.setTestCases(releaseId, testCaseIds);
+
+		release.setModifiedDate(serviceContext.getModifiedDate());
+
+		releasePersistence.update(release);
+
+		return release;
+	}
+
 }

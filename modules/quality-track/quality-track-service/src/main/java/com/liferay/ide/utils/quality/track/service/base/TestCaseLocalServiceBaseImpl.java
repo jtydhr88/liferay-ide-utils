@@ -314,6 +314,131 @@ public abstract class TestCaseLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 */
+	@Override
+	public void addReleaseTestCase(long releaseId, long testCaseId) {
+		releasePersistence.addTestCase(releaseId, testCaseId);
+	}
+
+	/**
+	 */
+	@Override
+	public void addReleaseTestCase(long releaseId, TestCase testCase) {
+		releasePersistence.addTestCase(releaseId, testCase);
+	}
+
+	/**
+	 */
+	@Override
+	public void addReleaseTestCases(long releaseId, long[] testCaseIds) {
+		releasePersistence.addTestCases(releaseId, testCaseIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void addReleaseTestCases(long releaseId, List<TestCase> testCases) {
+		releasePersistence.addTestCases(releaseId, testCases);
+	}
+
+	/**
+	 */
+	@Override
+	public void clearReleaseTestCases(long releaseId) {
+		releasePersistence.clearTestCases(releaseId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteReleaseTestCase(long releaseId, long testCaseId) {
+		releasePersistence.removeTestCase(releaseId, testCaseId);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteReleaseTestCase(long releaseId, TestCase testCase) {
+		releasePersistence.removeTestCase(releaseId, testCase);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteReleaseTestCases(long releaseId, long[] testCaseIds) {
+		releasePersistence.removeTestCases(releaseId, testCaseIds);
+	}
+
+	/**
+	 */
+	@Override
+	public void deleteReleaseTestCases(long releaseId, List<TestCase> testCases) {
+		releasePersistence.removeTestCases(releaseId, testCases);
+	}
+
+	/**
+	 * Returns the releaseIds of the releases associated with the test case.
+	 *
+	 * @param testCaseId the testCaseId of the test case
+	 * @return long[] the releaseIds of releases associated with the test case
+	 */
+	@Override
+	public long[] getReleasePrimaryKeys(long testCaseId) {
+		return testCasePersistence.getReleasePrimaryKeys(testCaseId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<TestCase> getReleaseTestCases(long releaseId) {
+		return releasePersistence.getTestCases(releaseId);
+	}
+
+	/**
+	 */
+	@Override
+	public List<TestCase> getReleaseTestCases(long releaseId, int start, int end) {
+		return releasePersistence.getTestCases(releaseId, start, end);
+	}
+
+	/**
+	 */
+	@Override
+	public List<TestCase> getReleaseTestCases(long releaseId, int start,
+		int end, OrderByComparator<TestCase> orderByComparator) {
+		return releasePersistence.getTestCases(releaseId, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 */
+	@Override
+	public int getReleaseTestCasesCount(long releaseId) {
+		return releasePersistence.getTestCasesSize(releaseId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasReleaseTestCase(long releaseId, long testCaseId) {
+		return releasePersistence.containsTestCase(releaseId, testCaseId);
+	}
+
+	/**
+	 */
+	@Override
+	public boolean hasReleaseTestCases(long releaseId) {
+		return releasePersistence.containsTestCases(releaseId);
+	}
+
+	/**
+	 */
+	@Override
+	public void setReleaseTestCases(long releaseId, long[] testCaseIds) {
+		releasePersistence.setTestCases(releaseId, testCaseIds);
+	}
+
+	/**
 	 * Returns the release local service.
 	 *
 	 * @return the release local service

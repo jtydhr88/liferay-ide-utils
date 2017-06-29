@@ -24,3 +24,10 @@ create table qualitytrack_TestCase (
 	categroyId LONG,
 	expectedResults VARCHAR(75) null
 );
+
+create table qualitytrack_TestCases_Releases (
+	companyId LONG not null,
+	releaseId LONG not null,
+	testCaseId LONG not null,
+	primary key (releaseId, testCaseId)
+);

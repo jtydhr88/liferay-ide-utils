@@ -33,6 +33,16 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 		_testCaseLocalService = testCaseLocalService;
 	}
 
+	@Override
+	public boolean hasReleaseTestCase(long releaseId, long testCaseId) {
+		return _testCaseLocalService.hasReleaseTestCase(releaseId, testCaseId);
+	}
+
+	@Override
+	public boolean hasReleaseTestCases(long releaseId) {
+		return _testCaseLocalService.hasReleaseTestCases(releaseId);
+	}
+
 	/**
 	* Adds the test case to the database. Also notifies the appropriate model listeners.
 	*
@@ -43,6 +53,17 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 	public com.liferay.ide.utils.quality.track.model.TestCase addTestCase(
 		com.liferay.ide.utils.quality.track.model.TestCase testCase) {
 		return _testCaseLocalService.addTestCase(testCase);
+	}
+
+	@Override
+	public com.liferay.ide.utils.quality.track.model.TestCase addTestCase(
+		java.lang.String testCaseName, boolean automatic,
+		java.lang.String steps, long categroyId,
+		java.lang.String expectedResults,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _testCaseLocalService.addTestCase(testCaseName, automatic,
+			steps, categroyId, expectedResults, serviceContext);
 	}
 
 	/**
@@ -116,6 +137,17 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 	}
 
 	@Override
+	public com.liferay.ide.utils.quality.track.model.TestCase updateTestCase(
+		long testCaseId, java.lang.String testCaseName, boolean automatic,
+		java.lang.String steps, long categroyId,
+		java.lang.String expectedResults,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _testCaseLocalService.updateTestCase(testCaseId, testCaseName,
+			automatic, steps, categroyId, expectedResults, serviceContext);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _testCaseLocalService.getActionableDynamicQuery();
 	}
@@ -145,6 +177,11 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 		java.io.Serializable primaryKeyObj)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _testCaseLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	@Override
+	public int getReleaseTestCasesCount(long releaseId) {
+		return _testCaseLocalService.getReleaseTestCasesCount(releaseId);
 	}
 
 	/**
@@ -220,6 +257,26 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 			orderByComparator);
 	}
 
+	@Override
+	public java.util.List<com.liferay.ide.utils.quality.track.model.TestCase> getReleaseTestCases(
+		long releaseId) {
+		return _testCaseLocalService.getReleaseTestCases(releaseId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.ide.utils.quality.track.model.TestCase> getReleaseTestCases(
+		long releaseId, int start, int end) {
+		return _testCaseLocalService.getReleaseTestCases(releaseId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.ide.utils.quality.track.model.TestCase> getReleaseTestCases(
+		long releaseId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.ide.utils.quality.track.model.TestCase> orderByComparator) {
+		return _testCaseLocalService.getReleaseTestCases(releaseId, start, end,
+			orderByComparator);
+	}
+
 	/**
 	* Returns a range of all the test cases.
 	*
@@ -261,6 +318,71 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 		return _testCaseLocalService.dynamicQueryCount(dynamicQuery, projection);
+	}
+
+	/**
+	* Returns the releaseIds of the releases associated with the test case.
+	*
+	* @param testCaseId the testCaseId of the test case
+	* @return long[] the releaseIds of releases associated with the test case
+	*/
+	@Override
+	public long[] getReleasePrimaryKeys(long testCaseId) {
+		return _testCaseLocalService.getReleasePrimaryKeys(testCaseId);
+	}
+
+	@Override
+	public void addReleaseTestCase(long releaseId,
+		com.liferay.ide.utils.quality.track.model.TestCase testCase) {
+		_testCaseLocalService.addReleaseTestCase(releaseId, testCase);
+	}
+
+	@Override
+	public void addReleaseTestCase(long releaseId, long testCaseId) {
+		_testCaseLocalService.addReleaseTestCase(releaseId, testCaseId);
+	}
+
+	@Override
+	public void addReleaseTestCases(long releaseId,
+		java.util.List<com.liferay.ide.utils.quality.track.model.TestCase> testCases) {
+		_testCaseLocalService.addReleaseTestCases(releaseId, testCases);
+	}
+
+	@Override
+	public void addReleaseTestCases(long releaseId, long[] testCaseIds) {
+		_testCaseLocalService.addReleaseTestCases(releaseId, testCaseIds);
+	}
+
+	@Override
+	public void clearReleaseTestCases(long releaseId) {
+		_testCaseLocalService.clearReleaseTestCases(releaseId);
+	}
+
+	@Override
+	public void deleteReleaseTestCase(long releaseId,
+		com.liferay.ide.utils.quality.track.model.TestCase testCase) {
+		_testCaseLocalService.deleteReleaseTestCase(releaseId, testCase);
+	}
+
+	@Override
+	public void deleteReleaseTestCase(long releaseId, long testCaseId) {
+		_testCaseLocalService.deleteReleaseTestCase(releaseId, testCaseId);
+	}
+
+	@Override
+	public void deleteReleaseTestCases(long releaseId,
+		java.util.List<com.liferay.ide.utils.quality.track.model.TestCase> testCases) {
+		_testCaseLocalService.deleteReleaseTestCases(releaseId, testCases);
+	}
+
+	@Override
+	public void deleteReleaseTestCases(long releaseId, long[] testCaseIds) {
+		_testCaseLocalService.deleteReleaseTestCases(releaseId, testCaseIds);
+	}
+
+	@Override
+	public void setReleaseTestCases(long releaseId, long[] testCaseIds) {
+		_testCaseLocalService.setReleaseTestCases(releaseId, testCaseIds);
 	}
 
 	@Override

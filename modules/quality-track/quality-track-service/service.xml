@@ -30,6 +30,8 @@
 		<column name="categroyId" type="long" />
 		<column name="expectedResults" type="String" />
 
+		<column name="releases" type="Collection" entity="Release" mapping-table="TestCases_Releases" />
+
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
@@ -56,7 +58,7 @@
 		<!-- Other fields -->
 
 		<column name="releaseName" type="String" />
-		<column name="testCases" type="Collection" entity="TestCase" />
+		<column name="testCases" type="Collection" entity="TestCase" mapping-table="TestCases_Releases" />
 		<column name="releaseDate" type="Date" />
 	</entity>
 </service-builder>
