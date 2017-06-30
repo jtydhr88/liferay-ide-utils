@@ -11,8 +11,13 @@
 		<portlet:param name="redirect" value="<%= currentURL %>" />
 	</portlet:renderURL>
 
+	<portlet:actionURL var="checkAllURL" name="checkAll">
+		<portlet:param name="redirect" value="<%= currentURL %>" />
+	</portlet:actionURL>
+
 	<aui:button href="<%= editRepositoryURL %>" value="add-repository" />
 	<aui:button href="<%= editLibraryURL %>" value="add-library" />
+	<aui:button href="<%= checkAllURL %>" value="check-all-libraries" />
 </aui:button-row>
 
 <liferay-ui:search-container

@@ -2,6 +2,7 @@ package com.liferay.ide.utils.library.listener.portlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -38,76 +39,53 @@ import com.liferay.portal.kernel.util.ParamUtil;
 /**
  * @author terry
  */
-@Component(
-	immediate = true,
-	property = {
-		"com.liferay.portlet.display-category=category.sample",
-		"com.liferay.portlet.instanceable=true",
-		"javax.portlet.display-name=library-listener-web Portlet",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user",
-		"javax.portlet.portlet-name=library-listener-portlet",
-		"com.liferay.portlet.header-portlet-css=/css/main.css",
-		"com.liferay.portlet.css-class-wrapper=libraray-listener"
-	},
-	configurationPid = "com.liferay.ide.utils.library.listener.configuration.LibraryListenerConfiguration",
-	service = Portlet.class
-)
+@Component(immediate = true, property = { "com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.instanceable=true", "javax.portlet.display-name=library-listener-web Portlet",
+		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.resource-bundle=content.Language", "javax.portlet.security-role-ref=power-user,user",
+		"javax.portlet.portlet-name=library-listener-portlet", "com.liferay.portlet.header-portlet-css=/css/main.css",
+		"com.liferay.portlet.css-class-wrapper=libraray-listener" }, configurationPid = "com.liferay.ide.utils.library.listener.configuration.LibraryListenerConfiguration", service = Portlet.class)
 public class LibraryListenerPortlet extends MVCPortlet {
 
-    @Override
-    public void serveResource( ResourceRequest resourceRequest, ResourceResponse resourceResponse )
-        throws IOException, PortletException
-    {
+	@Override
+	public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+			throws IOException, PortletException {
 
-        String repositoryId = resourceRequest.getParameter( "repositoryId" );
-        String libraryGroupId = resourceRequest.getParameter( "libraryGroupId" );
-        String artifactId = resourceRequest.getParameter( "artifactId" );
-        String repoRootUrl = null;
-        String latestVersion = null;
+		String repositoryId = resourceRequest.getParameter("repositoryId");
+		String libraryGroupId = resourceRequest.getParameter("libraryGroupId");
+		String artifactId = resourceRequest.getParameter("artifactId");
+		String repoRootUrl = null;
+		String latestVersion = null;
 
-        try
-        {
-            Repository repository = _repositoryLocalService.getRepository( Long.parseLong( repositoryId ) );
-            repoRootUrl = repository.getRepositoryRootUrl();
+		try {
+			Repository repository = _repositoryLocalService.getRepository(Long.parseLong(repositoryId));
+			repoRootUrl = repository.getRepositoryRootUrl();
 
-            try
-            {
-                latestVersion = LibraryUtil.getLatestVersion( repoRootUrl, libraryGroupId, artifactId );
-            }
-            catch( Exception e )
-            {
-                e.printStackTrace();
-            }
-        }
-        catch( NumberFormatException e1 )
-        {
-            e1.printStackTrace();
-        }
-        catch( PortalException e1 )
-        {
-            e1.printStackTrace();
-        }
+			try {
+				latestVersion = LibraryUtil.getLatestVersion(repoRootUrl, libraryGroupId, artifactId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		} catch (PortalException e1) {
+			e1.printStackTrace();
+		}
 
-        resourceResponse.setContentType( "text/html;charset=UTF-8" );
-        PrintWriter out = null;
+		resourceResponse.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = null;
 
-        try
-        {
-            out = resourceResponse.getWriter();
-        }
-        catch( IOException e )
-        {
-            e.printStackTrace();
-        }
-        out.println( latestVersion != null ? latestVersion : "can't get latest version" );
-        out.flush();
-        out.close();
+		try {
+			out = resourceResponse.getWriter();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		out.println(latestVersion != null ? latestVersion : "can't get latest version");
+		out.flush();
+		out.close();
 
-        super.serveResource( resourceRequest, resourceResponse );
-    }
+		super.serveResource(resourceRequest, resourceResponse);
+	}
 
 	@Override
 	public void render(RenderRequest request, RenderResponse response) throws IOException, PortletException {
@@ -116,6 +94,40 @@ public class LibraryListenerPortlet extends MVCPortlet {
 		request.setAttribute("libraryListenerConfiguration", getLibraryListenerConfiguration());
 
 		super.render(request, response);
+	}
+
+	public void checkAll(ActionRequest req, ActionResponse resp) throws SystemException, PortalException {
+		List<Repository> repositories = _repositoryLocalService.getRepositories(-1, -1);
+
+		for (Repository repository : repositories) {
+			long repositoryId = repository.getRepositoryId();
+
+			String rootUrl = repository.getRepositoryRootUrl();
+
+			List<Library> libraries = _libraryLocalService.getLibrariesByRepositoryId(repositoryId);
+
+			for (Library library : libraries) {
+				if (library.getEnableListener()) {
+					try {
+						String groupId = library.getLibraryGroupId();
+						String artifactId = library.getLibraryArtifactId();
+
+						String latestVersion = LibraryUtil.getLatestVersion(rootUrl, groupId, artifactId);
+
+						if (!library.getLatestVersion().equals(latestVersion) && latestVersion != null) {
+							_libraryLocalService.updateLibraryLatestVersion(library.getLibraryId(), latestVersion);
+						}
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+
+						System.out.println("Unable to fetch library " + library.getLibraryGroupId() + ":"
+								+ library.getLibraryArtifactId());
+					}
+				}
+			}
+
+		}
 	}
 
 	public void editRepository(ActionRequest req, ActionResponse resp) throws SystemException, PortalException {
@@ -154,8 +166,7 @@ public class LibraryListenerPortlet extends MVCPortlet {
 		if (libraryId > 0) {
 			_libraryLocalService.updateLibrary(libraryId, repositoryId, libraryGroupId, libraryArtifactId,
 					latestVersion, lastUpdated, currentVersion, resources, enableListener, serviceContext);
-		}
-		else {
+		} else {
 			_libraryLocalService.addLibrary(repositoryId, libraryGroupId, libraryArtifactId, latestVersion, lastUpdated,
 					currentVersion, resources, enableListener, serviceContext);
 		}
@@ -206,8 +217,8 @@ public class LibraryListenerPortlet extends MVCPortlet {
 	@Activate
 	@Modified
 	protected void activate(Map<Object, Object> properties) {
-		_libraryListenerConfiguration = ConfigurableUtil.createConfigurable(
-			LibraryListenerConfiguration.class, properties);
+		_libraryListenerConfiguration = ConfigurableUtil.createConfigurable(LibraryListenerConfiguration.class,
+				properties);
 
 		ListenerScheduler.start(_repositoryLocalService, _libraryLocalService, _mailService,
 				_libraryListenerConfiguration);

@@ -71,7 +71,7 @@ List<Repository> repositories = repositoryLocalService.getRepositories(-1, -1);
 			<aui:validator name="required"/>
 		</aui:input>
 
-		<aui:input name="latestVersion" readonly="readonly" type="text" />
+		<aui:input name="latestVersion" type="text" />
 
 		<aui:input name="lastUpdated" />
 
