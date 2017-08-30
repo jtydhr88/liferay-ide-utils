@@ -62,6 +62,7 @@
 
 <liferay-ui:search-container
 	emptyResultsMessage="there-are-no-libraries"
+	delta="100"
 >
 	<liferay-ui:search-container-results>
 	<%

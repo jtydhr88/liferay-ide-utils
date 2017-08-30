@@ -41,5 +41,5 @@ if (row != null) {
     sb.append( "/" );
 	%>
 
-	<liferay-ui:icon url="<%= sb.toString() %>" message="go-the-liberay-link" />
+	<liferay-ui:icon url="<%= sb.toString() %>" target="blank" message="go-the-liberay-link" />
 </liferay-ui:icon-menu>
