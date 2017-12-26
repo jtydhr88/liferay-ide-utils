@@ -1,0 +1,4 @@
+Bundle-Name: Liferay Bookmarks Import Fragment
+Bundle-SymbolicName: com.liferay.bookmarksimport.fragment
+Bundle-Version: 1.0.32
+Fragment-Host: com.liferay.bookmarks.web;bundle-version="1.0.22"
