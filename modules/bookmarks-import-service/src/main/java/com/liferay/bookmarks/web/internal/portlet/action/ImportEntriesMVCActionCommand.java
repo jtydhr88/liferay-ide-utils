@@ -63,7 +63,6 @@ public class ImportEntriesMVCActionCommand extends BaseMVCActionCommand {
 
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) {
-
 		UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);
 		String content = null;
 
@@ -89,7 +88,6 @@ public class ImportEntriesMVCActionCommand extends BaseMVCActionCommand {
 				recurFolder(elements, serviceContext, groupId, folderId);
 
 				actionResponse.sendRedirect(themeDisplay.getPortalURL());
-
 			}
 		}
 		catch (Exception e) {
@@ -136,7 +134,7 @@ public class ImportEntriesMVCActionCommand extends BaseMVCActionCommand {
 		BookmarksFolderService bookmarksFolderService) {
 		_bookmarksFolderService = bookmarksFolderService;
 	}
-	
+
 	private BookmarksEntryService _bookmarksEntryService;
 	private BookmarksFolderService _bookmarksFolderService;
 
