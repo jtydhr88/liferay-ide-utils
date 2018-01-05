@@ -1,0 +1,6 @@
+Bundle-Name: Liferay Bookmarks GetTitle Web
+Bundle-SymbolicName: com.liferay.bookmarks.title
+Bundle-Version: 1.0.32
+Import-Package: \
+    !org.apache.log.*,\
+    *
