@@ -1,0 +1,5 @@
+Bundle-Name: Liferay Bookmarks Web
+Bundle-SymbolicName: com.liferay.bookmarks.edit.page
+Bundle-Version: 1.0.32
+Fragment-Host: com.liferay.bookmarks.web;bundle-version="1.0.22"
+
