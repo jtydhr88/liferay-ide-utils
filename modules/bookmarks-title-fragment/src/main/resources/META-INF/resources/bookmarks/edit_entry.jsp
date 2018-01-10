@@ -168,18 +168,17 @@ if (portletTitleBasedNavigation) {
 									 },
 									on: {success: function(data,textstatus,xhr){
 										var title = xhr.getResponseHeader('Title');
-										if(typeof(titleValue) != "object"){
+										if(typeof(title) != "object"){
 											 title = decodeURIComponent(title);
 											 var name = AUI.$('#<portlet:namespace />name');
 											 name.val(title);
 										}
-											 															
-									   }  
-								     }
+									}
 								}
-							)
-						}
-					)
+							}
+						)
+					}
+				)
 					</aui:script>
 					<aui:input name="description" />
 				</aui:fieldset>

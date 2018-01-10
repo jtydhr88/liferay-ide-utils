@@ -37,7 +37,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 import org.osgi.service.component.annotations.Component;
 
@@ -56,7 +55,7 @@ import org.osgi.service.component.annotations.Component;
 public class GetTitleMVCActionCommand extends BaseMVCActionCommand {
 
 	private final String _REGEX_TITLE = "<title>(.*?)</title>";
-	private final String _REGEX_CHARSET = "<meta[^>]*?charset=(\\w+)[\\W]*?>";
+	private final String _REGEX_CHARSET = "<meta.*charset\\s*=([^\\s'\"]+).*>";
 
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
@@ -69,14 +68,13 @@ public class GetTitleMVCActionCommand extends BaseMVCActionCommand {
 		String title = _getTitleFromHtml(url);
 
 		if (title != null) {
+			title = title.replaceAll("&#8211;", "-");
+
 			String encodeTitle = URLEncoder.encode(title, "utf-8");
 
 			encodeTitle = encodeTitle.replaceAll("\\+", "%20");
 
 			actionResponse.addProperty("Title", encodeTitle);
-		}
-		else {
-			actionResponse.addProperty("Title", "null");
 		}
 	}
 
@@ -96,7 +94,6 @@ public class GetTitleMVCActionCommand extends BaseMVCActionCommand {
 		httpGet.addHeader("Accept", "text/html");
 		httpGet.addHeader("Accept-Charset", "utf-8");
 		httpGet.addHeader("Accept-Encoding", "gzip");
-		httpGet.addHeader("Accept-Language", "zh-CN,zh");
 		httpGet.addHeader("User-Agent",
 				"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.160 Safari/537.22");
 		httpGet.setConfig(timeoutSet);
@@ -118,14 +115,18 @@ public class GetTitleMVCActionCommand extends BaseMVCActionCommand {
 
 			html = EntityUtils.toByteArray(entity);
 
+			byte[] partOfHtml = new byte[20000];
+
+			System.arraycopy(html, 0, partOfHtml, 0, 20000);
+
 			if (charset != null) {
 				charsetName = contentType.getCharset().toString();
 			}
 			else {
-				charsetName = getInfoFromHtml(html, _REGEX_CHARSET, "UTF-8");
+				charsetName = getInfoFromHtml(partOfHtml, _REGEX_CHARSET, "UTF-8");
 			}
 
-			title = getInfoFromHtml(html, _REGEX_TITLE, charsetName);
+			title = getInfoFromHtml(partOfHtml, _REGEX_TITLE, charsetName);
 
 		} catch (IOException e) {
 			return null;
@@ -134,12 +135,12 @@ public class GetTitleMVCActionCommand extends BaseMVCActionCommand {
 		return title;
 	}
 
-	private String getInfoFromHtml(byte[] html, String regex, String charsetName) {
+	private String getInfoFromHtml(byte[] partOfHtml, String regex, String charsetName) {
 		String matchData = null;
 
 		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
-		String htmlEntity = StringUtils.newString(html, charsetName);
+		String htmlEntity = StringUtils.newString(partOfHtml, charsetName);
 
 		Matcher matcher = pattern.matcher(htmlEntity);
 
@@ -152,6 +153,6 @@ public class GetTitleMVCActionCommand extends BaseMVCActionCommand {
 			}
 		}
 
-		return matchData;
+		return matchData.trim();
 	}
 }
