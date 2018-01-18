@@ -1,9 +1,9 @@
 Bundle-Name: quality-track-api
 Bundle-SymbolicName: quality.track.api
 Bundle-Version: 1.0.0
-Export-Package:\
-	quality.track.exception,\
-	quality.track.model,\
-	quality.track.service,\
-	quality.track.service.persistence
+Export-Package: \
+	com.liferay.ide.utils.quality.track.exception,\
+	com.liferay.ide.utils.quality.track.model,\
+	com.liferay.ide.utils.quality.track.service,\
+	com.liferay.ide.utils.quality.track.service.persistence
 -includeresource: META-INF/service.xml=../quality-track-service/service.xml
