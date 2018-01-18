@@ -1,0 +1,4 @@
+Bundle-Name: quality-track-web
+Bundle-SymbolicName: quality.track.web
+Bundle-Version: 1.0.0
+Export-Package: quality.track.web.constants
