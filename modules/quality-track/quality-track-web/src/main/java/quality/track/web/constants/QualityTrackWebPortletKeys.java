@@ -5,6 +5,8 @@ package quality.track.web.constants;
  */
 public class QualityTrackWebPortletKeys {
 
-	public static final String QualityTrackWeb = "QualityTrackWeb";
+	public static final String TestPortlet = "TestPortlet";
+	public static final String TestCasePortlet = "TestCasePortlet";
+	public static final String ReleasePortlet = "ReleasePortlet";
 
 }

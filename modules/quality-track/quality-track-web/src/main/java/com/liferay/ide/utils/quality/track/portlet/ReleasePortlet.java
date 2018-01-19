@@ -16,10 +16,10 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"com.liferay.portlet.display-category=category.sample",
 		"com.liferay.portlet.instanceable=true",
-		"javax.portlet.display-name=quality-track-web Portlet",
+		"javax.portlet.display-name=Release Portlet",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.name=" + QualityTrackWebPortletKeys.QualityTrackWeb,
+		"javax.portlet.name=" + QualityTrackWebPortletKeys.ReleasePortlet,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
