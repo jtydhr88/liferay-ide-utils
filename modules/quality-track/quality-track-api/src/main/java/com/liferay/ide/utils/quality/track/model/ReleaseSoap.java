@@ -43,6 +43,8 @@ public class ReleaseSoap implements Serializable {
 		soapModel.setReleaseName(model.getReleaseName());
 		soapModel.setReleaseDate(model.getReleaseDate());
 		soapModel.setIsDefault(model.getIsDefault());
+		soapModel.setStatus(model.getStatus());
+		soapModel.setComments(model.getComments());
 
 		return soapModel;
 	}
@@ -179,6 +181,22 @@ public class ReleaseSoap implements Serializable {
 		_isDefault = isDefault;
 	}
 
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	public String getComments() {
+		return _comments;
+	}
+
+	public void setComments(String comments) {
+		_comments = comments;
+	}
+
 	private long _releaseId;
 	private long _groupId;
 	private long _companyId;
@@ -189,4 +207,6 @@ public class ReleaseSoap implements Serializable {
 	private String _releaseName;
 	private Date _releaseDate;
 	private boolean _isDefault;
+	private int _status;
+	private String _comments;
 }

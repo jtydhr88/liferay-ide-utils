@@ -72,6 +72,7 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 		attributes.put("steps", getSteps());
 		attributes.put("categroyId", getCategroyId());
 		attributes.put("expectedResults", getExpectedResults());
+		attributes.put("comments", getComments());
 		attributes.put("developer", getDeveloper());
 		attributes.put("developerId", getDeveloperId());
 
@@ -170,6 +171,12 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 			setExpectedResults(expectedResults);
 		}
 
+		String comments = (String)attributes.get("comments");
+
+		if (comments != null) {
+			setComments(comments);
+		}
+
 		String developer = (String)attributes.get("developer");
 
 		if (developer != null) {
@@ -256,6 +263,16 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 	@Override
 	public java.lang.Object clone() {
 		return new TestCaseWrapper((TestCase)_testCase.clone());
+	}
+
+	/**
+	* Returns the comments of this test case.
+	*
+	* @return the comments of this test case
+	*/
+	@Override
+	public java.lang.String getComments() {
+		return _testCase.getComments();
 	}
 
 	/**
@@ -496,6 +513,16 @@ public class TestCaseWrapper implements TestCase, ModelWrapper<TestCase> {
 	@Override
 	public void setCategroyId(long categroyId) {
 		_testCase.setCategroyId(categroyId);
+	}
+
+	/**
+	* Sets the comments of this test case.
+	*
+	* @param comments the comments of this test case
+	*/
+	@Override
+	public void setComments(java.lang.String comments) {
+		_testCase.setComments(comments);
 	}
 
 	/**

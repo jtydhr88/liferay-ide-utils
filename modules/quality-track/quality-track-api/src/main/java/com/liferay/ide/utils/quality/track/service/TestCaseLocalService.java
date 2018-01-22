@@ -81,7 +81,8 @@ public interface TestCaseLocalService extends BaseLocalService,
 		long afterTestCaseId, boolean automatic, java.lang.String steps,
 		long categroyId, java.lang.String expectedResults,
 		java.lang.String developer, long developerId,
-		ServiceContext serviceContext) throws PortalException;
+		java.lang.String comments, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	* Creates a new test case with the primary key. Does not add the test case to the database.
@@ -137,8 +138,8 @@ public interface TestCaseLocalService extends BaseLocalService,
 		long beforeTestCaseId, long afterTestCaseId, boolean automatic,
 		java.lang.String steps, long categroyId,
 		java.lang.String expectedResults, java.lang.String developer,
-		long developerId, ServiceContext serviceContext)
-		throws PortalException;
+		long developerId, java.lang.String comments,
+		ServiceContext serviceContext) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

@@ -65,7 +65,7 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{releaseId=");
 		sb.append(releaseId);
@@ -87,6 +87,10 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 		sb.append(releaseDate);
 		sb.append(", isDefault=");
 		sb.append(isDefault);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", comments=");
+		sb.append(comments);
 		sb.append("}");
 
 		return sb.toString();
@@ -137,6 +141,14 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 		}
 
 		releaseImpl.setIsDefault(isDefault);
+		releaseImpl.setStatus(status);
+
+		if (comments == null) {
+			releaseImpl.setComments(StringPool.BLANK);
+		}
+		else {
+			releaseImpl.setComments(comments);
+		}
 
 		releaseImpl.resetOriginalValues();
 
@@ -159,6 +171,9 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 		releaseDate = objectInput.readLong();
 
 		isDefault = objectInput.readBoolean();
+
+		status = objectInput.readInt();
+		comments = objectInput.readUTF();
 	}
 
 	@Override
@@ -192,6 +207,15 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 		objectOutput.writeLong(releaseDate);
 
 		objectOutput.writeBoolean(isDefault);
+
+		objectOutput.writeInt(status);
+
+		if (comments == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(comments);
+		}
 	}
 
 	public long releaseId;
@@ -204,4 +228,6 @@ public class ReleaseCacheModel implements CacheModel<Release>, Externalizable {
 	public String releaseName;
 	public long releaseDate;
 	public boolean isDefault;
+	public int status;
+	public String comments;
 }

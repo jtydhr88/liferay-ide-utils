@@ -328,7 +328,9 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
 		if (isNew) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(ReleaseModelImpl.ENTITY_CACHE_ENABLED,
@@ -359,6 +361,8 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		releaseImpl.setReleaseName(release.getReleaseName());
 		releaseImpl.setReleaseDate(release.getReleaseDate());
 		releaseImpl.setIsDefault(release.isIsDefault());
+		releaseImpl.setStatus(release.getStatus());
+		releaseImpl.setComments(release.getComments());
 
 		return releaseImpl;
 	}
@@ -511,7 +515,7 @@ public class ReleasePersistenceImpl extends BasePersistenceImpl<Release>
 		query.append(_SQL_SELECT_RELEASE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

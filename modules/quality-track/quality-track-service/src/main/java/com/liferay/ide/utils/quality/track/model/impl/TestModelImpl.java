@@ -80,7 +80,8 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 			{ "testCaseId", Types.BIGINT },
 			{ "actualResults", Types.VARCHAR },
 			{ "jiraLink", Types.VARCHAR },
-			{ "time_", Types.BIGINT }
+			{ "time_", Types.BIGINT },
+			{ "comments", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -101,9 +102,10 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 		TABLE_COLUMNS_MAP.put("actualResults", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("jiraLink", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("time_", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("comments", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table qualitytrack_Test (testId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,releaseId LONG,testCaseId LONG,actualResults VARCHAR(75) null,jiraLink VARCHAR(75) null,time_ LONG)";
+	public static final String TABLE_SQL_CREATE = "create table qualitytrack_Test (testId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,releaseId LONG,testCaseId LONG,actualResults VARCHAR(75) null,jiraLink VARCHAR(75) null,time_ LONG,comments VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table qualitytrack_Test";
 	public static final String ORDER_BY_JPQL = " ORDER BY test.testId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY qualitytrack_Test.testId ASC";
@@ -173,6 +175,7 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 		attributes.put("actualResults", getActualResults());
 		attributes.put("jiraLink", getJiraLink());
 		attributes.put("time", getTime());
+		attributes.put("comments", getComments());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -276,6 +279,12 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 
 		if (time != null) {
 			setTime(time);
+		}
+
+		String comments = (String)attributes.get("comments");
+
+		if (comments != null) {
+			setComments(comments);
 		}
 	}
 
@@ -498,6 +507,21 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 	}
 
 	@Override
+	public String getComments() {
+		if (_comments == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _comments;
+		}
+	}
+
+	@Override
+	public void setComments(String comments) {
+		_comments = comments;
+	}
+
+	@Override
 	public boolean isApproved() {
 		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
 			return true;
@@ -620,6 +644,7 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 		testImpl.setActualResults(getActualResults());
 		testImpl.setJiraLink(getJiraLink());
 		testImpl.setTime(getTime());
+		testImpl.setComments(getComments());
 
 		testImpl.resetOriginalValues();
 
@@ -766,12 +791,20 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 
 		testCacheModel.time = getTime();
 
+		testCacheModel.comments = getComments();
+
+		String comments = testCacheModel.comments;
+
+		if ((comments != null) && (comments.length() == 0)) {
+			testCacheModel.comments = null;
+		}
+
 		return testCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{testId=");
 		sb.append(getTestId());
@@ -805,6 +838,8 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 		sb.append(getJiraLink());
 		sb.append(", time=");
 		sb.append(getTime());
+		sb.append(", comments=");
+		sb.append(getComments());
 		sb.append("}");
 
 		return sb.toString();
@@ -812,7 +847,7 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(52);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.ide.utils.quality.track.model.Test");
@@ -882,6 +917,10 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 			"<column><column-name>time</column-name><column-value><![CDATA[");
 		sb.append(getTime());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>comments</column-name><column-value><![CDATA[");
+		sb.append(getComments());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -909,5 +948,6 @@ public class TestModelImpl extends BaseModelImpl<Test> implements TestModel {
 	private String _actualResults;
 	private String _jiraLink;
 	private long _time;
+	private String _comments;
 	private Test _escapedModel;
 }

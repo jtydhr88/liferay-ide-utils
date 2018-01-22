@@ -46,7 +46,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 public class TestLocalServiceImpl extends TestLocalServiceBaseImpl {
 
 	public Test addTest(String testName, long releaseId, long testCaseId, String actualResults, String jiraLink,
-			Date time, int status, long statusByUserId, String statusByUserName, Date statusDate,
+			Date time, int status, long statusByUserId, String statusByUserName, Date statusDate, String comments,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -59,6 +59,9 @@ public class TestLocalServiceImpl extends TestLocalServiceBaseImpl {
 		test.setUserId(serviceContext.getUserId());
 		test.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
 
+		test.setActualResults(actualResults);
+		test.setJiraLink(jiraLink);
+		test.setComments(comments);
 		test.setReleaseId(releaseId);
 		test.setCreateDate(serviceContext.getCreateDate(null));
 
@@ -68,7 +71,7 @@ public class TestLocalServiceImpl extends TestLocalServiceBaseImpl {
 	}
 
 	public Test updateTest(long testId, String testName, long releaseId, long testCaseId, String actualResults,
-			String jiraLink, Date time, int status, long statusByUserId, String statusByUserName, Date statusDate,
+			String jiraLink, Date time, int status, long statusByUserId, String statusByUserName, Date statusDate, String comments,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -76,6 +79,10 @@ public class TestLocalServiceImpl extends TestLocalServiceBaseImpl {
 
 		test.setUserId(serviceContext.getUserId());
 		test.setUserName(userLocalService.getUser(serviceContext.getUserId()).getFullName());
+		
+		test.setActualResults(actualResults);
+		test.setJiraLink(jiraLink);
+		test.setComments(comments);
 
 		test.setModifiedDate(serviceContext.getModifiedDate());
 

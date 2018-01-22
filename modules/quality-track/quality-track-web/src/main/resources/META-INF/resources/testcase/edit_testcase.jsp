@@ -28,6 +28,11 @@ if (testCaseId > 0 ){
 
 	<aui:fieldset>
 		<aui:input name="testCaseName" />
+		<aui:input name="automatic" />
+		<aui:input name="steps" />
+		<aui:input name="categroyId" />
+		<aui:input name="expectedResults" />
+		<aui:input name="comments" />
 	</aui:fieldset>
 
 	<aui:button-row>

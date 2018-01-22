@@ -49,6 +49,7 @@ public class TestSoap implements Serializable {
 		soapModel.setActualResults(model.getActualResults());
 		soapModel.setJiraLink(model.getJiraLink());
 		soapModel.setTime(model.getTime());
+		soapModel.setComments(model.getComments());
 
 		return soapModel;
 	}
@@ -229,6 +230,14 @@ public class TestSoap implements Serializable {
 		_time = time;
 	}
 
+	public String getComments() {
+		return _comments;
+	}
+
+	public void setComments(String comments) {
+		_comments = comments;
+	}
+
 	private long _testId;
 	private long _groupId;
 	private long _companyId;
@@ -245,4 +254,5 @@ public class TestSoap implements Serializable {
 	private String _actualResults;
 	private String _jiraLink;
 	private long _time;
+	private String _comments;
 }

@@ -61,12 +61,12 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 		long beforeTestCaseId, long afterTestCaseId, boolean automatic,
 		java.lang.String steps, long categroyId,
 		java.lang.String expectedResults, java.lang.String developer,
-		long developerId,
+		long developerId, java.lang.String comments,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _testCaseLocalService.addTestCase(testCaseName, environment,
 			beforeTestCaseId, afterTestCaseId, automatic, steps, categroyId,
-			expectedResults, developer, developerId, serviceContext);
+			expectedResults, developer, developerId, comments, serviceContext);
 	}
 
 	/**
@@ -146,11 +146,13 @@ public class TestCaseLocalServiceWrapper implements TestCaseLocalService,
 		long afterTestCaseId, boolean automatic, java.lang.String steps,
 		long categroyId, java.lang.String expectedResults,
 		java.lang.String developer, long developerId,
+		java.lang.String comments,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _testCaseLocalService.updateTestCase(testCaseId, testCaseName,
 			environment, beforeTestCaseId, afterTestCaseId, automatic, steps,
-			categroyId, expectedResults, developer, developerId, serviceContext);
+			categroyId, expectedResults, developer, developerId, comments,
+			serviceContext);
 	}
 
 	@Override

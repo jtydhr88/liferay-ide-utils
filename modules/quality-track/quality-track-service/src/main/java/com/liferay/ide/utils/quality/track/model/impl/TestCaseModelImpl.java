@@ -80,6 +80,7 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 			{ "steps", Types.VARCHAR },
 			{ "categroyId", Types.BIGINT },
 			{ "expectedResults", Types.VARCHAR },
+			{ "comments", Types.VARCHAR },
 			{ "developer", Types.VARCHAR },
 			{ "developerId", Types.BIGINT }
 		};
@@ -101,11 +102,12 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		TABLE_COLUMNS_MAP.put("steps", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("categroyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("expectedResults", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("comments", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("developer", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("developerId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table qualitytrack_TestCase (testCaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,environment VARCHAR(75) null,testCaseName VARCHAR(75) null,beforeTestCaseId LONG,automatic BOOLEAN,afterTestCaseId LONG,steps VARCHAR(75) null,categroyId LONG,expectedResults VARCHAR(75) null,developer VARCHAR(75) null,developerId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table qualitytrack_TestCase (testCaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,environment VARCHAR(75) null,testCaseName VARCHAR(75) null,beforeTestCaseId LONG,automatic BOOLEAN,afterTestCaseId LONG,steps STRING null,categroyId LONG,expectedResults STRING null,comments VARCHAR(75) null,developer VARCHAR(75) null,developerId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table qualitytrack_TestCase";
 	public static final String ORDER_BY_JPQL = " ORDER BY testCase.testCaseId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY qualitytrack_TestCase.testCaseId ASC";
@@ -188,6 +190,7 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		attributes.put("steps", getSteps());
 		attributes.put("categroyId", getCategroyId());
 		attributes.put("expectedResults", getExpectedResults());
+		attributes.put("comments", getComments());
 		attributes.put("developer", getDeveloper());
 		attributes.put("developerId", getDeveloperId());
 
@@ -287,6 +290,12 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 
 		if (expectedResults != null) {
 			setExpectedResults(expectedResults);
+		}
+
+		String comments = (String)attributes.get("comments");
+
+		if (comments != null) {
+			setComments(comments);
 		}
 
 		String developer = (String)attributes.get("developer");
@@ -505,6 +514,21 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 	}
 
 	@Override
+	public String getComments() {
+		if (_comments == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _comments;
+		}
+	}
+
+	@Override
+	public void setComments(String comments) {
+		_comments = comments;
+	}
+
+	@Override
 	public String getDeveloper() {
 		if (_developer == null) {
 			return StringPool.BLANK;
@@ -571,6 +595,7 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		testCaseImpl.setSteps(getSteps());
 		testCaseImpl.setCategroyId(getCategroyId());
 		testCaseImpl.setExpectedResults(getExpectedResults());
+		testCaseImpl.setComments(getComments());
 		testCaseImpl.setDeveloper(getDeveloper());
 		testCaseImpl.setDeveloperId(getDeveloperId());
 
@@ -716,6 +741,14 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 			testCaseCacheModel.expectedResults = null;
 		}
 
+		testCaseCacheModel.comments = getComments();
+
+		String comments = testCaseCacheModel.comments;
+
+		if ((comments != null) && (comments.length() == 0)) {
+			testCaseCacheModel.comments = null;
+		}
+
 		testCaseCacheModel.developer = getDeveloper();
 
 		String developer = testCaseCacheModel.developer;
@@ -731,7 +764,7 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{testCaseId=");
 		sb.append(getTestCaseId());
@@ -763,6 +796,8 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		sb.append(getCategroyId());
 		sb.append(", expectedResults=");
 		sb.append(getExpectedResults());
+		sb.append(", comments=");
+		sb.append(getComments());
 		sb.append(", developer=");
 		sb.append(getDeveloper());
 		sb.append(", developerId=");
@@ -774,7 +809,7 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(58);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.ide.utils.quality.track.model.TestCase");
@@ -841,6 +876,10 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 		sb.append(getExpectedResults());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>comments</column-name><column-value><![CDATA[");
+		sb.append(getComments());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>developer</column-name><column-value><![CDATA[");
 		sb.append(getDeveloper());
 		sb.append("]]></column-value></column>");
@@ -874,6 +913,7 @@ public class TestCaseModelImpl extends BaseModelImpl<TestCase>
 	private String _steps;
 	private long _categroyId;
 	private String _expectedResults;
+	private String _comments;
 	private String _developer;
 	private long _developerId;
 	private TestCase _escapedModel;

@@ -65,13 +65,13 @@ public class TestCaseLocalServiceUtil {
 		long beforeTestCaseId, long afterTestCaseId, boolean automatic,
 		java.lang.String steps, long categroyId,
 		java.lang.String expectedResults, java.lang.String developer,
-		long developerId,
+		long developerId, java.lang.String comments,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .addTestCase(testCaseName, environment, beforeTestCaseId,
 			afterTestCaseId, automatic, steps, categroyId, expectedResults,
-			developer, developerId, serviceContext);
+			developer, developerId, comments, serviceContext);
 	}
 
 	/**
@@ -144,12 +144,13 @@ public class TestCaseLocalServiceUtil {
 		long afterTestCaseId, boolean automatic, java.lang.String steps,
 		long categroyId, java.lang.String expectedResults,
 		java.lang.String developer, long developerId,
+		java.lang.String comments,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .updateTestCase(testCaseId, testCaseName, environment,
 			beforeTestCaseId, afterTestCaseId, automatic, steps, categroyId,
-			expectedResults, developer, developerId, serviceContext);
+			expectedResults, developer, developerId, comments, serviceContext);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

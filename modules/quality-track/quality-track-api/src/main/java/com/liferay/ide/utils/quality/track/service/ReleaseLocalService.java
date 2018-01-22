@@ -78,7 +78,8 @@ public interface ReleaseLocalService extends BaseLocalService,
 	public Release addRelease(Release release);
 
 	public Release addRelease(java.lang.String releaseName, Date releaseDate,
-		long[] testCaseIds, boolean isDefault, ServiceContext serviceContext)
+		long[] testCaseIds, boolean isDefault, int status,
+		java.lang.String comments, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**
@@ -131,8 +132,9 @@ public interface ReleaseLocalService extends BaseLocalService,
 	public Release updateRelease(Release release);
 
 	public Release updateRelease(long releaseId, java.lang.String releaseName,
-		Date releaseDate, long[] testCaseIds, boolean isDefault,
-		ServiceContext serviceContext) throws PortalException;
+		Date releaseDate, long[] testCaseIds, boolean isDefault, int status,
+		java.lang.String comments, ServiceContext serviceContext)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

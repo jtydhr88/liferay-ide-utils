@@ -48,6 +48,7 @@ public class TestCaseSoap implements Serializable {
 		soapModel.setSteps(model.getSteps());
 		soapModel.setCategroyId(model.getCategroyId());
 		soapModel.setExpectedResults(model.getExpectedResults());
+		soapModel.setComments(model.getComments());
 		soapModel.setDeveloper(model.getDeveloper());
 		soapModel.setDeveloperId(model.getDeveloperId());
 
@@ -226,6 +227,14 @@ public class TestCaseSoap implements Serializable {
 		_expectedResults = expectedResults;
 	}
 
+	public String getComments() {
+		return _comments;
+	}
+
+	public void setComments(String comments) {
+		_comments = comments;
+	}
+
 	public String getDeveloper() {
 		return _developer;
 	}
@@ -257,6 +266,7 @@ public class TestCaseSoap implements Serializable {
 	private String _steps;
 	private long _categroyId;
 	private String _expectedResults;
+	private String _comments;
 	private String _developer;
 	private long _developerId;
 }

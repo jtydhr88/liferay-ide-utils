@@ -329,7 +329,9 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
 		if (isNew) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
+				FINDER_ARGS_EMPTY);
 		}
 
 		entityCache.putResult(TestCaseModelImpl.ENTITY_CACHE_ENABLED,
@@ -365,6 +367,7 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 		testCaseImpl.setSteps(testCase.getSteps());
 		testCaseImpl.setCategroyId(testCase.getCategroyId());
 		testCaseImpl.setExpectedResults(testCase.getExpectedResults());
+		testCaseImpl.setComments(testCase.getComments());
 		testCaseImpl.setDeveloper(testCase.getDeveloper());
 		testCaseImpl.setDeveloperId(testCase.getDeveloperId());
 
@@ -519,7 +522,7 @@ public class TestCasePersistenceImpl extends BasePersistenceImpl<TestCase>
 		query.append(_SQL_SELECT_TESTCASE_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append(String.valueOf(primaryKey));
+			query.append((long)primaryKey);
 
 			query.append(StringPool.COMMA);
 		}

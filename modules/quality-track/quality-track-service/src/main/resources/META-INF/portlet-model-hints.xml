@@ -12,6 +12,10 @@
 		<field name="releaseName" type="String" />
 		<field name="releaseDate" type="Date" />
 		<field name="isDefault" type="boolean" />
+		<field name="status" type="int" />
+		<field name="comments" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
 	</model>
 	<model name="com.liferay.ide.utils.quality.track.model.Test">
 		<field name="testId" type="long" />
@@ -27,9 +31,14 @@
 		<field name="statusDate" type="Date" />
 		<field name="releaseId" type="long" />
 		<field name="testCaseId" type="long" />
-		<field name="actualResults" type="String" />
+		<field name="actualResults" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
 		<field name="jiraLink" type="String" />
 		<field name="time" type="long" />
+		<field name="comments" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
 	</model>
 	<model name="com.liferay.ide.utils.quality.track.model.TestCase">
 		<field name="testCaseId" type="long" />
@@ -44,9 +53,16 @@
 		<field name="beforeTestCaseId" type="long" />
 		<field name="automatic" type="boolean" />
 		<field name="afterTestCaseId" type="long" />
-		<field name="steps" type="String" />
+		<field name="steps" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
 		<field name="categroyId" type="long" />
-		<field name="expectedResults" type="String" />
+		<field name="expectedResults" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
+		<field name="comments" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
 		<field name="developer" type="String" />
 		<field name="developerId" type="long" />
 	</model>

@@ -50,11 +50,12 @@ public class TestLocalServiceWrapper implements TestLocalService,
 		java.lang.String actualResults, java.lang.String jiraLink,
 		java.util.Date time, int status, long statusByUserId,
 		java.lang.String statusByUserName, java.util.Date statusDate,
+		java.lang.String comments,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _testLocalService.addTest(testName, releaseId, testCaseId,
 			actualResults, jiraLink, time, status, statusByUserId,
-			statusByUserName, statusDate, serviceContext);
+			statusByUserName, statusDate, comments, serviceContext);
 	}
 
 	/**
@@ -130,12 +131,12 @@ public class TestLocalServiceWrapper implements TestLocalService,
 		long testCaseId, java.lang.String actualResults,
 		java.lang.String jiraLink, java.util.Date time, int status,
 		long statusByUserId, java.lang.String statusByUserName,
-		java.util.Date statusDate,
+		java.util.Date statusDate, java.lang.String comments,
 		com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _testLocalService.updateTest(testId, testName, releaseId,
 			testCaseId, actualResults, jiraLink, time, status, statusByUserId,
-			statusByUserName, statusDate, serviceContext);
+			statusByUserName, statusDate, comments, serviceContext);
 	}
 
 	@Override

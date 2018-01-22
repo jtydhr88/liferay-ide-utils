@@ -74,7 +74,9 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "releaseName", Types.VARCHAR },
 			{ "releaseDate", Types.TIMESTAMP },
-			{ "isDefault", Types.BOOLEAN }
+			{ "isDefault", Types.BOOLEAN },
+			{ "status", Types.INTEGER },
+			{ "comments", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -89,9 +91,11 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 		TABLE_COLUMNS_MAP.put("releaseName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("releaseDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("isDefault", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("comments", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table qualitytrack_Release (releaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,releaseName VARCHAR(75) null,releaseDate DATE null,isDefault BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table qualitytrack_Release (releaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,releaseName VARCHAR(75) null,releaseDate DATE null,isDefault BOOLEAN,status INTEGER,comments VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table qualitytrack_Release";
 	public static final String ORDER_BY_JPQL = " ORDER BY release.releaseId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY qualitytrack_Release.releaseId ASC";
@@ -169,6 +173,8 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 		attributes.put("releaseName", getReleaseName());
 		attributes.put("releaseDate", getReleaseDate());
 		attributes.put("isDefault", getIsDefault());
+		attributes.put("status", getStatus());
+		attributes.put("comments", getComments());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -236,6 +242,18 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 
 		if (isDefault != null) {
 			setIsDefault(isDefault);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		String comments = (String)attributes.get("comments");
+
+		if (comments != null) {
+			setComments(comments);
 		}
 	}
 
@@ -377,6 +395,31 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 	}
 
 	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
+	}
+
+	@Override
+	public String getComments() {
+		if (_comments == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _comments;
+		}
+	}
+
+	@Override
+	public void setComments(String comments) {
+		_comments = comments;
+	}
+
+	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			Release.class.getName(), getPrimaryKey());
@@ -413,6 +456,8 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 		releaseImpl.setReleaseName(getReleaseName());
 		releaseImpl.setReleaseDate(getReleaseDate());
 		releaseImpl.setIsDefault(getIsDefault());
+		releaseImpl.setStatus(getStatus());
+		releaseImpl.setComments(getComments());
 
 		releaseImpl.resetOriginalValues();
 
@@ -535,12 +580,22 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 
 		releaseCacheModel.isDefault = getIsDefault();
 
+		releaseCacheModel.status = getStatus();
+
+		releaseCacheModel.comments = getComments();
+
+		String comments = releaseCacheModel.comments;
+
+		if ((comments != null) && (comments.length() == 0)) {
+			releaseCacheModel.comments = null;
+		}
+
 		return releaseCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{releaseId=");
 		sb.append(getReleaseId());
@@ -562,6 +617,10 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 		sb.append(getReleaseDate());
 		sb.append(", isDefault=");
 		sb.append(getIsDefault());
+		sb.append(", status=");
+		sb.append(getStatus());
+		sb.append(", comments=");
+		sb.append(getComments());
 		sb.append("}");
 
 		return sb.toString();
@@ -569,7 +628,7 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.ide.utils.quality.track.model.Release");
@@ -615,6 +674,14 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 			"<column><column-name>isDefault</column-name><column-value><![CDATA[");
 		sb.append(getIsDefault());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>comments</column-name><column-value><![CDATA[");
+		sb.append(getComments());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -636,5 +703,7 @@ public class ReleaseModelImpl extends BaseModelImpl<Release>
 	private String _releaseName;
 	private Date _releaseDate;
 	private boolean _isDefault;
+	private int _status;
+	private String _comments;
 	private Release _escapedModel;
 }

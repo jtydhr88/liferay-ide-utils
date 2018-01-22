@@ -242,6 +242,35 @@ public interface ReleaseModel extends BaseModel<Release>, GroupedModel,
 	 */
 	public void setIsDefault(boolean isDefault);
 
+	/**
+	 * Returns the status of this release.
+	 *
+	 * @return the status of this release
+	 */
+	public int getStatus();
+
+	/**
+	 * Sets the status of this release.
+	 *
+	 * @param status the status of this release
+	 */
+	public void setStatus(int status);
+
+	/**
+	 * Returns the comments of this release.
+	 *
+	 * @return the comments of this release
+	 */
+	@AutoEscape
+	public String getComments();
+
+	/**
+	 * Sets the comments of this release.
+	 *
+	 * @param comments the comments of this release
+	 */
+	public void setComments(String comments);
+
 	@Override
 	public boolean isNew();
 

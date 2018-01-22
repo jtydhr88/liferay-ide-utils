@@ -347,6 +347,21 @@ public interface TestModel extends BaseModel<Test>, GroupedModel, ShardedModel,
 	public void setTime(long time);
 
 	/**
+	 * Returns the comments of this test.
+	 *
+	 * @return the comments of this test
+	 */
+	@AutoEscape
+	public String getComments();
+
+	/**
+	 * Sets the comments of this test.
+	 *
+	 * @param comments the comments of this test
+	 */
+	public void setComments(String comments);
+
+	/**
 	 * Returns <code>true</code> if this test is approved.
 	 *
 	 * @return <code>true</code> if this test is approved; <code>false</code> otherwise

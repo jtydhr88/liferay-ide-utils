@@ -65,7 +65,7 @@ public class TestCacheModel implements CacheModel<Test>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{testId=");
 		sb.append(testId);
@@ -99,6 +99,8 @@ public class TestCacheModel implements CacheModel<Test>, Externalizable {
 		sb.append(jiraLink);
 		sb.append(", time=");
 		sb.append(time);
+		sb.append(", comments=");
+		sb.append(comments);
 		sb.append("}");
 
 		return sb.toString();
@@ -170,6 +172,13 @@ public class TestCacheModel implements CacheModel<Test>, Externalizable {
 
 		testImpl.setTime(time);
 
+		if (comments == null) {
+			testImpl.setComments(StringPool.BLANK);
+		}
+		else {
+			testImpl.setComments(comments);
+		}
+
 		testImpl.resetOriginalValues();
 
 		return testImpl;
@@ -201,6 +210,7 @@ public class TestCacheModel implements CacheModel<Test>, Externalizable {
 		jiraLink = objectInput.readUTF();
 
 		time = objectInput.readLong();
+		comments = objectInput.readUTF();
 	}
 
 	@Override
@@ -256,6 +266,13 @@ public class TestCacheModel implements CacheModel<Test>, Externalizable {
 		}
 
 		objectOutput.writeLong(time);
+
+		if (comments == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(comments);
+		}
 	}
 
 	public long testId;
@@ -274,4 +291,5 @@ public class TestCacheModel implements CacheModel<Test>, Externalizable {
 	public String actualResults;
 	public String jiraLink;
 	public long time;
+	public String comments;
 }

@@ -73,6 +73,7 @@ public class TestWrapper implements Test, ModelWrapper<Test> {
 		attributes.put("actualResults", getActualResults());
 		attributes.put("jiraLink", getJiraLink());
 		attributes.put("time", getTime());
+		attributes.put("comments", getComments());
 
 		return attributes;
 	}
@@ -173,6 +174,12 @@ public class TestWrapper implements Test, ModelWrapper<Test> {
 
 		if (time != null) {
 			setTime(time);
+		}
+
+		String comments = (String)attributes.get("comments");
+
+		if (comments != null) {
+			setComments(comments);
 		}
 	}
 
@@ -329,6 +336,16 @@ public class TestWrapper implements Test, ModelWrapper<Test> {
 	@Override
 	public java.lang.String getActualResults() {
 		return _test.getActualResults();
+	}
+
+	/**
+	* Returns the comments of this test.
+	*
+	* @return the comments of this test
+	*/
+	@Override
+	public java.lang.String getComments() {
+		return _test.getComments();
 	}
 
 	/**
@@ -529,6 +546,16 @@ public class TestWrapper implements Test, ModelWrapper<Test> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_test.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the comments of this test.
+	*
+	* @param comments the comments of this test
+	*/
+	@Override
+	public void setComments(java.lang.String comments) {
+		_test.setComments(comments);
 	}
 
 	/**

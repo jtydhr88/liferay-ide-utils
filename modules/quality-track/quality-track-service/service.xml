@@ -32,6 +32,7 @@
 		<column name="steps" type="String" />
 		<column name="categroyId" type="long" />
 		<column name="expectedResults" type="String" />
+		<column name="comments" type="String" />
 		<column name="developer" type="String" />
 		<column name="developerId" type="long" />
 
@@ -66,6 +67,8 @@
 		<column name="testCases" type="Collection" entity="TestCase" mapping-table="TestCases_Releases" />
 		<column name="releaseDate" type="Date" />
 		<column name="isDefault" type="boolean" />
+		<column name="status" type="int" />
+		<column name="comments" type="String" />
 	</entity>
 
 	<entity name="Test" local-service="true" remote-service="false">
@@ -95,9 +98,9 @@
 
 		<column name="releaseId" type="long" />
 		<column name="testCaseId" type="long" />
-
 		<column name="actualResults" type="String" />
 		<column name="jiraLink" type="String" />
 		<column name="time" type="long" />
+		<column name="comments" type="String" />
 	</entity>
 </service-builder>

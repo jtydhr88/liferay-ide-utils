@@ -76,7 +76,8 @@ public interface TestLocalService extends BaseLocalService,
 		long testCaseId, java.lang.String actualResults,
 		java.lang.String jiraLink, Date time, int status, long statusByUserId,
 		java.lang.String statusByUserName, Date statusDate,
-		ServiceContext serviceContext) throws PortalException;
+		java.lang.String comments, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	* Creates a new test with the primary key. Does not add the test to the database.
@@ -131,7 +132,8 @@ public interface TestLocalService extends BaseLocalService,
 		long releaseId, long testCaseId, java.lang.String actualResults,
 		java.lang.String jiraLink, Date time, int status, long statusByUserId,
 		java.lang.String statusByUserName, Date statusDate,
-		ServiceContext serviceContext) throws PortalException;
+		java.lang.String comments, ServiceContext serviceContext)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

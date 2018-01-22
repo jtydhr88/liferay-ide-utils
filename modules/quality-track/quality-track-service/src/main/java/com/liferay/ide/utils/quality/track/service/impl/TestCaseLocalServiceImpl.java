@@ -41,7 +41,7 @@ public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
 	public TestCase addTestCase(
 			String testCaseName, String environment, long beforeTestCaseId, long afterTestCaseId,
 			boolean automatic, String steps, long categroyId, String expectedResults, String developer,
-			long developerId, ServiceContext serviceContext)
+			long developerId, String comments, ServiceContext serviceContext)
 		throws PortalException {
 
 		long testCaseId = counterLocalService.increment();
@@ -63,6 +63,7 @@ public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
 		testCase.setExpectedResults(expectedResults);
 		testCase.setDeveloper(developer);
 		testCase.setDeveloperId(developerId);
+		testCase.setComments(comments);
 
 		testCase.setCreateDate(serviceContext.getCreateDate(null));
 
@@ -74,7 +75,7 @@ public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
 	public TestCase updateTestCase(
 			long testCaseId, String testCaseName, String environment, long beforeTestCaseId, long afterTestCaseId,
 			boolean automatic, String steps, long categroyId, String expectedResults, String developer,
-			long developerId, ServiceContext serviceContext)
+			long developerId, String comments, ServiceContext serviceContext)
 		throws PortalException {
 
 		TestCase testCase = testCasePersistence.fetchByPrimaryKey(testCaseId);
@@ -92,6 +93,7 @@ public class TestCaseLocalServiceImpl extends TestCaseLocalServiceBaseImpl {
 		testCase.setExpectedResults(expectedResults);
 		testCase.setDeveloper(developer);
 		testCase.setDeveloperId(developerId);
+		testCase.setComments(comments);
 
 		testCase.setModifiedDate(serviceContext.getModifiedDate());
 

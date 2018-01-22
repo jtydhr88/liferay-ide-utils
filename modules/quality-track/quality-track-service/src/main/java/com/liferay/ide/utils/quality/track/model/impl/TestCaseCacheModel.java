@@ -65,7 +65,7 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(35);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("{testCaseId=");
 		sb.append(testCaseId);
@@ -97,6 +97,8 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 		sb.append(categroyId);
 		sb.append(", expectedResults=");
 		sb.append(expectedResults);
+		sb.append(", comments=");
+		sb.append(comments);
 		sb.append(", developer=");
 		sb.append(developer);
 		sb.append(", developerId=");
@@ -170,6 +172,13 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 			testCaseImpl.setExpectedResults(expectedResults);
 		}
 
+		if (comments == null) {
+			testCaseImpl.setComments(StringPool.BLANK);
+		}
+		else {
+			testCaseImpl.setComments(comments);
+		}
+
 		if (developer == null) {
 			testCaseImpl.setDeveloper(StringPool.BLANK);
 		}
@@ -208,6 +217,7 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 
 		categroyId = objectInput.readLong();
 		expectedResults = objectInput.readUTF();
+		comments = objectInput.readUTF();
 		developer = objectInput.readUTF();
 
 		developerId = objectInput.readLong();
@@ -270,6 +280,13 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 			objectOutput.writeUTF(expectedResults);
 		}
 
+		if (comments == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(comments);
+		}
+
 		if (developer == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -295,6 +312,7 @@ public class TestCaseCacheModel implements CacheModel<TestCase>, Externalizable 
 	public String steps;
 	public long categroyId;
 	public String expectedResults;
+	public String comments;
 	public String developer;
 	public long developerId;
 }

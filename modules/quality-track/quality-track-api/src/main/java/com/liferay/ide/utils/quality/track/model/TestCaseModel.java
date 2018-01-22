@@ -316,6 +316,21 @@ public interface TestCaseModel extends BaseModel<TestCase>, GroupedModel,
 	public void setExpectedResults(String expectedResults);
 
 	/**
+	 * Returns the comments of this test case.
+	 *
+	 * @return the comments of this test case
+	 */
+	@AutoEscape
+	public String getComments();
+
+	/**
+	 * Sets the comments of this test case.
+	 *
+	 * @param comments the comments of this test case
+	 */
+	public void setComments(String comments);
+
+	/**
 	 * Returns the developer of this test case.
 	 *
 	 * @return the developer of this test case

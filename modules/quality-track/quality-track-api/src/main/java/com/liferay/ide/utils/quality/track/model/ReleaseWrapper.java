@@ -67,6 +67,8 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 		attributes.put("releaseName", getReleaseName());
 		attributes.put("releaseDate", getReleaseDate());
 		attributes.put("isDefault", getIsDefault());
+		attributes.put("status", getStatus());
+		attributes.put("comments", getComments());
 
 		return attributes;
 	}
@@ -132,6 +134,18 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 		if (isDefault != null) {
 			setIsDefault(isDefault);
 		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		String comments = (String)attributes.get("comments");
+
+		if (comments != null) {
+			setComments(comments);
+		}
 	}
 
 	@Override
@@ -194,6 +208,16 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 		return _release.compareTo(release);
 	}
 
+	/**
+	* Returns the status of this release.
+	*
+	* @return the status of this release
+	*/
+	@Override
+	public int getStatus() {
+		return _release.getStatus();
+	}
+
 	@Override
 	public int hashCode() {
 		return _release.hashCode();
@@ -207,6 +231,16 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 	@Override
 	public java.lang.Object clone() {
 		return new ReleaseWrapper((Release)_release.clone());
+	}
+
+	/**
+	* Returns the comments of this release.
+	*
+	* @return the comments of this release
+	*/
+	@Override
+	public java.lang.String getComments() {
+		return _release.getComments();
 	}
 
 	/**
@@ -340,6 +374,16 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 	}
 
 	/**
+	* Sets the comments of this release.
+	*
+	* @param comments the comments of this release
+	*/
+	@Override
+	public void setComments(java.lang.String comments) {
+		_release.setComments(comments);
+	}
+
+	/**
 	* Sets the company ID of this release.
 	*
 	* @param companyId the company ID of this release
@@ -453,6 +497,16 @@ public class ReleaseWrapper implements Release, ModelWrapper<Release> {
 	@Override
 	public void setReleaseName(java.lang.String releaseName) {
 		_release.setReleaseName(releaseName);
+	}
+
+	/**
+	* Sets the status of this release.
+	*
+	* @param status the status of this release
+	*/
+	@Override
+	public void setStatus(int status) {
+		_release.setStatus(status);
 	}
 
 	/**
