@@ -69,6 +69,14 @@ public class LogUtil {
 			String[] lines = log.split("\\n");
 
 			for (String line : lines) {
+
+				if (line.contains("at ") || line.contains("Exception")) {
+					line = "<p style=\"color:red\">" + line + "</p>";
+				}
+				else {
+					line = "<p>" + line + "</p>";
+				}
+
 				writer.write(line);
 			}
 		}
