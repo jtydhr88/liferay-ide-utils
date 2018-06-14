@@ -14,161 +14,121 @@
 
 package com.liferay.ide.tools;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
+import com.liferay.ide.tools.build.process.FailedLogProcess;
+import com.liferay.ide.tools.build.process.LogProcess;
+import com.liferay.ide.tools.build.process.UnstableLogProcess;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
+import java.io.File;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.regex.Matcher;
 
 /**
  * @author Terry Jia
  */
 public class LogGenerator {
 
-	private static final String _serverIp = "http://192.168.130.85:9090/";
-	private static final String _checkerName = "LIFERAY_IDE_UI_TESTS-Pull-Request-Tester";
-	//private static final String _parent = "/Users/terry/wedeploy/liferayide/";
-	private static final String _parent = "/home/build/wedeploy/liferayide/";
-	//private static final String _parent = "/var/lib/jenkins/userContent/liferayide/";
-	private static final int _max = 20;
-
 	public static void main(String[] args) {
-		if (args.length == 0 || args[0] == null || args[0].equals("")) {
-			System.out.println("Must have build number!");
+		_buildNumber = LogUtil.getBuildNumber(args);
+
+		if (_buildNumber.equals("-1")) {
+			return;
+		}
+
+		File parentFolder = new File(Log.PARENT);
+
+		File uiTestingReportsFolder = new File(parentFolder, "ui-testing-reports");
+
+		File newBuildLogFolder = new File(uiTestingReportsFolder, _buildNumber);
+
+		_createLogFolder(newBuildLogFolder);
+
+		_getErrorTypeToLogProcess();
+
+		_logProcess.initBuild();
+
+		_updateUiTestingReports(uiTestingReportsFolder);
+
+		boolean success = _logProcess.createLogFiles(newBuildLogFolder);
+
+		if (!success) {
+			System.out.println("Create log files failure!");
 
 			return;
 		}
 
-		int buildNumber = -1;
+		_uploadLogToWeDeploy(parentFolder);
+	}
 
-		try {
-			buildNumber = Integer.parseInt(args[0]);
-		}
-		catch(Exception e) {
-			System.out.println("The build number must be integer!");
+	private static void _createLogFolder(File folder) {
+		LogUtil.deleteFolder(folder);
 
-			return;
-		}
+		folder.mkdir();
+	}
 
-		if (buildNumber < 0) {
-			System.out.println("The build number must greater than 0!");
+	private static String _getErrorType() {
+		StringBuilder buildUrl = new StringBuilder();
 
-			return;
-		}
+		buildUrl.append(Log.SERVER_IP);
+		buildUrl.append("/job/Multiple-Job-Test/");
+		buildUrl.append(_buildNumber);
+		buildUrl.append("/");
 
-		File uiTestingReportsFolder = new File(_parent, "ui-testing-reports");
+		Optional<String> log = LogUtil.getLogFromWeb(buildUrl.toString());
 
-		uiTestingReportsFolder.mkdirs();
+		String errorType = "";
 
-		File[] files = uiTestingReportsFolder.listFiles();
+		if (log.isPresent()) {
+			String buildLog = log.get();
 
-		if (files != null && files.length > 0) {
-			Arrays.sort(files, new Comparator<File>() {
+			Matcher matchErrorType = Log.errorTypePattern.matcher(buildLog);
 
-				public int compare(File file1, File file2) {
-					return file1.lastModified() > file2.lastModified() ? -1 : 1;
-				}
-			});
-		}
-
-		if (files != null && files.length > _max) {
-			int i = files.length - 1;
-
-			while (i > _max) {
-				try {
-					FileUtils.deleteDirectory(files[i]);
-				}
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				i--;
+			if (matchErrorType.find()) {
+				errorType = matchErrorType.group(1);
 			}
 		}
 
-		File newBuildLogFolder = new File(uiTestingReportsFolder, String.valueOf(buildNumber));
+		return errorType;
+}
 
-		newBuildLogFolder.mkdirs();
+	private static void _getErrorTypeToLogProcess() {
+		String errorType = _getErrorType();
 
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(_serverIp);
-		sb.append("view/checker/job/");
-		sb.append(_checkerName);
-		sb.append("/");
-		sb.append(buildNumber);
-		sb.append("/consoleFull");
-
-		HttpGet request = new HttpGet(sb.toString());
-
-		HttpClient client = HttpClientBuilder.create().build();
-
-		String log = "";
-
-		try {
-			HttpResponse response = client.execute(request);
-
-			if (response.getStatusLine().getStatusCode() != 200) {
-				System.out.println("response status is not 200!");
-
-				return;
-			}
-
-			HttpEntity entity = response.getEntity();
-
-			log = EntityUtils.toString(entity, "utf-8");
+		if (errorType.equals("Unstable")) {
+			_logProcess = new UnstableLogProcess(_buildNumber);
 		}
-		catch (Exception e) {
-			System.out.println("Unable to get log from server!");
-
-			return;
-		}
-
-		if (log.equals("")) {
-			System.out.println("log is empty!");
-
-			return;
-		}
-
-		String[] logLines = log.split("\\n");
-
-		System.out.println(logLines.length);
-
-		File logFile = new File(newBuildLogFolder, "checker.html");
-
-		try {
-			logFile.createNewFile();
-		}
-		catch (IOException e1) {
-			System.out.println("create log file error!");
-
-			e1.printStackTrace();
-		}
-
-		try (FileWriter writer = new FileWriter(logFile)){
-			for (String logLine : logLines) {
-				if (logLine.contains("at ") || logLine.contains("Exception")) {
-					logLine = "<p style=\"color:red\">" + logLine + "</p>";
-				}
-
-				writer.write(logLine);
-			}
-		}
-		catch (IOException e) {
-			System.out.println("write log file error!");
-
-			e.printStackTrace();
-
-			return;
+		else if (errorType.equals("Failed")) {
+			_logProcess = new FailedLogProcess(_buildNumber);
 		}
 	}
+
+	private static void _updateUiTestingReports(File reportFolder) {
+		File recordFolder = new File(reportFolder, "record");
+
+		String deleteFolderName = _logProcess.updateItemsHtml(recordFolder);
+
+		if (LogUtil.isNotEmpty(deleteFolderName)){
+			File deleteObsoleteLogFolder = new File(reportFolder, deleteFolderName);
+
+			LogUtil.deleteFolder(deleteObsoleteLogFolder);
+		}
+	}
+
+	private static void _uploadLogToWeDeploy(File parent) {
+		try {
+			Runtime runtime = Runtime.getRuntime();
+
+			Process upload = runtime.exec(Log.WE_DEPLOY_PROJECT, null, parent);
+
+			LogUtil.waitForUpload(upload, 120 * 1000);
+		}
+		catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+
+	private static String _buildNumber;
+	private static LogProcess _logProcess;
 
 }
