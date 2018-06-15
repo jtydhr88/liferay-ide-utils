@@ -59,7 +59,7 @@ public class LogGenerator {
 			return;
 		}
 
-		_uploadLogToWeDeploy(parentFolder);
+		//_uploadLogToWeDeploy(parentFolder);
 	}
 
 	private static void _createLogFolder(File folder) {
