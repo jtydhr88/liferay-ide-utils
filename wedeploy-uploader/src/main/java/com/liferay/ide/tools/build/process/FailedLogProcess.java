@@ -43,8 +43,8 @@ public class FailedLogProcess implements LogProcess {
 	}
 
 	@Override
-	public void initBuild() {
-		_failedBuild.setBuildLogFromWeb();
+	public void initBuild(String buildName) {
+		_failedBuild.setBuildLogFromWeb(buildName);
 		_failedBuild.matcher();
 	}
 

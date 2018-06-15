@@ -55,8 +55,8 @@ public class UnstableLogProcess implements LogProcess {
 	}
 
 	@Override
-	public void initBuild() {
-		_unstableBuild.setBuildLogFromWeb();
+	public void initBuild(String buildName) {
+		_unstableBuild.setBuildLogFromWeb(buildName);
 		_unstableBuild.matcher();
 		_unstableBuild.setJoblogsFromWeb();
 	}

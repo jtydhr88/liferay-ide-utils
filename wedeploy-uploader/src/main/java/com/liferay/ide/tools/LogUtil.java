@@ -126,21 +126,41 @@ public class LogUtil {
 		return false;
 	}
 
-	public static String getBuildNumber(String[] args) {
-		if ((args.length == 0) || (args[0] == null) || args[0].equals("")) {
-			System.out.println("Must have build number!");
+	public static String getBuildArg(String[] args, int n) {
+		if ((args.length == 0) || (args[n] == null) || args[n].equals("")) {
+			if (n == 0) {
+				System.out.println("Must have build number!");
+			}
+
+			if (n == 1) {
+				System.out.println("Must have build name!");
+			}
 
 			return "-1";
 		}
 
+		return args[n];
+	}
+
+	public static String getBuildName(String[] args) {
+		return getBuildArg(args, 1);
+	}
+
+	public static String getBuildNumber(String[] args) {
+		String number = getBuildArg(args, 0);
+
+		if (number.equals(-1)) {
+			return number;
+		}
+
 		try {
-			int buildNumber = parseInt(args[0]);
+			int buildNumber = parseInt(number);
 
 			if (buildNumber < 0) {
 				System.out.println("The build number must greater than 0!");
 			}
 			else {
-				return args[0];
+				return number;
 			}
 		}
 		catch (Exception e) {

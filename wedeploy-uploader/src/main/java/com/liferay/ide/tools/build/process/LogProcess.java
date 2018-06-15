@@ -23,7 +23,7 @@ public interface LogProcess {
 
 	public boolean createLogFiles(File folder);
 
-	public void initBuild();
+	public void initBuild(String buildName);
 
 	public String updateItemsHtml(File folder);
 
