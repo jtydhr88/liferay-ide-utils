@@ -31,8 +31,9 @@ public class LogGenerator {
 
 	public static void main(String[] args) {
 		_buildNumber = LogUtil.getBuildNumber(args);
+		_buildName = LogUtil.getBuildName(args);
 
-		if (_buildNumber.equals("-1")) {
+		if (_buildNumber.equals("-1") || _buildName.equals("-1")) {
 			return;
 		}
 
@@ -46,7 +47,7 @@ public class LogGenerator {
 
 		_getErrorTypeToLogProcess();
 
-		_logProcess.initBuild();
+		_logProcess.initBuild(_buildName);
 
 		_updateUiTestingReports(uiTestingReportsFolder);
 
@@ -71,7 +72,9 @@ public class LogGenerator {
 		StringBuilder buildUrl = new StringBuilder();
 
 		buildUrl.append(Log.SERVER_IP);
-		buildUrl.append("/job/Multiple-Job-Test/");
+		buildUrl.append("/job/");
+		buildUrl.append(_buildName);
+		buildUrl.append("/");
 		buildUrl.append(_buildNumber);
 		buildUrl.append("/");
 
@@ -130,5 +133,6 @@ public class LogGenerator {
 
 	private static String _buildNumber;
 	private static LogProcess _logProcess;
+	private static String _buildName;
 
 }

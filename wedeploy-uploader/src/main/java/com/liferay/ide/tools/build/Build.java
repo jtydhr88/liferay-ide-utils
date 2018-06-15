@@ -65,11 +65,13 @@ public abstract class Build {
 			});
 	}
 
-	public void setBuildLogFromWeb() {
+	public void setBuildLogFromWeb(String buildName) {
 		StringBuilder buildLogUrl = new StringBuilder();
 
 		buildLogUrl.append(Log.SERVER_IP);
-		buildLogUrl.append("/job/Multiple-Job-Test/");
+		buildLogUrl.append("/job/");
+		buildLogUrl.append(buildName);
+		buildLogUrl.append("/");
 		buildLogUrl.append(buildNumber);
 		buildLogUrl.append("/consoleText");
 
