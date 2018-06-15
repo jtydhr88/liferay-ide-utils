@@ -23,7 +23,7 @@ public interface Log {
 
 	public static final int MAX = 20;
 
-	public static final String PARENT = "/home/" + System.getProperty("user.name") + "/build/wedeploy/liferayide/";
+	public static final String PARENT = "/home/" + System.getProperty("user.name") + "/wedeploy/liferayide/";
 
 	public static final String SERVER_IP = "http://192.168.130.85:9090/";
 
