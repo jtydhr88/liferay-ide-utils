@@ -1,0 +1,6 @@
+{
+  "id": "ide",
+  "env": {
+    "WEDEPLOY_WEB_PATH": "content"
+  }
+}

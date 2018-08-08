@@ -12,19 +12,21 @@
  * details.
  */
 
-package com.liferay.ide.tools.build.process;
+package com.liferay.ide.tools.checker;
 
 import java.io.File;
 
 /**
  * @author Haoyi Sun
  */
-public interface LogProcess {
+public interface Checker {
 
-	public boolean createLogFiles(File folder);
+	public abstract void createLogFiles(File logFolder);
 
-	public void initBuild(String buildName);
+	public abstract File createLogFolder(File contentFolder);
 
-	public String updateItemsHtml(File folder);
+	public abstract void init(String number, String checkerName);
+
+	public abstract File updateHomeHtml(File htmlFolder);
 
 }
