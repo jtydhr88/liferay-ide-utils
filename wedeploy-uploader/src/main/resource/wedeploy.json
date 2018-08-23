@@ -1,0 +1,6 @@
+{
+  "id": "liferayide",
+  "env": {
+    "WEDEPLOY_WEB_PATH": "content"
+  }
+}

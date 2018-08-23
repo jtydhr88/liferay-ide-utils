@@ -14,125 +14,111 @@
 
 package com.liferay.ide.tools;
 
-import com.liferay.ide.tools.build.process.FailedLogProcess;
-import com.liferay.ide.tools.build.process.LogProcess;
-import com.liferay.ide.tools.build.process.UnstableLogProcess;
+import com.liferay.ide.tools.checker.Checker;
+import com.liferay.ide.tools.util.FileUtil;
+import com.liferay.ide.tools.util.LogUtil;
 
 import java.io.File;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.regex.Matcher;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Terry Jia
+ * @author Haoyi Sun
  */
 public class LogGenerator {
 
 	public static void main(String[] args) {
-		_buildNumber = LogUtil.getBuildNumber(args);
-		_buildName = LogUtil.getBuildName(args);
+		String homePath = LogUtil.getPropertyFromProperties(LogConstants.LOG_HOME_PATH_KEY);
 
-		if (_buildNumber.equals("-1") || _buildName.equals("-1")) {
-			return;
-		}
+		_copyResourceIfNotExists(homePath);
 
-		File parentFolder = new File(Log.PARENT);
+		_init(args, homePath);
 
-		File uiTestingReportsFolder = new File(parentFolder, "ui-testing-reports");
+		File ideLogFolder = new File(homePath);
 
-		File newBuildLogFolder = new File(uiTestingReportsFolder, _buildNumber);
+		File contentFolder = new File(ideLogFolder, "content");
 
-		_createLogFolder(newBuildLogFolder);
+		File destLogFolder = _checker.createLogFolder(contentFolder);
 
-		_getErrorTypeToLogProcess();
+		_checker.createLogFiles(destLogFolder);
 
-		_logProcess.initBuild(_buildName);
+		File htmlFolder = new File(contentFolder, "html");
 
-		_updateUiTestingReports(uiTestingReportsFolder);
+		File deletedFolder = _checker.updateHomeHtml(htmlFolder);
 
-		boolean success = _logProcess.createLogFiles(newBuildLogFolder);
-
-		if (!success) {
-			System.out.println("Create log files failure!");
-
-			return;
-		}
-
-		//_uploadLogToWeDeploy(parentFolder);
+		FileUtil.deleteFolder(deletedFolder);
 	}
 
-	private static void _createLogFolder(File folder) {
-		LogUtil.deleteFolder(folder);
+	private static void _copyResourceIfNotExists(String homePath) {
+		File home = new File(homePath);
 
-		folder.mkdir();
-	}
+		File content = new File(home, "content");
 
-	private static String _getErrorType() {
-		StringBuilder buildUrl = new StringBuilder();
-
-		buildUrl.append(Log.SERVER_IP);
-		buildUrl.append("/job/");
-		buildUrl.append(_buildName);
-		buildUrl.append("/");
-		buildUrl.append(_buildNumber);
-		buildUrl.append("/");
-
-		Optional<String> log = LogUtil.getLogFromWeb(buildUrl.toString());
-
-		String errorType = "";
-
-		if (log.isPresent()) {
-			String buildLog = log.get();
-
-			Matcher matchErrorType = Log.errorTypePattern.matcher(buildLog);
-
-			if (matchErrorType.find()) {
-				errorType = matchErrorType.group(1);
-			}
+		if (!FileUtil.fileExist(content)) {
+			content.mkdir();
 		}
 
-		return errorType;
-}
+		File json = new File(home, "wedeploy.json");
 
-	private static void _getErrorTypeToLogProcess() {
-		String errorType = _getErrorType();
+		if (!FileUtil.fileExist(json)) {
+			File jsonSrc = new File(LogConstants.RESOURCE_WEDEPLOY);
 
-		if (errorType.equals("Unstable")) {
-			_logProcess = new UnstableLogProcess(_buildNumber);
+			FileUtil.copyFile(jsonSrc, home, null);
 		}
-		else if (errorType.equals("Failed")) {
-			_logProcess = new FailedLogProcess(_buildNumber);
+
+		File js = new File(content, "js");
+
+		if (!FileUtil.fileExist(js)) {
+			js.mkdir();
+
+			File jsSrc = new File(LogConstants.RESOURCE_LOGGER_JS);
+
+			FileUtil.copyFile(jsSrc, js, null);
+		}
+
+		File css = new File(content, "css");
+
+		if (!FileUtil.fileExist(css)) {
+			css.mkdir();
+
+			File checkerCssSrc = new File(LogConstants.RESOURCE_LOGGER_CSS);
+
+			FileUtil.copyFile(checkerCssSrc, css, null);
+
+			File logCssSrc = new File(LogConstants.RESOURCE_LOG_CSS);
+
+			FileUtil.copyFile(logCssSrc, css, null);
+		}
+
+		File html = new File(content, "html");
+
+		if (!FileUtil.fileExist(html)) {
+			html.mkdir();
+
+			File htmlSrc = new File(LogConstants.RESOURCE_CHECKER_LOGGER_HTML);
+
+			FileUtil.copyFile(htmlSrc, html, null);
 		}
 	}
 
-	private static void _updateUiTestingReports(File reportFolder) {
-		File recordFolder = new File(reportFolder, "record");
+	private static void _init(String[] args, String homePath) {
+		Map<String, String> map = new HashMap<>();
 
-		String deleteFolderName = _logProcess.updateItemsHtml(recordFolder);
+		LogUtil.processArgs(args, map, homePath);
 
-		if (LogUtil.isNotEmpty(deleteFolderName)){
-			File deleteObsoleteLogFolder = new File(reportFolder, deleteFolderName);
+		String buildNumber = map.get(LogConstants.BUILD_NUMBER);
 
-			LogUtil.deleteFolder(deleteObsoleteLogFolder);
-		}
+		String checkerName = map.get(LogConstants.CHECKER_NAME);
+
+		String type = map.get(LogConstants.CHECKER_TYPE);
+
+		_checker = LogUtil.getChecker(type);
+
+		_checker.init(buildNumber, checkerName);
 	}
 
-	private static void _uploadLogToWeDeploy(File parent) {
-		try {
-			Runtime runtime = Runtime.getRuntime();
-
-			Process upload = runtime.exec(Log.WE_DEPLOY_PROJECT, null, parent);
-
-			LogUtil.waitForUpload(upload, 120 * 1000);
-		}
-		catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-	}
-
-	private static String _buildNumber;
-	private static LogProcess _logProcess;
-	private static String _buildName;
+	private static Checker _checker = null;
 
 }

@@ -12,19 +12,23 @@
  * details.
  */
 
-package com.liferay.ide.tools.build;
+package com.liferay.ide.tools.build.log.process;
+
+import com.liferay.ide.tools.build.Type.Build;
+
+import java.io.File;
 
 /**
  * @author Haoyi Sun
  */
-public class FailedBuild extends Build {
+public interface LogProcess {
 
-	public FailedBuild(String buildNumber) {
-		this.buildNumber = buildNumber;
-	}
+	public void createLogToLogFiles(File simpleFile, File completeFile, String buildHtml);
 
-	@Override
-	public void setJoblogsFromWeb() {
-	}
+	public Build getBuild();
+
+	public void initBuild(String checkerUrl);
+
+	public File updateHomeHtml(File folder, String checkerName, String buildNumber);
 
 }

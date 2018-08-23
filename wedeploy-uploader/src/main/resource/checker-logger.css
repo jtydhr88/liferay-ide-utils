@@ -1,0 +1,35 @@
+.complete-option {
+    color: #007500;
+    font-style: italic;
+}
+
+.accordion {
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    display: none;
+}
+
+.accordion-toggle {
+    font-size: 18px
+}
+
+.accordion-inner {
+    font-size: 15px;
+}
+
+.simple-log {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 300px;
+}
+
+.iframe {
+    border:none;
+}
+
+#title {
+    font-size: 17px;
+    font-weight: bold;
+}

@@ -1,0 +1,79 @@
+.simple-result-regression {
+	color: red
+}
+
+.simple-main-switch {
+	background-color: #008CBA;
+	border: none;
+	text-decoration: none;
+	font-size: 23px;
+}
+
+.panel-default {
+	position: relative;
+	left: 0.8%
+}
+
+.simple-span {
+	font-weight: bold
+}
+
+.simple-menu {
+	position: fixed;
+	bottom: 4%;
+	right: 4%
+}
+
+.home-button {
+  position: fixed;
+  right: 3%;
+  bottom: 3%;
+  cursor: pointer;
+}
+
+.home-button {
+  background-color: #D91E18;
+  color: #F2F1EF;
+  border-radius: 50%;
+  padding-right: 17.5px;
+  padding-left: 17.5px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 16px;
+}
+
+.home-button {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px;
+}
+
+.home-button {
+  box-shadow: 0px 3px 9px 2px #BFBFBF;
+}
+
+.home-button {
+  border: 1px solid #CF000F;
+}
+
+.home-button:hover {
+  background-color: #F22613;
+  box-shadow: 0px 6px 9px 2px #BFBFBF;
+}
+
+.complete-button {
+    background-color: white;
+    border: 2px solid white;
+    color: green;
+    font-size: 18px
+}
+
+.complete-button:hover {
+	font-size: 22px;
+	color: red;
+}
+
+.collapsed {
+	font-size: 16px;
+	font-family: Comic Sans MS, Comic Sans, cursive
+}
