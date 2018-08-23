@@ -47,7 +47,7 @@ public interface LogConstants {
 
 	public static final String JOB = "job";
 
-	public static final int LOG_COUNT_MAX = 20;
+	public static final int LOG_COUNT_MAX = 50;
 
 	public static final String LOG_HOME_PATH_KEY = "log.home.path";
 
